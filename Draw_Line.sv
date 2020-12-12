@@ -29,9 +29,9 @@ begin
 	if (Reset) 
 	begin
 		curr_state <= Wait;
-		err <= temp_err >>> 1;
-		x <= x0;
-		y <= y0;
+		err <= 10'b0;
+		x <= 10'b0;
+		y <= 10'b0;
 	end
 	else
 	begin
@@ -80,6 +80,9 @@ begin
 	case (curr_state)
 	Wait:
 	begin
+		new_x = x0;
+		new_y = y0;
+		new_err = temp_err >>> 1;
 	end
 	Draw:
 	begin
@@ -105,6 +108,8 @@ begin
 		draw_line_Done = 1'b1;
 		DrawX = x1;
 		DrawY = y1;
+		new_x = x1;
+		new_y = y1;
 	end
 	endcase
 end
