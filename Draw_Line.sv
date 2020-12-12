@@ -1,3 +1,8 @@
+// using Bresenham line drawing algorithm
+// draw_line_Start trigger the drawing
+// x0,x1,y0,y1 are the coordinates of end points in screen space
+// DrawX, DrawY are the coordinates of line pixels in screen space
+// draw_line_Done is high when a line is drew
 module draw_line(   input Clk, draw_line_Start, Reset,
                     input [9:0] x0,x1,y0,y1,
                     output logic [9:0] DrawX, DrawY,
@@ -13,6 +18,10 @@ assign sx = (x0 < x1) ? 10'b1 : 10'b1111111111;
 assign sy = (y0 < y1) ? 10'b1 : 10'b1111111111;
 assign temp_err = (dx > dy ? dx : -dy);
 
+// Three states
+// Wait: wait to start
+// Draw: draw pixel one by one, output the coordinate of the pixel
+// Done: done, output done signal
 enum logic [1:0] {Wait, Draw, Done} curr_state, next_state;
 
 always_ff @(posedge Clk)
@@ -35,6 +44,7 @@ end
 
 always_comb
 begin
+	// default setting
 	next_state = curr_state;
 	new_err = err;
 	new_x = x;
@@ -43,6 +53,7 @@ begin
 	DrawY = y;
 	draw_line_Done = 1'b0;
 	
+	// change state
 	unique case (curr_state)
 	Wait:
 	begin
@@ -65,18 +76,19 @@ begin
 	end
 	endcase
 	
+	// output logic
 	case (curr_state)
 	Wait:
 	begin
 	end
 	Draw:
 	begin
-		if(err > $signed(dy))
+		if(err >= $signed(dy))
 		begin
 			new_err = err - dy;
 			new_x = x + sx;
 		end
-		else if(err < -dx)
+		else if(err <= -$signed(dx))
 		begin
 			new_err = err + dx;
 			new_y = y + sy;

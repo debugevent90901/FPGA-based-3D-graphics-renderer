@@ -32,10 +32,10 @@ end
 initial begin: TEST_VECTORS
 Reset = 1;
 draw_line_Start = 0;
-x0 = 10'd20;
-x1 = 10'd10;
-y0 = 10'd15;
-y1 = 10'd30;
+x0 = 10'd10;
+x1 = 10'd40;
+y0 = 10'd30;
+y1 = 10'd20;
 #5 Reset = 0;
 #5 draw_line_Start = 1;
 
