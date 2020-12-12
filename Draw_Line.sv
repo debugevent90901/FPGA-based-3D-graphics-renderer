@@ -1,4 +1,4 @@
-module Draw_Line(   input Clk, draw_line_Start, Reset,
+module draw_line(   input Clk, draw_line_Start, Reset,
                     input [9:0] x0,x1,y0,y1,
                     output logic [9:0] DrawX, DrawY,
                     output logic draw_line_Done
