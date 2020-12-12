@@ -1,15 +1,25 @@
+// draw a triangle (only edges)
+// draw_triangle_Start:  trigger the drawing
+// V1, V2, V3         :  coordinates of vertexes of the triangle. V[0] is x value, V[1] is y value
+// DrawX, DrawY       :  coordinates of edge pixels in screen space
+// draw_triangle_Done :  high when drawing is done
 module draw_triangle(input Clk, draw_triangle_Start, Reset,
 							input [1:0][9:0] V1, V2, V3,
 							output logic [9:0] DrawX, DrawY,
 							output logic draw_triangle_Done
 );
 
-
 logic draw_line_Start, draw_line_Done;
 logic [9:0] x0,x1,y0,y1;
 
+// Five states
+// Wait: wait to start
+// Trigger1/2/3 : Trigger the drawing of one edge
+// Draw1/2/3 : Drawing edges of the triangle using draw_line module
+// Done: done, output done signal
 enum logic [2:0] {Wait, Trigger1, Draw1, Trigger2, Draw2, Trigger3, Draw3, Done} curr_state, next_state;
 
+// Drawing edges of the triangle using draw_line module
 draw_line dl(.*);
 
 always_ff @(posedge Clk)

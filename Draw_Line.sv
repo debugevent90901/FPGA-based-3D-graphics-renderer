@@ -1,8 +1,8 @@
-// using Bresenham line drawing algorithm
-// draw_line_Start trigger the drawing
-// x0,x1,y0,y1 are the coordinates of end points in screen space
-// DrawX, DrawY are the coordinates of line pixels in screen space
-// draw_line_Done is high when a line is drew
+// using Bresenham line drawing algorithm to draw a line
+// draw_line_Start:  trigger the drawing
+// x0,x1,y0,y1    :  coordinates of end points in screen space
+// DrawX, DrawY   :  coordinates of line pixels in screen space
+// draw_line_Done :  high when drawing is done
 module draw_line(   input Clk, draw_line_Start, Reset,
                     input [9:0] x0,x1,y0,y1,
                     output logic [9:0] DrawX, DrawY,
