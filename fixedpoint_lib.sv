@@ -179,7 +179,9 @@ fxp_zoom # (
     .overflow (          )
 );
 
-assign inbv = sub ? ((~inbe)+1) : inbe;
+// seems to have an error here
+// should comment the following line?
+//assign inbv = sub ? ((~inbe)+1) : inbe;
 
 fxp_zoom # (
     .WII      ( WIIA     ),

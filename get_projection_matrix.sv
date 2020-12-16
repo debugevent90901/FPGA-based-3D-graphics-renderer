@@ -8,11 +8,11 @@ module get_projection_matrix(   input [15:0] eye_fov, aspect_ratio, z_near, z_fa
                                 output [15:0][15:0] projection_matrix
 );
 
-logic [15:0] neg_z_near, neg_z_far, distance, k, n_a_f, n_a_f_mul_k, tmp, f_m_n_m_k;
+logic [15:0] neg_z_near, neg_z_far, distance, k, n_a_f, n_a_f_mul_k, tmp, f_m_n_m_k, f_m_n_m_k_2;
 logic [15:0] eye_fov_m, eye_fov_m_add_pi_div_2, sin_eye_fov, cos_eye_fov, tan_eye_fov, one_div_tan, t_d_a;
 
-logic overflow0, overflow1, overflow2, overflow3, overflow4, overflow5, overflow6, overflow7;
-logic overflow8, overflow9, overflow10, overflow11, overflow12, overflow13;  
+logic overflow, overflow0, overflow1, overflow2, overflow3, overflow4, overflow5, overflow6, overflow7;
+logic overflow8, overflow9, overflow10, overflow11, overflow12, overflow13, overflow114514;  
 
 fxp_addsub ads0(.ina(16'h0000), .inb(z_near), .sub(1'b1), .out(neg_z_near), .overflow(overflow0));
 fxp_addsub ads1(.ina(16'h0000), .inb(z_far), .sub(1'b1), .out(neg_z_far), .overflow(overflow1));
@@ -25,8 +25,9 @@ fxp_add add0(.ina(neg_z_near), .inb(neg_z_far), .out(n_a_f), .overflow(overflow4
 fxp_mul mul0(.ina(n_a_f), .inb(k), .out(n_a_f_mul_k), .overflow(overflow5));
 fxp_mul mul1(.ina(neg_z_near), inb(neg_z_far), .out(tmp), overflow(overflow6));
 fxp_mul mul2(.ina(tmp), .inb(k), .out(f_m_n_m_k), .overflow(overflow7));
+fxp_mul mul3(.ina(f_m_n_m_k), .inb(16'h0002), .out(f_m_n_m_k_2), .overflow(overflow));
 
-eye_fov_converter efc(.eye_fov(eye_fov), .eye_fov_fraction(eye_fov_m));
+fxp_div div(.dividend(eye_fov), .divisor(16'h0002), .out(eye_fov_m), .overflow(overflow114514));
 
 fxp_add cos_to_sin(.ina(eye_fov_m), .inb(16'h0192), .out(eye_fov_m_add_pi_div_2), .overflow(overflow8));
 fxp_sin sin(.in(eye_fov_m), .out(sin_eye_fov), .i_overflow(overflow9));
@@ -49,38 +50,12 @@ assign view_matrix[7] = 16'h0000;
 assign view_matrix[8] = 16'h0000;
 assign view_matrix[9] = 16'h0000;
 assign view_matrix[10] = n_a_f_mul_k;
-assign view_matrix[11] = f_m_n_m_k;
+assign view_matrix[11] = f_m_n_m_k_2;
 
 assign view_matrix[12] = 16'h0000;
 assign view_matrix[13] = 16'h0000;
 assign view_matrix[14] = 16'h0001;
 assign view_matrix[15] = 16'h0000;
-
-endmodule
-
-
-
-
-module eye_fov_converter(   input [15:0] eye_fov;
-                            output logic [15:0] eye_fov_fraction;
-);
-
-logic overflow;
-
-fxp_div #(
-    .WIIA(8),
-    .WIFA(8),
-    .WIIB(16),
-    .WIFB(16),
-    .WOI(8),
-    .WOF(8), 
-    .ROUND(1)
-)   div (
-    .dividend(eye_fov),
-    .divisor(32'h011abe4b),
-    .out(eye_fov_fraction),
-    .overflow(overflow)
-);
 
 endmodule
 
@@ -101,3 +76,4 @@ endmodule
 //         0, 0, 1, 0;
 //     return projection;
 // }
+
