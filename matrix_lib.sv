@@ -1,7 +1,7 @@
 // vector dot product
 // vectorA = (a0, a1, a2, a3); vectorB = (b0, b1, b2, b3)
 // return vectorA * vectorB
-module dot_product( input [16:0] a0, a1, a2, a3, b0, b1, b2, b3,
+module dot_product( input [15:0] a0, a1, a2, a3, b0, b1, b2, b3,
                     output logic    [15:0] res
 );
 
@@ -20,9 +20,6 @@ fxp_add add1(.ina(add_tmp0), .inb(mul_res2), .out(add_tmp1), .overflow(add_overf
 fxp_add add2(.ina(add_tmp1), .inb(mul_res3), .out(res), .overflow(add_overflow2));
 
 endmodule
-
-
-
 
 
 // 4x4 fixed-point number matrix multiplication

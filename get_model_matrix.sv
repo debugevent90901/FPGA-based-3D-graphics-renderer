@@ -4,49 +4,74 @@
 // [                0,     0, 0,                    1]
 
 // 3.1415926 = 00000011.00100100 = 0324
-// 1.5707963 = 00000001.10010010 = 0192
+// 1.5707963 = 1.921fb4d12d84a
 
 module get_model_matrix(    input [15:0] angle, scale,
-                            input [15:0] x_translate, y_translate, z_translate;
+                            input [15:0] x_translate, y_translate, z_translate,
                             output logic [15:0][15:0] model_matrix
 );
 
+logic [15:0] pi_div_2_sub_angle, sin_angle, cos_angle, s_m_c, s_m_s, neg_s_m_s;
+logic overflow0, overflow1, overflow2, overflow3, overflow4, overflow5;
 
+fxp_addsub #(   
+    .WIIA(4), .WIFA(8),
+    .WIIB(4), .WIFB(8),
+    .WOI(4), .WOF(8), .ROUND(1)
+) cos_to_sin (
+    .ina(12'h192), 
+    .inb(angle), 
+    .sub(1'b1), 
+    .out(pi_div_2_sub_angle), 
+    .overflow(overflow0)
+);
 
-logic [15:0] angle_add_pi_div_2, sin_angle, cos_angle; s_m_c, s_m_s, x_s_m_s, z_s_m_c, neg_s_m_s;
-logic overflow0, overflow1, overflow2, overflow3, overflow4, overflow5, overflow6, overflow7;
-
-fxp_add cos_to_sin(.ina(angle), .inb(16'h0192), .out(angle_add_pi_div_2), .overflow(overflow0));
 fxp_sin sin(.in(angle), .out(sin_angle), .i_overflow(overflow1));
-fxp_sin cos(.in(angle_add_pi_div_2), .out(cos_angle), .i_overflow(overflow2));
+fxp_sin cos(.in(pi_div_2_sub_angle), .out(cos_angle), .i_overflow(overflow2));
 
-fxp_mul scale_mul_cos(.ina(scale), .inb(cos_angle), .out(s_m_c), .overflow(overflow3));
-fxp_mul scale_mul_sin(.ina(scale), .inb(sin_angle), .out(s_m_s), .overflow(overflow4));
+fxp_mul #(  
+    .WIIA(8),   .WIFA(8),
+    .WIIB(2),   .WIFB(12),
+    .WOI(8),    .WOF(8)
+) scale_mul_cos (
+    .ina(scale), 
+    .inb(cos_angle), 
+    .out(s_m_c), 
+    .overflow(overflow3)
+);
 
-fxp_add x_add_scale_mul_sin(.ina(x_translate), .inb(s_m_s), .out(), .overflow(overflow5));
-fxp_add z_add_scale_mul_cos(.ina(z_translate), .inb(s_m_c), .out(), .overflow(overflow6));
-fxp_addsub neg_scale_mul_sin(.ina(16'h000), .inb(s_m_s), .sub(1'b1), .out(), .overflow(overflow7));
+fxp_mul #(  
+    .WIIA(8),   .WIFA(8),
+    .WIIB(2),   .WIFB(12),
+    .WOI(8),    .WOF(8)
+) scale_mul_sin (
+    .ina(scale), 
+    .inb(sin_angle), 
+    .out(s_m_s), 
+    .overflow(overflow4)
+);
 
-assign view_matrix[0] = s_m_c;
-assign view_matrix[1] = 16'h0000;
-assign view_matrix[2] = 16'h0000;
-assign view_matrix[3] = x_s_m_s;
+fxp_addsub neg_scale_mul_sin(.ina(16'h0000), .inb(s_m_s), .sub(1'b1), .out(neg_s_m_s), .overflow(overflow5));
 
-assign view_matrix[4] = 16'h0000;
-assign view_matrix[5] = scale;
-assign view_matrix[6] = 16'h0000;
-assign view_matrix[7] = y_translate;
+assign model_matrix[0] = s_m_c;
+assign model_matrix[1] = 16'h0000;
+assign model_matrix[2] = s_m_s; 
+assign model_matrix[3] = x_translate;
 
-assign view_matrix[8] = neg_s_m_s;
-assign view_matrix[9] = 16'h0000;
-assign view_matrix[10] = 16'h0001;
-assign view_matrix[11] = z_s_m_c;
+assign model_matrix[4] = 16'h0000;
+assign model_matrix[5] = scale;
+assign model_matrix[6] = 16'h0000;
+assign model_matrix[7] = y_translate;
 
-assign view_matrix[12] = 16'h0000;
-assign view_matrix[13] = 16'h0000;
-assign view_matrix[14] = 16'h0000;
-assign view_matrix[15] = 16'h0001;
+assign model_matrix[8] = neg_s_m_s;
+assign model_matrix[9] = 16'h0000;
+assign model_matrix[10] = s_m_c;
+assign model_matrix[11] = z_translate;
 
+assign model_matrix[12] = 16'h0000;
+assign model_matrix[13] = 16'h0000;
+assign model_matrix[14] = 16'h0000;
+assign model_matrix[15] = 16'h0100;
 
 endmodule
 

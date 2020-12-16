@@ -37,25 +37,25 @@ fxp_div div1(.dividend(16'h0001), .divisor(tan_eye_fov), .out(one_div_tan), .ove
 
 fxp_div div2(.dividend(tan_eye_fov), .divisor(aspect_ratio), .out(t_d_a), .overflow(overflow13));
 
-assign view_matrix[0] = t_d_a;
-assign view_matrix[1] = 16'h0000;
-assign view_matrix[2] = 16'h0000;
-assign view_matrix[3] = 16'h0000;
+assign projection_matrix[0] = t_d_a;
+assign projection_matrix[1] = 16'h0000;
+assign projection_matrix[2] = 16'h0000;
+assign projection_matrix[3] = 16'h0000;
 
-assign view_matrix[4] = 16'h0000;
-assign view_matrix[5] = one_div_tan;
-assign view_matrix[6] = 16'h0000;
-assign view_matrix[7] = 16'h0000;
+assign projection_matrix[4] = 16'h0000;
+assign projection_matrix[5] = one_div_tan;
+assign projection_matrix[6] = 16'h0000;
+assign projection_matrix[7] = 16'h0000;
 
-assign view_matrix[8] = 16'h0000;
-assign view_matrix[9] = 16'h0000;
-assign view_matrix[10] = n_a_f_mul_k;
-assign view_matrix[11] = f_m_n_m_k_2;
+assign projection_matrix[8] = 16'h0000;
+assign projection_matrix[9] = 16'h0000;
+assign projection_matrix[10] = n_a_f_mul_k;
+assign projection_matrix[11] = f_m_n_m_k_2;
 
-assign view_matrix[12] = 16'h0000;
-assign view_matrix[13] = 16'h0000;
-assign view_matrix[14] = 16'h0001;
-assign view_matrix[15] = 16'h0000;
+assign projection_matrix[12] = 16'h0000;
+assign projection_matrix[13] = 16'h0000;
+assign projection_matrix[14] = 16'h0001;
+assign projection_matrix[15] = 16'h0000;
 
 endmodule
 

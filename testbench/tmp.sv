@@ -1,33 +1,46 @@
-module get_view_matrix( input [16:0] x_pos, y_pos, z_pos,
-                        output logic [15:0][15:0] view_matrix
+// for test purposes only
+
+module get_model_matrix(    input [15:0] angle, scale,
+                            input [15:0] x_translate, y_translate, z_translate;
+                            output logic [15:0][15:0] model_matrix
 );
 
-logic overflow0, overflow1, overflow2;
-logic [15:0] neg_x_pos, neg_y_pos, neg_z_pos;
 
-fxp_addsub ads0(.ina(16'h0000), .inb(x_pos), .sub(1'b1), .out(neg_x_pos), .overflow(overflow0));
-fxp_addsub ads1(.ina(16'h0000), .inb(y_pos), .sub(1'b1), .out(neg_y_pos), .overflow(overflow1));
-fxp_addsub ads2(.ina(16'h0000), .inb(z_pos), .sub(1'b1), .out(neg_z_pos), .overflow(overflow2));
 
-assign view_matrix[0] = 16'h0100;
+logic [15:0] angle_add_pi_div_2, sin_angle, cos_angle; s_m_c, s_m_s, x_s_m_s, z_s_m_c, neg_s_m_s;
+logic overflow0, overflow1, overflow2, overflow3, overflow4, overflow5, overflow6, overflow7;
+
+fxp_add cos_to_sin(.ina(angle), .inb(16'h0192), .out(angle_add_pi_div_2), .overflow(overflow0));
+fxp_sin sin(.in(angle), .out(sin_angle), .i_overflow(overflow1));
+fxp_sin cos(.in(angle_add_pi_div_2), .out(cos_angle), .i_overflow(overflow2));
+
+fxp_mul scale_mul_cos(.ina(scale), .inb(cos_angle), .out(s_m_c), .overflow(overflow3));
+fxp_mul scale_mul_sin(.ina(scale), .inb(sin_angle), .out(s_m_s), .overflow(overflow4));
+
+fxp_add x_add_scale_mul_sin(.ina(x_translate), .inb(s_m_s), .out(), .overflow(overflow5));
+fxp_add z_add_scale_mul_cos(.ina(z_translate), .inb(s_m_c), .out(), .overflow(overflow6));
+fxp_addsub neg_scale_mul_sin(.ina(16'h000), .inb(s_m_s), .sub(1'b1), .out(), .overflow(overflow7));
+
+assign view_matrix[0] = s_m_c;
 assign view_matrix[1] = 16'h0000;
 assign view_matrix[2] = 16'h0000;
-assign view_matrix[3] = neg_x_pos;
+assign view_matrix[3] = x_s_m_s;
 
 assign view_matrix[4] = 16'h0000;
-assign view_matrix[5] = 16'h0100;
+assign view_matrix[5] = scale;
 assign view_matrix[6] = 16'h0000;
-assign view_matrix[7] = neg_y_pos;
+assign view_matrix[7] = y_translate;
 
-assign view_matrix[8] = 16'h0000;
+assign view_matrix[8] = neg_s_m_s;
 assign view_matrix[9] = 16'h0000;
-assign view_matrix[10] = 16'h0100;
-assign view_matrix[11] = neg_z_pos;
+assign view_matrix[10] = 16'h0001;
+assign view_matrix[11] = z_s_m_c;
 
 assign view_matrix[12] = 16'h0000;
 assign view_matrix[13] = 16'h0000;
 assign view_matrix[14] = 16'h0000;
-assign view_matrix[15] = 16'h0100;
+assign view_matrix[15] = 16'h0001;
+
 
 endmodule
 
@@ -213,6 +226,8 @@ fxp_zoom # (
     .overflow (          )
 );
 
+// seems to have an error here
+// should comment the following line?
 //assign inbv = sub ? ((~inbe)+1) : inbe;
 
 fxp_zoom # (
