@@ -1,46 +1,104 @@
-// for test purposes only
 
-module get_model_matrix(    input [15:0] angle, scale,
-                            input [15:0] x_translate, y_translate, z_translate;
-                            output logic [15:0][15:0] model_matrix
+// 3.1415926 = 00000011.00100100 = 0324
+// 1.5707963 = 00000001.10010010 = 0192
+// 180 * MY_PI * 0.5 = 0000000100011010.1011111001001011
+//                   = 011a.be4b
+
+module get_projection_matrix(   input [12:0] eye_fov, 
+                                input [15:0] aspect_ratio, z_near, z_far,
+                                output [15:0][15:0] projection_matrix
 );
 
+logic [15:0] neg_z_near, neg_z_far, distance, k, n_a_f, n_a_f_mul_k, tmp, f_m_n_m_k, f_m_n_m_k_2;
+logic [11:0] eye_fov_m, pi_div_2_sub_eye_fov_m;
+logic [13:0] sin_eye_fov, cos_eye_fov, tan_eye_fov;
+logic [15:0] one_div_tan, t_d_a;
+
+logic overflow, overflow0, overflow1, overflow2, overflow3, overflow4, overflow5, overflow6, overflow7;
+logic overflow8, overflow9, overflow10, overflow11, overflow12, overflow13, overflow14, ooverflow15;  
+
+fxp_addsub ads0(.ina(16'h0000), .inb(z_near), .sub(1'b1), .out(neg_z_near), .overflow(overflow0));
+fxp_addsub ads1(.ina(16'h0000), .inb(z_far), .sub(1'b1), .out(neg_z_far), .overflow(overflow1));
+
+fxp_addsub ads2(.ina(neg_z_near), .inb(neg_z_far), .sub(1'b1), .out(distance), .overflow(overflow2));
+fxp_div div0(.dividend(16'h0001), .divisor(distance), .out(k), .overflow(overflow3));
+
+fxp_add add0(.ina(neg_z_near), .inb(neg_z_far), .out(n_a_f), .overflow(overflow4));
+fxp_mul mul0(.ina(n_a_f), .inb(k), .out(n_a_f_mul_k), .overflow(overflow5));
+
+fxp_mul mul1(.ina(neg_z_far), inb(neg_z_near), .out(tmp), overflow(overflow6));
+fxp_mul mul2(.ina(tmp), .inb(k), .out(f_m_n_m_k), .overflow(overflow7));
+fxp_mul mul3(.ina(f_m_n_m_k), .inb(16'h0200), .out(f_m_n_m_k_2), .overflow(overflow8));
 
 
-logic [15:0] angle_add_pi_div_2, sin_angle, cos_angle; s_m_c, s_m_s, x_s_m_s, z_s_m_c, neg_s_m_s;
-logic overflow0, overflow1, overflow2, overflow3, overflow4, overflow5, overflow6, overflow7;
+fxp_div #(
+    .WIIA(4),   .WIFA(8),
+    .WIIB(4),   .WIFB(8),
+    .WOI(4),    .WOF(8),    .ROUND(1)
+) div (
+    .dividend(eye_fov), 
+    .divisor(12'h200), 
+    .out(eye_fov_m), 
+    .overflow(overflow9)
+);
 
-fxp_add cos_to_sin(.ina(angle), .inb(16'h0192), .out(angle_add_pi_div_2), .overflow(overflow0));
-fxp_sin sin(.in(angle), .out(sin_angle), .i_overflow(overflow1));
-fxp_sin cos(.in(angle_add_pi_div_2), .out(cos_angle), .i_overflow(overflow2));
+fxp_addsub #(   
+    .WIIA(4), .WIFA(8),
+    .WIIB(4), .WIFB(8),
+    .WOI(4), .WOF(8),   .ROUND(1)
+) cos_to_sin (
+    .ina(12'h192), 
+    .inb(eye_fov_m), 
+    .sub(1'b1), 
+    .out(pi_div_2_sub_eye_fov_m), 
+    .overflow(overflow10)
+);
 
-fxp_mul scale_mul_cos(.ina(scale), .inb(cos_angle), .out(s_m_c), .overflow(overflow3));
-fxp_mul scale_mul_sin(.ina(scale), .inb(sin_angle), .out(s_m_s), .overflow(overflow4));
+fxp_sin sin(.in(eye_fov_m), .out(sin_eye_fov), .i_overflow(overflow11));
+fxp_sin cos(.in(pi_div_2_sub_eye_fov_m), .out(cos_eye_fov), .i_overflow(overflow12));
+fxp_div #(
+    .WIIA(2),   .WIFA(12),
+    .WIIB(2),   .WIFB(12),
+    .WOI(2),    .WOF(12),    .ROUND(1)
+) div0 (
+    .dividend(sin_eye_fov),
+    .divisor(cos_eye_fov), 
+    .out(tan_eye_fov), 
+    .overflow(overflow13)
+);
 
-fxp_add x_add_scale_mul_sin(.ina(x_translate), .inb(s_m_s), .out(), .overflow(overflow5));
-fxp_add z_add_scale_mul_cos(.ina(z_translate), .inb(s_m_c), .out(), .overflow(overflow6));
-fxp_addsub neg_scale_mul_sin(.ina(16'h000), .inb(s_m_s), .sub(1'b1), .out(), .overflow(overflow7));
+fxp_div #(
+    .WIIA(8),   .WIFA(8),
+    .WIIB(2),   .WIFB(12),
+    .WOI(8),    .WOF(8),    .ROUND(1)
+) div1 (
+    .dividend(16'h0100), 
+    .divisor(tan_eye_fov), 
+    .out(one_div_tan), 
+    .overflow(oveflow14)
+);
 
-assign view_matrix[0] = s_m_c;
-assign view_matrix[1] = 16'h0000;
-assign view_matrix[2] = 16'h0000;
-assign view_matrix[3] = x_s_m_s;
+fxp_div div2(.dividend(one_div_tan), .divisor(aspect_ratio), .out(t_d_a), .overflow(overflow15));
 
-assign view_matrix[4] = 16'h0000;
-assign view_matrix[5] = scale;
-assign view_matrix[6] = 16'h0000;
-assign view_matrix[7] = y_translate;
+assign projection_matrix[0] = t_d_a;
+assign projection_matrix[1] = 16'h0000;
+assign projection_matrix[2] = 16'h0000;
+assign projection_matrix[3] = 16'h0000;
 
-assign view_matrix[8] = neg_s_m_s;
-assign view_matrix[9] = 16'h0000;
-assign view_matrix[10] = 16'h0001;
-assign view_matrix[11] = z_s_m_c;
+assign projection_matrix[4] = 16'h0000;
+assign projection_matrix[5] = one_div_tan;
+assign projection_matrix[6] = 16'h0000;
+assign projection_matrix[7] = 16'h0000;
 
-assign view_matrix[12] = 16'h0000;
-assign view_matrix[13] = 16'h0000;
-assign view_matrix[14] = 16'h0000;
-assign view_matrix[15] = 16'h0001;
+assign projection_matrix[8] = 16'h0000;
+assign projection_matrix[9] = 16'h0000;
+assign projection_matrix[10] = n_a_f_mul_k;
+assign projection_matrix[11] = f_m_n_m_k_2;
 
+assign projection_matrix[12] = 16'h0000;
+assign projection_matrix[13] = 16'h0000;
+assign projection_matrix[14] = 16'h0100;
+assign projection_matrix[15] = 16'h0000;
 
 endmodule
 

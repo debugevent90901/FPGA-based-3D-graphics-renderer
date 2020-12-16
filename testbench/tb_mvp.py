@@ -18,10 +18,10 @@ def get_view_matrix(x, y, z):
 
 
 def get_projection_matrix(eye_fov, aspect_ratio, z_near, z_far):
-    b = 1 / np.tan(eye_fov / 180 * np.pi * 0.5)
+    b = 1 / np.tan(eye_fov / 2)
     a = b / aspect_ratio
-    z_near *= -1
-    z_far *= -1
+    z_near = -1 * z_near
+    z_far = -1 * z_far
     k = 1 / (z_near-z_far)
     c = (z_near+z_far)*k
     d = 2*z_near*z_far*k
@@ -36,15 +36,15 @@ if __name__ == "__main__":
     print(view_matrix)
     print("\n\n################\n\n")
  """
-    x2, y2, z2 = 2.203125, 4.0859375, 3.5859375
+    """ x2, y2, z2 = 2.203125, 4.0859375, 3.5859375
     angle = 0.78539815
     scale = 1.4609375
     model_matrix = get_model_matrix(angle, scale, x2, y2, z2)
     print("The model matrix is:\n")
     print(model_matrix)
-    print("\n\n################\n\n")
+    print("\n\n################\n\n") """
 
-    """ projection_matrix = get_projection_matrix(90, 1.2, 5, 10)
+    projection_matrix = get_projection_matrix(1.04719753, 1.6789, 2.203125, 4.0859375)
     print("The projection matrix is:\n")
     print(projection_matrix)
-    print("\n\n################\n\n") """
+    print("\n\n################\n\n")

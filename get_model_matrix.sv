@@ -6,12 +6,14 @@
 // 3.1415926 = 00000011.00100100 = 0324
 // 1.5707963 = 1.921fb4d12d84a
 
-module get_model_matrix(    input [15:0] angle, scale,
-                            input [15:0] x_translate, y_translate, z_translate,
+module get_model_matrix(    input [12:0] angle,
+                            input [15:0] scale, x_translate, y_translate, z_translate,
                             output logic [15:0][15:0] model_matrix
 );
 
-logic [15:0] pi_div_2_sub_angle, sin_angle, cos_angle, s_m_c, s_m_s, neg_s_m_s;
+logic [11:0] pi_div_2_sub_angle;
+logic [13:0] sin_angle, cos_angle; 
+logic [15:0] s_m_c, s_m_s, neg_s_m_s;
 logic overflow0, overflow1, overflow2, overflow3, overflow4, overflow5;
 
 fxp_addsub #(   
