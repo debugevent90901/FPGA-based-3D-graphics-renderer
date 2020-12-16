@@ -1,3 +1,30 @@
+// vector dot product
+// vectorA = (a0, a1, a2, a3); vectorB = (b0, b1, b2, b3)
+// return vectorA * vectorB
+module dot_product( input [16:0] a0, a1, a2, a3, b0, b1, b2, b3,
+                    output logic    [15:0] res
+);
+
+logic [15:0] mul_res0, mul_res1, mul_res2, mul_res3;
+logic [15:0] add_tmp0, add_tmp1;
+logic mul_overflow0, mul_overflow1, mul_overflow2, mul_overflow3;
+logic add_overflow0, add_overflow1, add_overflow2;
+
+fxp_mul mul0(.ina(a0), .inb(b0), .out(mul_res0), .overflow(overflow0));
+fxp_mul mul1(.ina(a1), .inb(b1), .out(mul_res1), .overflow(overflow1));
+fxp_mul mul2(.ina(a2), .inb(b2), .out(mul_res2), .overflow(overflow2));
+fxp_mul mul3(.ina(a3), .inb(b3), .out(mul_res3), .overflow(overflow3));
+
+fxp_add add0(.ina(mul_res0), .inb(mul_res1), .out(add_tmp0), .overflow(add_overflow0));
+fxp_add add1(.ina(add_tmp0), .inb(mul_res2), .out(add_tmp1), .overflow(add_overflow1));
+fxp_add add2(.ina(add_tmp1), .inb(mul_res3), .out(res), .overflow(add_overflow2));
+
+endmodule
+
+
+
+
+
 // 4x4 fixed-point number matrix multiplication
 // each fixed-point number is 16-bit
 // a matrix 4x4, each 16-bit = 256-bit
@@ -34,27 +61,3 @@ dot_product dp15(.a0(matA[12]), .a1(matA[13]), .a2(matA[14]), .a3(matA[15]), .b0
 
 endmodule
 
-
-
-
-
-
-module dot_product( input [16:0] a0, a1, a2, a3, b0, b1, b2, b3,
-                    output logic    [15:0] res
-);
-
-logic [15:0] mul_res0, mul_res1, mul_res2, mul_res3;
-logic [15:0] add_tmp0, add_tmp1;
-logic mul_overflow0, mul_overflow1, mul_overflow2, mul_overflow3;
-logic add_overflow0, add_overflow1, add_overflow2;
-
-fxp_mul mul0(.ina(a0), .inb(b0), .out(mul_res0), .overflow(overflow0));
-fxp_mul mul1(.ina(a1), .inb(b1), .out(mul_res1), .overflow(overflow1));
-fxp_mul mul2(.ina(a2), .inb(b2), .out(mul_res2), .overflow(overflow2));
-fxp_mul mul3(.ina(a3), .inb(b3), .out(mul_res3), .overflow(overflow3));
-
-fxp_add add0(.ina(mul_res0), .inb(mul_res1), .out(add_tmp0), .overflow(add_overflow0));
-fxp_add add1(.ina(add_tmp0), .inb(mul_res2), .out(add_tmp1), .overflow(add_overflow1));
-fxp_add add2(.ina(add_tmp1), .inb(mul_res3), .out(res), .overflow(add_overflow2));
-
-endmodule
