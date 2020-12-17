@@ -3,8 +3,8 @@ module clear_frame( input Clk, Reset, clear_frame_start,
                     output logic clear_frame_done
 );
 
-    parameter [9:0] H_TOTAL = 10'd639;
-    parameter [9:0] V_TOTAL = 10'd479;
+    parameter [9:0] H_TOTAL = 10'd640;
+    parameter [9:0] V_TOTAL = 10'd480;
 
     logic [9:0] h_counter, v_counter;
     logic [9:0] h_counter_in, v_counter_in;
@@ -45,12 +45,12 @@ module clear_frame( input Clk, Reset, clear_frame_start,
         end
         Clear:
         begin
-            if(v_counter + 10'd1 == V_TOTAL)
+            if(v_counter + 10'd1 == V_TOTAL && h_counter + 10'd1 == H_TOTAL)
                 next_state = Done;
         end
         Done:
         begin
-            if(draw_line_start == 0)
+            if(clear_frame_start == 0)
                 next_state = Wait;
         end
         endcase
