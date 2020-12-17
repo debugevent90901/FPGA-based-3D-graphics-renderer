@@ -77,4 +77,173 @@ module fxp_mul # ( // 以乘法器为例
 
 > 注：以上所有流水线模块的流水线段数详见注释。
 
+### 各运算模块默认参数
++ **fxp_zoom** 
+    ```SystemVerilog
+    .WII=.WIF=.WOI=.WOF=8; .ROUND=1;
+    ```
++ **fxp_add**, **fxp_addsub**, **fxp_mul**, **fxp_div**
+    ```SystemVerilog
+    .WIIA=.WIFA=.WIIB=.WIFB=8;
+    .WOI=.WOF=8;
+    .ROUND=1;
+    ```
++ **fxp_sqrt**
+    ```SystemVerilog
+    .WII=.WIF=.WOI=.WOF=8; .ROUND=1;
+    ```
++ **fxp_sin**
+    ```SystemVerilog
+    .WII=4; .WIF=8;
+    .WOI=2; .WOF=12; .ROUND=1;
+    ```
++ **fxp2float**
+    ```SystemVerilog
+    .WII=.WIF=8;
+    ```
++ **float2fxp**
+    ```SystemVerilog
+    .WOI=.WOF=8; .ROUND=1;
+    ```
+
 ## 2. Fixed-point Number Matrix Multiplication
+*$4\text{x}4$矩阵乘法, purely combinatorial, finish within one clock*
+16次 $(4\text{x}1) \cdot (1\text{x}4)$ 点积并行
+
+## 3. Model-View-Projection Transformation
+*All the three following modules are purely combinatorial and do not require a clock signal*
+### get_model_matrix.sv
+pseudocode in cpp:
+```c++
+    Eigen::Matrix4f get_model_matrix(float angle)
+    {
+       Eigen::Matrix4f rotation;
+       angle = angle * MY_PI / 180.f;
+       rotation << cos(angle), 0, sin(angle), 0,
+           0, 1, 0, 0,
+           -sin(angle), 0, cos(angle), 0,
+           0, 0, 0, 1;
+
+       Eigen::Matrix4f scale;
+       scale << 2.5, 0, 0, 0,
+           0, 2.5, 0, 0,
+           0, 0, 2.5, 0,
+           0, 0, 0, 1;
+
+       Eigen::Matrix4f translate;
+       translate << 1, 0, 0, 0,
+           0, 1, 0, 0,
+           0, 0, 1, 0,
+           0, 0, 0, 1;
+
+       return translate * rotation * scale;
+    }
+```
+$\text{I/O}$ of the $\text{.sv}$ module:
+```SystemVerilog
+module get_model_matrix(    input [12:0] angle,
+                            input [15:0] scale, x_translate, y_translate, z_translate,
+                            output logic [15:0][15:0] model_matrix
+);
+```
+输入（4-8）定点数表示的弧度制角度$\text{angle}$,（8-8）定点数表示的$\text{scale}$, $\text{x\_translate}$, $\text{y\_translate}$, $\text{z\_translate}$; 输出$4\text{x}4\text{ model matrix}$，每个元素都是（8-8）定点数
+
+$$ R=
+ \left[
+ \begin{matrix}
+   cos(angle) & 0 & sin(angle) & 0 \\
+   0 & 1 & 0 & 0 \\
+   -sin(angle) & 0 & cos(angle) & 0\\
+   0 & 0 & 0 & 1
+  \end{matrix}
+  \right]
+$$
+
+
+$$ S=
+ \left[
+ \begin{matrix}
+   scale & 0 & 0 & 0 \\
+   0 & scale & 0 & 0 \\
+   0 & 0 & scale & 0\\
+   0 & 0 & 0 & 1
+  \end{matrix}
+  \right]
+$$
+
+$$ T=
+ \left[
+ \begin{matrix}
+   1 & 0 & 0 & x\_translate \\
+   0 & 1 & 0 & y\_translate \\
+   0 & 0 & 1 & z\_translate \\
+   0 & 0 & 0 & 1
+  \end{matrix}
+  \right]
+$$
+To reduce the number of $\text{DSP}$ used, pre-computed the matrix multiplication $T \cdot R \cdot S$
+
+$$ T \cdot R \cdot S=
+ \left[
+ \begin{matrix}
+   scale \cdot cos(angle) & 0 & scale \cdot sin(angle) & x\_translate \\
+   0 & scale & 0 & y\_translate \\
+   -scale \cdot sin(angle) & 0 & scale \cdot cos(angle) & z\_translate\\
+   0 & 0 & 0 & 1
+  \end{matrix}
+  \right]
+$$
+
+### get_view_model.sv
+pseudocode in cpp:
+```c++
+Eigen::Matrix4f get_view_matrix(Eigen::Vector3f eye_pos)
+{
+    Eigen::Matrix4f view = Eigen::Matrix4f::Identity();
+
+    Eigen::Matrix4f translate;
+    translate << 1, 0, 0, -eye_pos[0],
+        0, 1, 0, -eye_pos[1],
+        0, 0, 1, -eye_pos[2],
+        0, 0, 0, 1;
+
+    view = translate * view;
+
+    return view;
+}
+```
+$\text{I/O}$ of the $\text{.sv}$ module:
+```SystemVerilog
+module get_view_matrix( input [16:0] x_pos, y_pos, z_pos,
+                        output logic [15:0][15:0] view_matrix
+);
+```
+输入3个用（8-8）定点数表示的坐标；输出$4\text{x}4\text{ view matrix}$，每个元素都是（8-8）定点数
+
+### get_projection_matrix.sv
+pseudocode in cpp:
+```c++
+Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float zNear, float zFar)
+{
+    // TODO: Use the same projection matrix from the previous assignments
+    //computing improved version
+    Eigen::Matrix4f projection;
+    zNear = -zNear;
+    zFar = -zFar;
+    float inv_tan = 1 / tan(eye_fov / 180 * MY_PI * 0.5);
+    float k = 1 / (zNear - zFar);
+    projection << inv_tan / aspect_ratio, 0, 0, 0,
+        0, inv_tan, 0, 0,
+        0, 0, (zNear + zFar) * k, 2 * zFar * zNear * k,
+        0, 0, 1, 0;
+    return projection;
+}
+```
+$\text{I/O}$ of the $\text{.sv}$ module:
+```SystemVerilog
+module get_projection_matrix(   input [12:0] eye_fov, 
+                                input [15:0] aspect_ratio, z_near, z_far,
+                                output [15:0][15:0] projection_matrix
+);
+```
+输入（4-8）定点数表示的弧度制角度$\text{eye\_fov}$,（8-8）定点数表示的$\text{aspect\_ratio}$, $\text{z\_near}$, $\text{z\_far}$; 输出$4\text{x}4\text{ projection matrix}$，每个元素都是（8-8）定点数

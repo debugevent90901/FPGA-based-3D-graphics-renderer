@@ -1,7 +1,7 @@
-// [ scale*cos(angle),     0, 0, x + scale*sin(angle)]
-// [                0, scale, 0,                    y]
-// [-scale*sin(angle),     0, 0, z + scale*cos(angle)]
-// [                0,     0, 0,                    1]
+// [ scale*cos(angle),     0, scale*sin(angle), x]
+// [                0, scale,                0, y]
+// [-scale*sin(angle),     0, scale*cos(angle), z]
+// [                0,     0,                0, 1]
 
 // 3.1415926 = 00000011.00100100 = 0324
 // 1.5707963 = 1.921fb4d12d84a
