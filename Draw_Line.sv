@@ -1,12 +1,12 @@
 // using Bresenham line drawing algorithm to draw a line
-// draw_line_Start:  trigger the drawing
+// draw_line_start:  trigger the drawing
 // x0,x1,y0,y1    :  coordinates of end points in screen space
 // DrawX, DrawY   :  coordinates of line pixels in screen space
-// draw_line_Done :  high when drawing is done
-module draw_line(   input Clk, draw_line_Start, Reset,
+// draw_line_done :  high when drawing is done
+module draw_line(   input Clk, draw_line_start, Reset,
                     input [9:0] x0,x1,y0,y1,
                     output logic [9:0] DrawX, DrawY,
-                    output logic draw_line_Done
+                    output logic draw_line_done
 );
 
 logic [9:0] dx,dy,sx,sy,x,y,new_x,new_y;
@@ -51,13 +51,13 @@ begin
 	new_y = y;
 	DrawX = x;
 	DrawY = y;
-	draw_line_Done = 1'b0;
+	draw_line_done = 1'b0;
 	
 	// change state
 	unique case (curr_state)
 	Wait:
 	begin
-		if(draw_line_Start)
+		if(draw_line_start)
 			next_state = Draw;
 	end
 	Draw:
@@ -69,10 +69,8 @@ begin
 	end
 	Done:
 	begin
-		if(draw_line_Start == 0)
+		if(draw_line_start == 0)
 			next_state = Wait;
-		else
-			next_state = Done;
 	end
 	endcase
 	
@@ -105,7 +103,7 @@ begin
 	end
 	Done:
 	begin
-		draw_line_Done = 1'b1;
+		draw_line_done = 1'b1;
 		DrawX = x1;
 		DrawY = y1;
 		new_x = x1;
