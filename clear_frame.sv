@@ -1,3 +1,5 @@
+// generating signal to clear a frame
+// by traversing every pixel in a frame
 module clear_frame( input Clk, Reset, clear_frame_start,
                     output logic [9:0] DrawX, DrawY,
                     output logic clear_frame_done
@@ -9,6 +11,10 @@ module clear_frame( input Clk, Reset, clear_frame_start,
     logic [9:0] h_counter, v_counter;
     logic [9:0] h_counter_in, v_counter_in;
 
+    // Three states
+    // Wait: wait to clear
+    // Clear: clear the frame (generating signal traversing every pixel in a frame)
+    // Done: clear done
     enum logic [1:0] {Wait, Clear, Done} curr_state, next_state;
 
     assign DrawX = h_counter;
@@ -33,7 +39,7 @@ module clear_frame( input Clk, Reset, clear_frame_start,
     always_comb
     begin
         next_state = curr_state;
-        clear_frame_done = 0;
+        clear_frame_done = 1'b0;
         h_counter_in = h_counter;
         v_counter_in = v_counter;
 
