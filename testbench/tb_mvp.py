@@ -30,21 +30,24 @@ def get_projection_matrix(eye_fov, aspect_ratio, z_near, z_far):
 
 
 if __name__ == "__main__":
-    """ x1, y1, z1 = 2.203125, 4.0859375, 3.5859375
+    x1, y1, z1 = 2.203125, 4.0859375, 3.5859375
     view_matrix = get_view_matrix(x1, y1, z1)
     print("The view matrix is:\n")
     print(view_matrix)
     print("\n\n################\n\n")
- """
-    """ x2, y2, z2 = 2.203125, 4.0859375, 3.5859375
+
+    x2, y2, z2 = 3.315235, 6.59312, 1.23589
     angle = 0.78539815
     scale = 1.4609375
     model_matrix = get_model_matrix(angle, scale, x2, y2, z2)
     print("The model matrix is:\n")
     print(model_matrix)
-    print("\n\n################\n\n") """
+    print("\n\n################\n\n")
 
     projection_matrix = get_projection_matrix(1.04719753, 1.6789, 2.203125, 4.0859375)
     print("The projection matrix is:\n")
     print(projection_matrix)
     print("\n\n################\n\n")
+
+    print("The mvp matrix is:\n")
+    print(np.dot(np.dot(projection_matrix, view_matrix), model_matrix))
