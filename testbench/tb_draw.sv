@@ -7,94 +7,62 @@ timeunit 10ns;
 timeprecision 1ns;
 
 logic [3:0][15:0] a, b, c;
-logic [15:0][15:0] model, view, projection;
-logic [15:0] w, h;
+logic [15:0][15:0] mvp;
+logic [8:0] w, h;
 
 logic [1:0][9:0] v1, v2, v3;
 
 draw d(
-    .vertex_a(a), .vertex_b(b), .vertex_c(c),
-	 .model_matrix(model), .view_matrix(view), .projection_matrix(projection),
-	 .height(h), .width(w),
-	 .V1(v1), .V2(v2), .V3(v3)
+        .vertex_a(a), .vertex_b(b), .vertex_c(c),
+        .mvp(mvp),
+        .height(h), .width(w),
+        .V1(v1), .V2(v2), .V3(v3)
 );
 
 initial begin
     # 5
-    w = 16'h1e00;
-    h = 16'h2800;
+    w = 8'h1e;
+    h = 8'h28;
     # 5
-    model[0] = 16'h0108;
-    model[1] = 16'h0000;
-    model[2] = 16'h0108;
-    model[3] = 16'h0516;
-    model[4] = 16'h0000;
-    model[5] = 16'h0176;
-    model[6] = 16'h0000;
-    model[7] = 16'h0234;
-    model[8] = 16'b1111111011111000;
-    model[9] = 16'h0000;
-    model[10] = 16'h0108;
-    model[11] = 16'h0896;
-    model[12] = 16'h0000;
-    model[13] = 16'h0000;
-    model[14] = 16'h0000;
-    model[15] = 16'h0100;
-    # 5
-    view[0] = 16'h0100;
-    view[1] = 16'h0000;
-    view[2] = 16'h0000;
-    view[3] = 16'b1111110111001100;
-    view[4] = 16'h0000;
-    view[5] = 16'h0100;
-    view[6] = 16'h0000;
-    view[7] = 16'b1111101111101010;
-    view[8] = 16'h0000;
-    view[9] = 16'h0000;
-    view[10] = 16'h0100;
-    view[11] = 16'b1111110001101010;
-    view[12] = 16'h0000;
-    view[13] = 16'h0000;
-    view[14] = 16'h0000;
-    view[15] = 16'h0100;
-    # 5 
-    projection[0] = 16'h0108;
-    projection[1] = 16'h0000;
-    projection[2] = 16'h0000;
-    projection[3] = 16'h0000;
-    projection[4] = 16'h0000;
-    projection[5] = 16'h01bb;
-    projection[6] = 16'h0000;
-    projection[7] = 16'h0000;
-    projection[8] = 16'h0000;
-    projection[9] = 16'h0000;
-    projection[10] = 16'b1111110010101001;
-    projection[11] = 16'h098f;
-    projection[12] = 16'h0000;
-    projection[13] = 16'h0000;
-    projection[14] = 16'h0100;
-    projection[15] = 16'h0000;
+    mvp[0] = 16'h0111;
+    mvp[1] = 16'h0000;
+    mvp[2] = 16'h0111;
+    mvp[3] = 16'h02f9;
+    mvp[4] = 16'h0000;
+    mvp[5] = 16'h0288;
+    mvp[6] = 16'h0000;
+    mvp[7] = 16'b1111110010111110;
+    mvp[8] = 16'h0373;
+    mvp[9] = 16'h0000;
+    mvp[10] = 16'b1111110010001101;
+    mvp[11] = 16'b1111100011011101;
+    mvp[12] = 16'b1111111011111000;
+    mvp[13] = 16'h0000;
+    mvp[14] = 16'h0108;
+    mvp[15] = 16'h0500;
+
     #5
-    a[0] = 16'h0380;
+    a[0] = 16'h031a;
     a[1] = 16'h0000;
     a[2] = 16'h0000;
     a[3] = 16'h0100;
     #5
     b[0] = 16'h0000;
-    b[1] = 16'h0233;
+    b[1] = 16'h02e6;
     b[2] = 16'h0000;
     b[3] = 16'h0100;
     #5
     c[0] = 16'h0000;
     c[1] = 16'h0000;
-    c[2] = 16'h0566;
+    c[2] = 16'h0480;
     c[3] = 16'h0100;
     #5
 
     $display("width");
-    $display($signed(w)*1.0/(1<<8));
+    $display($signed(w));
     $display("height");
-    $display($signed(h)*1.0/(1<<8));
+    $display($signed(h));
+
     $display("vertex_a_x");
     $display($signed(a[0])*1.0/(1<<8));
     $display("vertex_a_y");
@@ -116,72 +84,36 @@ initial begin
     $display("vertex_c_z");
 	$display($signed(c[2])*1.0/(1<<8));
 
-    $display("model_matrix");
-    $display($signed(model[0])*1.0/(1<<8));
-    $display($signed(model[1])*1.0/(1<<8));
-    $display($signed(model[2])*1.0/(1<<8));
-    $display($signed(model[3])*1.0/(1<<8));
-    $display($signed(model[4])*1.0/(1<<8));
-    $display($signed(model[5])*1.0/(1<<8));
-    $display($signed(model[6])*1.0/(1<<8));
-    $display($signed(model[7])*1.0/(1<<8));
-    $display($signed(model[8])*1.0/(1<<8));
-    $display($signed(model[9])*1.0/(1<<8));
-    $display($signed(model[10])*1.0/(1<<8));
-    $display($signed(model[11])*1.0/(1<<8));
-    $display($signed(model[12])*1.0/(1<<8));
-    $display($signed(model[13])*1.0/(1<<8));
-    $display($signed(model[14])*1.0/(1<<8));
-    $display($signed(model[15])*1.0/(1<<8));
-
-    $display("view_matrix");
-    $display($signed(view[0])*1.0/(1<<8));
-    $display($signed(view[1])*1.0/(1<<8));
-    $display($signed(view[2])*1.0/(1<<8));
-    $display($signed(view[3])*1.0/(1<<8));
-    $display($signed(view[4])*1.0/(1<<8));
-    $display($signed(view[5])*1.0/(1<<8));
-    $display($signed(view[6])*1.0/(1<<8));
-    $display($signed(view[7])*1.0/(1<<8));
-    $display($signed(view[8])*1.0/(1<<8));
-    $display($signed(view[9])*1.0/(1<<8));
-    $display($signed(view[10])*1.0/(1<<8));
-    $display($signed(view[11])*1.0/(1<<8));
-    $display($signed(view[12])*1.0/(1<<8));
-    $display($signed(view[13])*1.0/(1<<8));
-    $display($signed(view[14])*1.0/(1<<8));
-    $display($signed(view[15])*1.0/(1<<8));
-
-    $display("projection_matrix");
-    $display($signed(projection[0])*1.0/(1<<8));
-    $display($signed(projection[1])*1.0/(1<<8));
-    $display($signed(projection[2])*1.0/(1<<8));
-    $display($signed(projection[3])*1.0/(1<<8));
-    $display($signed(projection[4])*1.0/(1<<8));
-    $display($signed(projection[5])*1.0/(1<<8));
-    $display($signed(projection[6])*1.0/(1<<8));
-    $display($signed(projection[7])*1.0/(1<<8));
-    $display($signed(projection[8])*1.0/(1<<8));
-    $display($signed(projection[9])*1.0/(1<<8));
-    $display($signed(projection[10])*1.0/(1<<8));
-    $display($signed(projection[11])*1.0/(1<<8));
-    $display($signed(projection[12])*1.0/(1<<8));
-    $display($signed(projection[13])*1.0/(1<<8));
-    $display($signed(projection[14])*1.0/(1<<8));
-    $display($signed(projection[15])*1.0/(1<<8));
+    $display("mvp_matrix");
+    $display($signed(mvp[0])*1.0/(1<<8));
+    $display($signed(mvp[1])*1.0/(1<<8));
+    $display($signed(mvp[2])*1.0/(1<<8));
+    $display($signed(mvp[3])*1.0/(1<<8));
+    $display($signed(mvp[4])*1.0/(1<<8));
+    $display($signed(mvp[5])*1.0/(1<<8));
+    $display($signed(mvp[6])*1.0/(1<<8));
+    $display($signed(mvp[7])*1.0/(1<<8));
+    $display($signed(mvp[8])*1.0/(1<<8));
+    $display($signed(mvp[9])*1.0/(1<<8));
+    $display($signed(mvp[10])*1.0/(1<<8));
+    $display($signed(mvp[11])*1.0/(1<<8));
+    $display($signed(mvp[12])*1.0/(1<<8));
+    $display($signed(mvp[13])*1.0/(1<<8));
+    $display($signed(mvp[14])*1.0/(1<<8));
+    $display($signed(mvp[15])*1.0/(1<<8));
 
     # 10
     $display("V1");
-    $display($signed(V1[0])*1.0/(1<<8));
-    $display($signed(V1[1])*1.0/(1<<8));
+    $display($signed(v1[0])*1.0/(1<<8));
+    $display($signed(v1[1])*1.0/(1<<8));
 
     $display("V2");
-    $display($signed(V2[0])*1.0/(1<<8));
-    $display($signed(V2[1])*1.0/(1<<8));
+    $display($signed(v2[0])*1.0/(1<<8));
+    $display($signed(v2[1])*1.0/(1<<8));
 
     $display("V3");
-    $display($signed(V3[0])*1.0/(1<<8));
-    $display($signed(V3[1])*1.0/(1<<8));
+    $display($signed(v3[0])*1.0/(1<<8));
+    $display($signed(v3[1])*1.0/(1<<8));
 end
 
 endmodule

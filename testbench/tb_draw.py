@@ -47,13 +47,13 @@ projection_matrix = get_projection_matrix(1.04719753, 1.6789, 2.203125, 4.085937
 
 PxV = np.dot(projection_matrix, view_matrix)
 mvp = np.dot(PxV, model_matrix)
-""" print("The mvp matrix is:\n")
+print("The mvp matrix is:\n")
 print(mvp)
-print("\n\n################\n\n") """
+print("\n\n################\n\n")
 
-ptA = np.array([3.5, 0, 0, 1])
-ptB = np.array([0, 2.2, 0, 1])
-ptC = np.array([0, 0, 5.4, 1])
+ptA = np.array([3.1, 0, 0, 1])
+ptB = np.array([0, 2.9, 0, 1])
+ptC = np.array([0, 0, 4.5, 1])
 
 v1 = np.dot(mvp, ptA)
 v2 = np.dot(mvp, ptB)
@@ -70,10 +70,10 @@ f2 = (50 + 0.1) / 2.0
 
 width = 30
 height = 40
-
+""" 
 print(v1)
 print(v2)
-print(v3)
+print(v3) """
 
 for i in [v1, v2, v3]:
     i[0] = 0.5 * width * (i[0]+1)
@@ -84,24 +84,3 @@ for i in [v1, v2, v3]:
 print(v1)
 print(v2)
 print(v3)
-
-
-""" 
-print("The view matrix is:\n")
-print(view_matrix)
-print("\n\n################\n\n")
-print("The model matrix is:\n")
-print(model_matrix)
-print("\n\n################\n\n")
-print("The projection matrix is:\n")
-print(projection_matrix)
-print("\n\n################\n\n")
-
-
-print("\n\n")
-print(v1)
-print("\n\n")
-print(v2)
-print("\n\n")
-print(v3)
-print("\n\n")  """
