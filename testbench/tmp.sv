@@ -1,12 +1,41 @@
 module draw(    input [15:0][15:0] model_matrix, view_matrix, projection_matrix,
-                output logic [15:0][15:0] mvp
+                input [3:0][15:0] vertex_a, vertex_b, vertex_c,
+                output logic [1:0][15:0] v1, v2, v3
 );
 
-logic [15:0][15:0] tmp_mvp;
-
+logic [15:0][15:0] tmp_mvp, mvp;
+logic [15:0] x1, y1, w1, x2, y2, w2, x3, y3, w3;
+logic [15:0] trash0, trash1, trash2;
+logic overflow0, overflow1, overflow2, overflow3, overflow4, overflow5;
 
 matrix_multiplier mm0(.matA(projection_matrix), .matB(view_matrix), .res_mat(tmp_mvp));
 matrix_multiplier mm1(.matA(tmp_mvp), .matB(model_matrix), .res_mat(mvp));
+
+
+dot_product dp00(.a0(mvp[0]), .a1(mvp[1]), .a2(mvp[2]), .a3(mvp[3]), .b0(vertex_a[0]), .b1(vertex_a[1]), .b2(vertex_a[2]), .b3(vertex_a[3]), .res(x1));
+dot_product dp01(.a0(mvp[4]), .a1(mvp[5]), .a2(mvp[6]), .a3(mvp[7]), .b0(vertex_a[0]), .b1(vertex_a[1]), .b2(vertex_a[2]), .b3(vertex_a[3]), .res(y1));
+dot_product dp02(.a0(mvp[8]), .a1(mvp[9]), .a2(mvp[10]), .a3(mvp[11]), .b0(vertex_a[0]), .b1(vertex_a[1]), .b2(vertex_a[2]), .b3(vertex_a[3]), .res(trash0));
+dot_product dp03(.a0(mvp[12]), .a1(mvp[13]), .a2(mvp[14]), .a3(mvp[15]), .b0(vertex_a[0]), .b1(vertex_a[1]), .b2(vertex_a[2]), .b3(vertex_a[3]), .res(w1));
+
+dot_product dp10(.a0(mvp[0]), .a1(mvp[1]), .a2(mvp[2]), .a3(mvp[3]), .b0(vertex_b[0]), .b1(vertex_b[1]), .b2(vertex_b[2]), .b3(vertex_b[3]), .res(x2));
+dot_product dp11(.a0(mvp[4]), .a1(mvp[5]), .a2(mvp[6]), .a3(mvp[7]), .b0(vertex_b[0]), .b1(vertex_b[1]), .b2(vertex_b[2]), .b3(vertex_b[3]), .res(y2));
+dot_product dp12(.a0(mvp[8]), .a1(mvp[9]), .a2(mvp[10]), .a3(mvp[11]), .b0(vertex_b[0]), .b1(vertex_b[1]), .b2(vertex_b[2]), .b3(vertex_b[3]), .res(trash1));
+dot_product dp13(.a0(mvp[12]), .a1(mvp[13]), .a2(mvp[14]), .a3(mvp[15]), .b0(vertex_b[0]), .b1(vertex_b[1]), .b2(vertex_b[2]), .b3(vertex_b[3]), .res(w2));
+
+dot_product dp20(.a0(mvp[0]), .a1(mvp[1]), .a2(mvp[2]), .a3(mvp[3]), .b0(vertex_c[0]), .b1(vertex_c[1]), .b2(vertex_c[2]), .b3(vertex_c[3]), .res(x3));
+dot_product dp21(.a0(mvp[4]), .a1(mvp[5]), .a2(mvp[6]), .a3(mvp[7]), .b0(vertex_c[0]), .b1(vertex_c[1]), .b2(vertex_c[2]), .b3(vertex_c[3]), .res(y3));
+dot_product dp22(.a0(mvp[8]), .a1(mvp[9]), .a2(mvp[10]), .a3(mvp[11]), .b0(vertex_c[0]), .b1(vertex_c[1]), .b2(vertex_c[2]), .b3(vertex_c[3]), .res(trash2));
+dot_product dp23(.a0(mvp[12]), .a1(mvp[13]), .a2(mvp[14]), .a3(mvp[15]), .b0(vertex_c[0]), .b1(vertex_c[1]), .b2(vertex_c[2]), .b3(vertex_c[3]), .res(w3));
+
+
+fxp_div div0(.dividend(x1), .divisor(w1), .out(v1[0]), .overflow(overflow0));
+fxp_div div1(.dividend(y1), .divisor(w1), .out(v1[1]), .overflow(overflow1));
+
+fxp_div div2(.dividend(x2), .divisor(w2), .out(v2[0]), .overflow(overflow2));
+fxp_div div3(.dividend(y2), .divisor(w2), .out(v2[1]), .overflow(overflow3));
+
+fxp_div div4(.dividend(x3), .divisor(w3), .out(v3[0]), .overflow(overflow4));
+fxp_div div5(.dividend(y3), .divisor(w3), .out(v3[1]), .overflow(overflow5));
 
 endmodule
 
@@ -32,8 +61,84 @@ fxp_add add2(.ina(add_tmp1), .inb(mul_res3), .out(res), .overflow(add_overflow2)
 
 endmodule
 
+/* 
+fxp_add add0(.ina(x1_normalized), .inb(16'h0100), .out(tmp0), .overflow(overflow6));
+fxp_mul mul0(.ina(width), .inb(tmp0), .out(tmp1), .overflow(overflow7));
+fxp_mul #(
+    .WIIA(8), .WIFA(8),
+    .WIIB(8), .WIFB(8),
+    .WOI(8), .WOF(8), .ROUND(1)
+) mul1 (
+    .ina(tmp1), 
+    .inb(16'h0080), 
+    .out(V1[0]), 
+    .overflow(overflow8)
+);
+fxp_add add1(.ina(y1_normalized), .inb(16'h0100), .out(tmp2), .overflow(overflow9));
+fxp_mul mul2(.ina(height), .inb(tmp2), .out(tmp3), .overflow(overflow10));
+fxp_mul #(
+    .WIIA(8), .WIFA(8),
+    .WIIB(8), .WIFB(8),
+    .WOI(8), .WOF(8), .ROUND(1)
+) mul3 (
+    .ina(tmp3), 
+    .inb(16'h0100), 
+    .out(V1[1]), 
+    .overflow(overflow11)
+);
 
+fxp_add add2(.ina(x2_normalized), .inb(16'h0100), .out(tmp4), .overflow(overflow12));
+fxp_mul mul4(.ina(width), .inb(tmp4), .out(tmp5), .overflow(overflow13));
+fxp_mul #(
+    .WIIA(8), .WIFA(8),
+    .WIIB(8), .WIFB(8),
+    .WOI(8), .WOF(8), .ROUND(1)
+) mul5 (
+    .ina(tmp5), 
+    .inb(16'h0080), 
+    .out(V2[0]), 
+    .overflow(overflow14)
+);
+fxp_add add3(.ina(y2_normalized), .inb(16'h0100), .out(tmp6), .overflow(overflow15));
+fxp_mul mul6(.ina(height), .inb(tmp6), .out(tmp7), .overflow(overflow16));
+fxp_mul #(
+    .WIIA(8), .WIFA(8),
+    .WIIB(8), .WIFB(8),
+    .WOI(8), .WOF(8), .ROUND(1)
+) mul7 (
+    .ina(tmp7), 
+    .inb(16'h0100), 
+    .out(V2[1]), 
+    .overflow(overflow17)
+);
 
+fxp_add add4(.ina(x3_normalized), .inb(16'h0100), .out(tmp8), .overflow(overflow18));
+fxp_mul mul8(.ina(width), .inb(tmp8), .out(tmp9), .overflow(overflow19));
+fxp_mul #(
+    .WIIA(8), .WIFA(8),
+    .WIIB(8), .WIFB(8),
+    .WOI(8), .WOF(8), .ROUND(1)
+) mul9 (
+    .ina(tmp9), 
+    .inb(16'h0080), 
+    .out(V3[0]), 
+    .overflow(overflow20)
+);
+fxp_add add5(.ina(y3_normalized), .inb(16'h0100), .out(tmp10), .overflow(overflow21));
+fxp_mul mul10(.ina(height), .inb(tmp10), .out(tmp11), .overflow(overflow22));
+fxp_mul #(
+    .WIIA(8), .WIFA(8),
+    .WIIB(8), .WIFB(8),
+    .WOI(8), .WOF(8), .ROUND(1)
+) mul11 (
+    .ina(tmp11),
+    .inb(16'h0100), 
+    .out(V3[1]), 
+    .overflow(overflow23)
+);
+
+endmodule
+ */
 module matrix_multiplier(  input           [15:0][15:0] matA, matB,
                                         output logic    [15:0][15:0] res_mat
 );

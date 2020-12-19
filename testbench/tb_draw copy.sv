@@ -7,14 +7,44 @@ timeunit 10ns;
 timeprecision 1ns;
 
 logic [15:0][15:0] model, view, projection;
-logic [15:0][15:0] out;
+logic [3:0][15:0] a, b, c;
+logic [1:0][15:0] v1, v2, v3;
+logic [15:0] w, h;
+
+// logic [15:0] tmp0, tmp1, x1_normalized;
 
 draw d(
 	.model_matrix(model), .view_matrix(view), .projection_matrix(projection),
-    .mvp(out)
+    .vertex_a(a), .vertex_b(b), .vertex_c(c),
+    .width(w), .height(h),
+    .V1(v1), .V2(v2), .V3(v3)
 );
 
+// assign tmp0 = d.tmp0;
+// assign tmp1 = d.tmp1;
+// assign x1_normalized = d.x1_normalized;
+
 initial begin
+    # 5
+    w = 16'h1e00;
+    h = 16'h2800;
+
+    # 5
+    a[0] = 16'h0380;
+    a[1] = 16'h0000;
+    a[2] = 16'h0000;
+    a[3] = 16'h0100;
+    #5
+    b[0] = 16'h0000;
+    b[1] = 16'h0233;
+    b[2] = 16'h0000;
+    b[3] = 16'h0100;
+    #5
+    c[0] = 16'h0000;
+    c[1] = 16'h0000;
+    c[2] = 16'h0566;
+    c[3] = 16'h0100;
+
     # 5
     model[0] = 16'h0108;
     model[1] = 16'h0000;
@@ -67,6 +97,33 @@ initial begin
     projection[14] = 16'h0100;
     projection[15] = 16'h0000;
     #5
+
+    $display("vertex_a_x");
+    $display($signed(a[0])*1.0/(1<<8));
+    $display("vertex_a_y");
+	$display($signed(a[1])*1.0/(1<<8));
+    $display("vertex_a_z");
+	$display($signed(a[2])*1.0/(1<<8));
+    $display("vertex_a_w");
+	$display($signed(a[3])*1.0/(1<<8));
+
+    $display("vertex_b_x");
+    $display($signed(b[0])*1.0/(1<<8));
+    $display("vertex_b_y");
+	$display($signed(b[1])*1.0/(1<<8));
+    $display("vertex_b_z");
+	$display($signed(b[2])*1.0/(1<<8));
+    $display("vertex_b_w");
+	$display($signed(b[3])*1.0/(1<<8));
+
+    $display("vertex_c_x");
+    $display($signed(c[0])*1.0/(1<<8));
+    $display("vertex_c_y");
+	$display($signed(c[1])*1.0/(1<<8));
+    $display("vertex_c_z");
+	$display($signed(c[2])*1.0/(1<<8));
+    $display("vertex_c_w");
+	$display($signed(c[3])*1.0/(1<<8));
 
     $display("model_matrix");
     $display($signed(model[0])*1.0/(1<<8));
@@ -123,23 +180,19 @@ initial begin
     $display($signed(projection[15])*1.0/(1<<8));
 
     # 10
-    $display("mvp_matrix");
-    $display($signed(out[0])*1.0/(1<<8));
-    $display($signed(out[1])*1.0/(1<<8));
-    $display($signed(out[2])*1.0/(1<<8));
-    $display($signed(out[3])*1.0/(1<<8));
-    $display($signed(out[4])*1.0/(1<<8));
-    $display($signed(out[5])*1.0/(1<<8));
-    $display($signed(out[6])*1.0/(1<<8));
-    $display($signed(out[7])*1.0/(1<<8));
-    $display($signed(out[8])*1.0/(1<<8));
-    $display($signed(out[9])*1.0/(1<<8));
-    $display($signed(out[10])*1.0/(1<<8));
-    $display($signed(out[11])*1.0/(1<<8));
-    $display($signed(out[12])*1.0/(1<<8));
-    $display($signed(out[13])*1.0/(1<<8));
-    $display($signed(out[14])*1.0/(1<<8));
-    $display($signed(out[15])*1.0/(1<<8));
+    $display("v1");
+    $display($signed(v1[0])*1.0/(1<<8));
+    $display($signed(v1[1])*1.0/(1<<8));
+    $display("v2");
+    $display($signed(v2[0])*1.0/(1<<8));
+    $display($signed(v2[1])*1.0/(1<<8));
+    $display("v3");
+    $display($signed(v3[0])*1.0/(1<<8));
+    $display($signed(v3[1])*1.0/(1<<8));
+    
+    // $display($signed(x1_normalized)*1.0/(1<<8));
+    // $display($signed(tmp0)*1.0/(1<<8));
+    // $display($signed(tmp1)*1.0/(1<<8));
 end
 
 endmodule

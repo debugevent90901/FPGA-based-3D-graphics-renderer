@@ -17,11 +17,9 @@ logic overflow8, overflow9, overflow10, overflow11, overflow12, overflow13, over
 logic overflow16, overflow17, overflow18, overflow19, overflow20, overflow21, overflow22, overflow23;
 logic [15:0] tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8, tmp9, tmp10, tmp11;
 
-// correct
-matrix_multiplier mm0(.matA(projection_matrix), .matB(view_matrix), .res_mat(tmp_mvp));
-// correct
-matrix_multiplier mm1(.matA(tmp_mvp), .matB(model_matrix), .res_mat(mvp));
 
+matrix_multiplier mm0(.matA(projection_matrix), .matB(view_matrix), .res_mat(tmp_mvp));
+matrix_multiplier mm1(.matA(tmp_mvp), .matB(model_matrix), .res_mat(mvp));
 
 dot_product dp00(.a0(mvp[0]), .a1(mvp[1]), .a2(mvp[2]), .a3(mvp[3]), .b0(vertex_a[0]), .b1(vertex_a[1]), .b2(vertex_a[2]), .b3(vertex_a[3]), .res(x1));
 dot_product dp01(.a0(mvp[4]), .a1(mvp[5]), .a2(mvp[6]), .a3(mvp[7]), .b0(vertex_a[0]), .b1(vertex_a[1]), .b2(vertex_a[2]), .b3(vertex_a[3]), .res(y1));
@@ -46,78 +44,55 @@ fxp_div div3(.dividend(y2), .divisor(w2), .out(y2_normalized), .overflow(overflo
 
 fxp_div div4(.dividend(x3), .divisor(w3), .out(x3_normalized), .overflow(overflow4));
 fxp_div div5(.dividend(y3), .divisor(w3), .out(y3_normalized), .overflow(overflow5));
+// above pass testbench, correct
 
 fxp_add add0(.ina(x1_normalized), .inb(16'h0100), .out(tmp0), .overflow(overflow6));
 fxp_mul mul0(.ina(width), .inb(tmp0), .out(tmp1), .overflow(overflow7));
-fxp_mul #(
-    .WIIA(8), .WIFA(8),
-    .WIIB(8), .WIFB(8),
-    .WOI(8), .WOF(8), .ROUND(1)
-) mul1 (
-    .ina(tmp1), 
-    .inb(16'h0080), 
+fxp_div div6 (
+    .dividend(tmp1), 
+    .divisor(16'h0200), 
     .out(V1[0]), 
     .overflow(overflow8)
 );
 fxp_add add1(.ina(y1_normalized), .inb(16'h0100), .out(tmp2), .overflow(overflow9));
 fxp_mul mul2(.ina(height), .inb(tmp2), .out(tmp3), .overflow(overflow10));
-fxp_mul #(
-    .WIIA(8), .WIFA(8),
-    .WIIB(8), .WIFB(8),
-    .WOI(8), .WOF(8), .ROUND(1)
-) mul3 (
-    .ina(tmp3), 
-    .inb(16'h0100), 
+fxp_div div7 (
+    .dividend(tmp3), 
+    .divisor(16'h0200), 
     .out(V1[1]), 
     .overflow(overflow11)
 );
 
 fxp_add add2(.ina(x2_normalized), .inb(16'h0100), .out(tmp4), .overflow(overflow12));
 fxp_mul mul4(.ina(width), .inb(tmp4), .out(tmp5), .overflow(overflow13));
-fxp_mul #(
-    .WIIA(8), .WIFA(8),
-    .WIIB(8), .WIFB(8),
-    .WOI(8), .WOF(8), .ROUND(1)
-) mul5 (
-    .ina(tmp5), 
-    .inb(16'h0080), 
+fxp_div div8 (
+    .dividend(tmp5), 
+    .divisor(16'h0200), 
     .out(V2[0]), 
     .overflow(overflow14)
 );
 fxp_add add3(.ina(y2_normalized), .inb(16'h0100), .out(tmp6), .overflow(overflow15));
 fxp_mul mul6(.ina(height), .inb(tmp6), .out(tmp7), .overflow(overflow16));
-fxp_mul #(
-    .WIIA(8), .WIFA(8),
-    .WIIB(8), .WIFB(8),
-    .WOI(8), .WOF(8), .ROUND(1)
-) mul7 (
-    .ina(tmp7), 
-    .inb(16'h0100), 
+fxp_div div9 (
+    .dividend(tmp7), 
+    .divisor(16'h0200), 
     .out(V2[1]), 
     .overflow(overflow17)
 );
 
 fxp_add add4(.ina(x3_normalized), .inb(16'h0100), .out(tmp8), .overflow(overflow18));
 fxp_mul mul8(.ina(width), .inb(tmp8), .out(tmp9), .overflow(overflow19));
-fxp_mul #(
-    .WIIA(8), .WIFA(8),
-    .WIIB(8), .WIFB(8),
-    .WOI(8), .WOF(8), .ROUND(1)
-) mul9 (
-    .ina(tmp9), 
-    .inb(16'h0080), 
+fxp_div div10 (
+    .dividend(tmp9), 
+    .divisor(16'h0200), 
     .out(V3[0]), 
     .overflow(overflow20)
 );
 fxp_add add5(.ina(y3_normalized), .inb(16'h0100), .out(tmp10), .overflow(overflow21));
 fxp_mul mul10(.ina(height), .inb(tmp10), .out(tmp11), .overflow(overflow22));
-fxp_mul #(
-    .WIIA(8), .WIFA(8),
-    .WIIB(8), .WIFB(8),
-    .WOI(8), .WOF(8), .ROUND(1)
-) mul11 (
-    .ina(tmp11),
-    .inb(16'h0100), 
+fxp_div div11 (
+    .dividend(tmp11),
+    .divisor(16'h0200), 
     .out(V3[1]), 
     .overflow(overflow23)
 );
