@@ -1,11 +1,13 @@
 // On-chip memeory fifo
+// Waddr: width of addr
 module triangle_fifo_ram # (
+    parameter Waddr = 7,
     parameter size = 100
 )
 (
     input                   Clk,
     input                   r_en, w_en,
-    input [size-1:0]        r_addr,w_addr,
+    input [Waddr-1:0]        r_addr,w_addr,
     input                   is_empty, is_full,
     input [6*10-1:0]        data_in,
     output logic [6*10-1:0] data_out
