@@ -19,7 +19,7 @@ module get_projection_matrix #(
 logic [WOI+WOF-1:0] neg_z_near, neg_z_far, distance, k, n_a_f, n_a_f_mul_k, tmp, f_m_n_m_k, f_m_n_m_k_2, t_d_a;
 
 logic overflow, overflow0, overflow1, overflow2, overflow3, overflow4;
-logic overflow5, overflow6, overflow7, overflow8, overflow9;
+logic overflow5, overflow6, overflow7, overflow8, overflow9, overflow10, overflow11;
 
 fxp_addsub #(   
     .WIIA(8), .WIFA(8),
@@ -141,7 +141,7 @@ fxp_zoom # (
 ) zoom0 (
     .in(16'h0000),
     .out(zero),
-    .overflow(overflow3)
+    .overflow(overflow10)
 );
 
 fxp_zoom # (
@@ -150,7 +150,7 @@ fxp_zoom # (
 ) zoom1 (
     .in(16'h0100),
     .out(one),
-    .overflow(overflow4)
+    .overflow(overflow11)
 );
 
 assign projection_matrix[0] = t_d_a;
