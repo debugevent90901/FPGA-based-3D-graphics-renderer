@@ -1,19 +1,15 @@
 // custemed Triangle fifo
 // Using On-chip memory
-// WI: width of integer of coordinate data
-// WF: width of float of coordinate data
 module triangle_fifo # (
-    parameter WI = 8,
-    parameter WF = 8,
-    parameter size = 10
+    parameter size = 100
 )
 (
-    input                                Clk,
-    input                                Reset,
-    input                                r_en, w_en,
-    input [2:0][2:0][(WI+WF)-1:0]        triangle_in,
-    output logic [2:0][2:0][(WI+WF)-1:0] triangle_out,
-    output logic                         is_empty, is_full
+    input                        Clk,
+    input                        Reset,
+    input                        r_en, w_en,
+    input        [2:0][1:0][9:0] triangle_in,
+    output logic [2:0][1:0][9:0] triangle_out,
+    output logic                 is_empty, is_full
 );
 
 logic [size-1:0] r_addr,w_addr;
@@ -22,7 +18,7 @@ logic [size-1:0] num;
 parameter max = size;
 
 // On-chip memory
-triangle_fifo_ram #(.WI(WI), .WF(WF), .size(size)) tfr (
+triangle_fifo_ram #(.size(size)) tfr (
     .Clk(Clk),
     .r_en(r_en), .w_en(w_en),
     .r_addr(r_addr),.w_addr(w_addr),

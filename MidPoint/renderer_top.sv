@@ -1,4 +1,4 @@
-module test_top(
+module renderer_top(
                 input               CLOCK_50,
                 input        [3:0]  KEY,
                 // VGA Interface
@@ -17,11 +17,12 @@ module test_top(
     logic frame_clk_rising_edge;
     logic draw_start, draw_done, clear_start, clear_done, frame_done;
     logic draw_data, read_data;
+    logic fifo_r, fifo_w;
+    logic fifo_empty, fifo_full;
     logic [9:0] draw_DrawX, draw_DrawY, clear_DrawX, clear_DrawY;
     logic [9:0] DrawX, DrawY;
     logic [9:0] ReadX, ReadY;
-
-    logic [1:0][9:0] V1, V2, V3;
+    logic [2:0][1:0][9:0] proj_triangle_out, proj_triangle_in;
 
     assign Clk = CLOCK_50;
     always_ff @ (posedge Clk) begin
@@ -29,12 +30,6 @@ module test_top(
     end
 
     assign frame_clk = VGA_VS;
-    assign V1[0] = 10'd30;
-    assign V1[1] = 10'd450;
-    assign V2[0] = 10'd400;
-    assign V2[1] = 10'd200;
-    assign V3[0] = 10'd20;
-    assign V3[1] = 10'd400;
 
     vga_clk vga_clk_instance(.inclk0(Clk), .c0(VGA_CLK));
 
@@ -87,16 +82,35 @@ module test_top(
                     .clear_frame_done(clear_done)
     );
 
-    draw_triangle dl(
+    draw draw_instance(
+                        .Clk(Clk),
+                        .Reset(Reset),
+                        .draw_start(draw_start),
+                        .triangle_data(proj_triangle_out),
+                        .fifo_empty(fifo_empty),
+                        .fifo_r(fifo_r),
+                        .DrawX(draw_DrawX),
+                        .DrawY(draw_DrawY),
+                        .draw_done(draw_done)
+    );
+
+    triangle_fifo #(.size(100)) tf(
+                                    .Clk(Clk),
+                                    .Reset(Reset),
+                                    .r_en(fifo_r),
+                                    .w_en(fifo_w),
+                                    .triangle_in(proj_triangle_in),
+                                    .triangle_out(proj_triangle_out),
+                                    .is_empty(fifo_empty),
+                                    .is_full(fifo_full)
+    );
+
+    fifo_writer fw(
                     .Clk(Clk),
                     .Reset(Reset),
-                    .draw_triangle_start(draw_start),
-                    .V1(V1),
-                    .V2(V2),
-                    .V3(V3),
-                    .DrawX(draw_DrawX),
-                    .DrawY(draw_DrawY),
-                    .draw_triangle_done(draw_done)
+                    .clear_start(clear_start),
+                    .fifo_w(fifo_w),
+                    .proj_triangle_in(proj_triangle_in)
     );
 
     frame_buffer fb(
@@ -111,7 +125,5 @@ module test_top(
                     .ReadY(ReadY),
                     .read_data(read_data)
     );
-
-
 
 endmodule
