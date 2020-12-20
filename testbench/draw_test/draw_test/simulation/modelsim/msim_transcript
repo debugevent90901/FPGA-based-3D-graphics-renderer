@@ -1,0 +1,170 @@
+# Reading D:/intelFPGA_lite/18.1/modelsim_ase/tcl/vsim/pref.tcl
+# do draw_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 10.5b Lib Mapping Utility 2016.10 Oct  5 2016
+# vmap work rtl_work 
+# Copying D:/intelFPGA_lite/18.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog -sv -work work +incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw {D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/triangle_fifo_ram.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 11:36:08 on Dec 20,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw" D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/triangle_fifo_ram.sv 
+# -- Compiling module triangle_fifo_ram
+# 
+# Top level modules:
+# 	triangle_fifo_ram
+# End time: 11:36:08 on Dec 20,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw {D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/triangle_fifo.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 11:36:08 on Dec 20,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw" D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/triangle_fifo.sv 
+# -- Compiling module triangle_fifo
+# 
+# Top level modules:
+# 	triangle_fifo
+# End time: 11:36:08 on Dec 20,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw {D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/fifo_writer.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 11:36:08 on Dec 20,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw" D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/fifo_writer.sv 
+# -- Compiling module fifo_writer
+# 
+# Top level modules:
+# 	fifo_writer
+# End time: 11:36:09 on Dec 20,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw {D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 11:36:09 on Dec 20,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw" D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv 
+# -- Compiling module draw_test_top
+# 
+# Top level modules:
+# 	draw_test_top
+# End time: 11:36:09 on Dec 20,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw {D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_line.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 11:36:09 on Dec 20,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw" D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_line.sv 
+# -- Compiling module draw_line
+# 
+# Top level modules:
+# 	draw_line
+# End time: 11:36:09 on Dec 20,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw {D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 11:36:09 on Dec 20,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw" D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw.sv 
+# -- Compiling module draw
+# 
+# Top level modules:
+# 	draw
+# End time: 11:36:09 on Dec 20,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw {D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_triangle.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 11:36:09 on Dec 20,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw" D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_triangle.sv 
+# -- Compiling module draw_triangle
+# 
+# Top level modules:
+# 	draw_triangle
+# End time: 11:36:09 on Dec 20,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -sv -work work +incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw {D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top_testbench.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 11:36:10 on Dec 20,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw" D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top_testbench.sv 
+# -- Compiling module draw_test_top_testbench
+# 
+# Top level modules:
+# 	draw_test_top_testbench
+# End time: 11:36:10 on Dec 20,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  draw_test_top_testbench
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs=""+acc"" draw_test_top_testbench 
+# Start time: 11:36:10 on Dec 20,2020
+# Loading sv_std.std
+# Loading work.draw_test_top_testbench
+# Loading work.draw_test_top
+# Loading work.draw
+# Loading work.draw_triangle
+# Loading work.draw_line
+# Loading work.triangle_fifo
+# Loading work.triangle_fifo_ram
+# Loading work.fifo_writer
+# 
+# add wave *
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run 10000 ns
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/fifo_writer.sv(39): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 0  Instance: /draw_test_top_testbench/dtt/fw
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw.sv(55): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 0  Instance: /draw_test_top_testbench/dtt/draw_instance
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_triangle.sv(45): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 0  Instance: /draw_test_top_testbench/dtt/draw_instance/dl
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_line.sv(57): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 0  Instance: /draw_test_top_testbench/dtt/draw_instance/dl/dl
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_line.sv(57): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 1  Instance: /draw_test_top_testbench/dtt/draw_instance/dl/dl
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/fifo_writer.sv(39): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 1  Instance: /draw_test_top_testbench/dtt/fw
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw.sv(55): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 1  Instance: /draw_test_top_testbench/dtt/draw_instance
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_triangle.sv(45): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 1  Instance: /draw_test_top_testbench/dtt/draw_instance/dl
+restart -f
+run 15000ns
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/fifo_writer.sv(39): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 0  Instance: /draw_test_top_testbench/dtt/fw
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw.sv(55): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 0  Instance: /draw_test_top_testbench/dtt/draw_instance
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_triangle.sv(45): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 0  Instance: /draw_test_top_testbench/dtt/draw_instance/dl
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_line.sv(57): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 0  Instance: /draw_test_top_testbench/dtt/draw_instance/dl/dl
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_line.sv(57): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 1  Instance: /draw_test_top_testbench/dtt/draw_instance/dl/dl
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/fifo_writer.sv(39): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 1  Instance: /draw_test_top_testbench/dtt/fw
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw.sv(55): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 1  Instance: /draw_test_top_testbench/dtt/draw_instance
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_triangle.sv(45): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 1  Instance: /draw_test_top_testbench/dtt/draw_instance/dl
+restart -f
+run 20000ns
+# GetModuleFileName: 找不到指定的模块。
+# 
+# 
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/fifo_writer.sv(39): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 0  Instance: /draw_test_top_testbench/dtt/fw
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw.sv(55): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 0  Instance: /draw_test_top_testbench/dtt/draw_instance
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_triangle.sv(45): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 0  Instance: /draw_test_top_testbench/dtt/draw_instance/dl
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_line.sv(57): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 0  Instance: /draw_test_top_testbench/dtt/draw_instance/dl/dl
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_line.sv(57): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 1  Instance: /draw_test_top_testbench/dtt/draw_instance/dl/dl
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/fifo_writer.sv(39): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 1  Instance: /draw_test_top_testbench/dtt/fw
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw.sv(55): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 1  Instance: /draw_test_top_testbench/dtt/draw_instance
+# ** Warning: (vsim-8315) D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_triangle.sv(45): No condition is true in the unique/priority if/case statement.
+#    Time: 0 ps  Iteration: 1  Instance: /draw_test_top_testbench/dtt/draw_instance/dl
+# End time: 11:37:51 on Dec 20,2020, Elapsed time: 0:01:41
+# Errors: 0, Warnings: 24

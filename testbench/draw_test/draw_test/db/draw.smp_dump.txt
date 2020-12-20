@@ -1,0 +1,33 @@
+
+State Machine - |draw_test_top|fifo_writer:fw|curr_state
+Name curr_state.Write3 curr_state.Write2 curr_state.Write1 curr_state.Wait curr_state.Done 
+curr_state.Wait 0 0 0 0 0 
+curr_state.Write1 0 0 1 1 0 
+curr_state.Write2 0 1 0 1 0 
+curr_state.Write3 1 0 0 1 0 
+curr_state.Done 0 0 0 1 1 
+
+State Machine - |draw_test_top|draw:draw_instance|curr_state
+Name curr_state.Wait curr_state.Draw curr_state.Take2 curr_state.Take1 curr_state.Done 
+curr_state.Done 0 0 0 0 0 
+curr_state.Take1 0 0 0 1 1 
+curr_state.Take2 0 0 1 0 1 
+curr_state.Draw 0 1 0 0 1 
+curr_state.Wait 1 0 0 0 1 
+
+State Machine - |draw_test_top|draw:draw_instance|draw_triangle:dl|curr_state
+Name curr_state.Done curr_state.Draw3 curr_state.Trigger3 curr_state.Draw2 curr_state.Trigger2 curr_state.Draw1 curr_state.Trigger1 curr_state.Wait 
+curr_state.Wait 0 0 0 0 0 0 0 0 
+curr_state.Trigger1 0 0 0 0 0 0 1 1 
+curr_state.Draw1 0 0 0 0 0 1 0 1 
+curr_state.Trigger2 0 0 0 0 1 0 0 1 
+curr_state.Draw2 0 0 0 1 0 0 0 1 
+curr_state.Trigger3 0 0 1 0 0 0 0 1 
+curr_state.Draw3 0 1 0 0 0 0 0 1 
+curr_state.Done 1 0 0 0 0 0 0 1 
+
+State Machine - |draw_test_top|draw:draw_instance|draw_triangle:dl|draw_line:dl|curr_state
+Name curr_state.Wait curr_state.Done curr_state.Draw 
+curr_state.Wait 0 0 0 
+curr_state.Draw 1 0 1 
+curr_state.Done 1 1 0 

@@ -1,0 +1,1070 @@
+Analysis & Synthesis report for draw
+Sun Dec 20 11:35:48 2020
+Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. State Machine - |draw_test_top|fifo_writer:fw|curr_state
+  9. State Machine - |draw_test_top|draw:draw_instance|curr_state
+ 10. State Machine - |draw_test_top|draw:draw_instance|draw_triangle:dl|curr_state
+ 11. State Machine - |draw_test_top|draw:draw_instance|draw_triangle:dl|draw_line:dl|curr_state
+ 12. Registers Removed During Synthesis
+ 13. Removed Registers Triggering Further Register Optimizations
+ 14. General Register Statistics
+ 15. Registers Added for RAM Pass-Through Logic
+ 16. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 17. Source assignments for triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated
+ 18. Parameter Settings for User Entity Instance: triangle_fifo:tf
+ 19. Parameter Settings for User Entity Instance: triangle_fifo:tf|triangle_fifo_ram:tfr
+ 20. Parameter Settings for Inferred Entity Instance: triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0
+ 21. altsyncram Parameter Settings by Entity Instance
+ 22. Port Connectivity Checks: "triangle_fifo:tf"
+ 23. Port Connectivity Checks: "draw:draw_instance"
+ 24. Post-Synthesis Netlist Statistics for Top Partition
+ 25. Elapsed Time Per Partition
+ 26. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++----------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                     ;
++------------------------------------+---------------------------------------------+
+; Analysis & Synthesis Status        ; Successful - Sun Dec 20 11:35:48 2020       ;
+; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
+; Revision Name                      ; draw                                        ;
+; Top-level Entity Name              ; draw_test_top                               ;
+; Family                             ; Cyclone IV E                                ;
+; Total logic elements               ; 0                                           ;
+;     Total combinational functions  ; 0                                           ;
+;     Dedicated logic registers      ; 0                                           ;
+; Total registers                    ; 0                                           ;
+; Total pins                         ; 7                                           ;
+; Total virtual pins                 ; 0                                           ;
+; Total memory bits                  ; 0                                           ;
+; Embedded Multiplier 9-bit elements ; 0                                           ;
+; Total PLLs                         ; 0                                           ;
++------------------------------------+---------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                              ;
++------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                           ; Setting            ; Default Value      ;
++------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                           ; EP4CE115F29C7      ;                    ;
+; Top-level entity name                                            ; draw_test_top      ; draw               ;
+; Family name                                                      ; Cyclone IV E       ; Cyclone V          ;
+; Use smart compilation                                            ; Off                ; Off                ;
+; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
+; Enable compact report table                                      ; Off                ; Off                ;
+; Restructure Multiplexers                                         ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                              ; Off                ; Off                ;
+; Preserve fewer node names                                        ; On                 ; On                 ;
+; Intel FPGA IP Evaluation Mode                                    ; Enable             ; Enable             ;
+; Verilog Version                                                  ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                     ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                         ; Auto               ; Auto               ;
+; Safe State Machine                                               ; Off                ; Off                ;
+; Extract Verilog State Machines                                   ; On                 ; On                 ;
+; Extract VHDL State Machines                                      ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                       ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                   ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                          ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                        ; On                 ; On                 ;
+; Parallel Synthesis                                               ; On                 ; On                 ;
+; DSP Block Balancing                                              ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                               ; On                 ; On                 ;
+; Power-Up Don't Care                                              ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                     ; Off                ; Off                ;
+; Remove Duplicate Registers                                       ; On                 ; On                 ;
+; Ignore CARRY Buffers                                             ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                           ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                            ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                        ; Off                ; Off                ;
+; Ignore LCELL Buffers                                             ; Off                ; Off                ;
+; Ignore SOFT Buffers                                              ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                   ; Off                ; Off                ;
+; Optimization Technique                                           ; Balanced           ; Balanced           ;
+; Carry Chain Length                                               ; 70                 ; 70                 ;
+; Auto Carry Chains                                                ; On                 ; On                 ;
+; Auto Open-Drain Pins                                             ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                            ; Off                ; Off                ;
+; Auto ROM Replacement                                             ; On                 ; On                 ;
+; Auto RAM Replacement                                             ; On                 ; On                 ;
+; Auto DSP Block Replacement                                       ; On                 ; On                 ;
+; Auto Shift Register Replacement                                  ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                  ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                    ; On                 ; On                 ;
+; Strict RAM Replacement                                           ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                           ; Off                ; Off                ;
+; Auto RAM Block Balancing                                         ; On                 ; On                 ;
+; Auto RAM to Logic Cell Conversion                                ; Off                ; Off                ;
+; Auto Resource Sharing                                            ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                               ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                               ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                    ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing              ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                ; Off                ; Off                ;
+; Timing-Driven Synthesis                                          ; On                 ; On                 ;
+; Report Parameter Settings                                        ; On                 ; On                 ;
+; Report Source Assignments                                        ; On                 ; On                 ;
+; Report Connectivity Checks                                       ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                               ; Off                ; Off                ;
+; Synchronization Register Chain Length                            ; 2                  ; 2                  ;
+; Power Optimization During Synthesis                              ; Normal compilation ; Normal compilation ;
+; HDL message level                                                ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                  ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report         ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report               ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report        ; 100                ; 100                ;
+; Clock MUX Protection                                             ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                      ; Off                ; Off                ;
+; Block Design Naming                                              ; Auto               ; Auto               ;
+; SDC constraint protection                                        ; Off                ; Off                ;
+; Synthesis Effort                                                 ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal     ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                             ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                               ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                      ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                           ; On                 ; On                 ;
++------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 8           ;
+; Maximum allowed            ; 4           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 1           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
++----------------------------+-------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                     ;
++----------------------------------+-----------------+------------------------------+------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                                 ; Library ;
++----------------------------------+-----------------+------------------------------+------------------------------------------------------------------------------+---------+
+; triangle_fifo_ram.sv             ; yes             ; User SystemVerilog HDL File  ; D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/triangle_fifo_ram.sv        ;         ;
+; triangle_fifo.sv                 ; yes             ; User SystemVerilog HDL File  ; D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/triangle_fifo.sv            ;         ;
+; fifo_writer.sv                   ; yes             ; User SystemVerilog HDL File  ; D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/fifo_writer.sv              ;         ;
+; draw_triangle.sv                 ; yes             ; User SystemVerilog HDL File  ; D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_triangle.sv            ;         ;
+; draw_test_top.sv                 ; yes             ; User SystemVerilog HDL File  ; D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv            ;         ;
+; draw_line.sv                     ; yes             ; User SystemVerilog HDL File  ; D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_line.sv                ;         ;
+; draw.sv                          ; yes             ; User SystemVerilog HDL File  ; D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw.sv                     ;         ;
+; altsyncram.tdf                   ; yes             ; Megafunction                 ; d:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
+; stratix_ram_block.inc            ; yes             ; Megafunction                 ; d:/intelfpga_lite/18.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
+; lpm_mux.inc                      ; yes             ; Megafunction                 ; d:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
+; lpm_decode.inc                   ; yes             ; Megafunction                 ; d:/intelfpga_lite/18.1/quartus/libraries/megafunctions/lpm_decode.inc        ;         ;
+; aglobal181.inc                   ; yes             ; Megafunction                 ; d:/intelfpga_lite/18.1/quartus/libraries/megafunctions/aglobal181.inc        ;         ;
+; a_rdenreg.inc                    ; yes             ; Megafunction                 ; d:/intelfpga_lite/18.1/quartus/libraries/megafunctions/a_rdenreg.inc         ;         ;
+; altrom.inc                       ; yes             ; Megafunction                 ; d:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altrom.inc            ;         ;
+; altram.inc                       ; yes             ; Megafunction                 ; d:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altram.inc            ;         ;
+; altdpram.inc                     ; yes             ; Megafunction                 ; d:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altdpram.inc          ;         ;
+; db/altsyncram_kvg1.tdf           ; yes             ; Auto-Generated Megafunction  ; D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf      ;         ;
++----------------------------------+-----------------+------------------------------+------------------------------------------------------------------------------+---------+
+
+
++------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary          ;
++---------------------------------------------+--------+
+; Resource                                    ; Usage  ;
++---------------------------------------------+--------+
+;                                             ;        ;
+; Total combinational functions               ; 0      ;
+; Logic element usage by number of LUT inputs ;        ;
+;     -- 4 input functions                    ; 0      ;
+;     -- 3 input functions                    ; 0      ;
+;     -- <=2 input functions                  ; 0      ;
+;                                             ;        ;
+; Logic elements by mode                      ;        ;
+;     -- normal mode                          ; 0      ;
+;     -- arithmetic mode                      ; 0      ;
+;                                             ;        ;
+; Total registers                             ; 0      ;
+;     -- Dedicated logic registers            ; 0      ;
+;     -- I/O registers                        ; 0      ;
+;                                             ;        ;
+; I/O pins                                    ; 7      ;
+;                                             ;        ;
+; Embedded Multiplier 9-bit elements          ; 0      ;
+;                                             ;        ;
+; Maximum fan-out node                        ; KEY[1] ;
+; Maximum fan-out                             ; 1      ;
+; Total fan-out                               ; 7      ;
+; Average fan-out                             ; 0.50   ;
++---------------------------------------------+--------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                        ;
++----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+---------------+--------------+
+; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name ; Entity Name   ; Library Name ;
++----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+---------------+--------------+
+; |draw_test_top             ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 7    ; 0            ; |draw_test_top      ; draw_test_top ; work         ;
++----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+---------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
+Encoding Type:  One-Hot
++-------------------------------------------------------------------------------------------------------------------+
+; State Machine - |draw_test_top|fifo_writer:fw|curr_state                                                          ;
++-------------------+-------------------+-------------------+-------------------+-----------------+-----------------+
+; Name              ; curr_state.Write3 ; curr_state.Write2 ; curr_state.Write1 ; curr_state.Wait ; curr_state.Done ;
++-------------------+-------------------+-------------------+-------------------+-----------------+-----------------+
+; curr_state.Wait   ; 0                 ; 0                 ; 0                 ; 0               ; 0               ;
+; curr_state.Write1 ; 0                 ; 0                 ; 1                 ; 1               ; 0               ;
+; curr_state.Write2 ; 0                 ; 1                 ; 0                 ; 1               ; 0               ;
+; curr_state.Write3 ; 1                 ; 0                 ; 0                 ; 1               ; 0               ;
+; curr_state.Done   ; 0                 ; 0                 ; 0                 ; 1               ; 1               ;
++-------------------+-------------------+-------------------+-------------------+-----------------+-----------------+
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------------------------------------------------+
+; State Machine - |draw_test_top|draw:draw_instance|curr_state                                                 ;
++------------------+-----------------+-----------------+------------------+------------------+-----------------+
+; Name             ; curr_state.Wait ; curr_state.Draw ; curr_state.Take2 ; curr_state.Take1 ; curr_state.Done ;
++------------------+-----------------+-----------------+------------------+------------------+-----------------+
+; curr_state.Done  ; 0               ; 0               ; 0                ; 0                ; 0               ;
+; curr_state.Take1 ; 0               ; 0               ; 0                ; 1                ; 1               ;
+; curr_state.Take2 ; 0               ; 0               ; 1                ; 0                ; 1               ;
+; curr_state.Draw  ; 0               ; 1               ; 0                ; 0                ; 1               ;
+; curr_state.Wait  ; 1               ; 0               ; 0                ; 0                ; 1               ;
++------------------+-----------------+-----------------+------------------+------------------+-----------------+
+
+
+Encoding Type:  One-Hot
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |draw_test_top|draw:draw_instance|draw_triangle:dl|curr_state                                                                                                      ;
++---------------------+-----------------+------------------+---------------------+------------------+---------------------+------------------+---------------------+-----------------+
+; Name                ; curr_state.Done ; curr_state.Draw3 ; curr_state.Trigger3 ; curr_state.Draw2 ; curr_state.Trigger2 ; curr_state.Draw1 ; curr_state.Trigger1 ; curr_state.Wait ;
++---------------------+-----------------+------------------+---------------------+------------------+---------------------+------------------+---------------------+-----------------+
+; curr_state.Wait     ; 0               ; 0                ; 0                   ; 0                ; 0                   ; 0                ; 0                   ; 0               ;
+; curr_state.Trigger1 ; 0               ; 0                ; 0                   ; 0                ; 0                   ; 0                ; 1                   ; 1               ;
+; curr_state.Draw1    ; 0               ; 0                ; 0                   ; 0                ; 0                   ; 1                ; 0                   ; 1               ;
+; curr_state.Trigger2 ; 0               ; 0                ; 0                   ; 0                ; 1                   ; 0                ; 0                   ; 1               ;
+; curr_state.Draw2    ; 0               ; 0                ; 0                   ; 1                ; 0                   ; 0                ; 0                   ; 1               ;
+; curr_state.Trigger3 ; 0               ; 0                ; 1                   ; 0                ; 0                   ; 0                ; 0                   ; 1               ;
+; curr_state.Draw3    ; 0               ; 1                ; 0                   ; 0                ; 0                   ; 0                ; 0                   ; 1               ;
+; curr_state.Done     ; 1               ; 0                ; 0                   ; 0                ; 0                   ; 0                ; 0                   ; 1               ;
++---------------------+-----------------+------------------+---------------------+------------------+---------------------+------------------+---------------------+-----------------+
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------------------------------+
+; State Machine - |draw_test_top|draw:draw_instance|draw_triangle:dl|draw_line:dl|curr_state ;
++-----------------+-----------------+-----------------+--------------------------------------+
+; Name            ; curr_state.Wait ; curr_state.Done ; curr_state.Draw                      ;
++-----------------+-----------------+-----------------+--------------------------------------+
+; curr_state.Wait ; 0               ; 0               ; 0                                    ;
+; curr_state.Draw ; 1               ; 0               ; 1                                    ;
+; curr_state.Done ; 1               ; 1               ; 0                                    ;
++-----------------+-----------------+-----------------+--------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                                       ;
++-------------------------------------------------------------------------------------------------+----------------------------------------+
+; Register name                                                                                   ; Reason for Removal                     ;
++-------------------------------------------------------------------------------------------------+----------------------------------------+
+; fifo_writer:fw|V3[1][9]                                                                         ; Merged with fifo_writer:fw|V2[0][1]    ;
+; fifo_writer:fw|V3[0][9]                                                                         ; Merged with fifo_writer:fw|V2[0][1]    ;
+; fifo_writer:fw|V2[1][1]                                                                         ; Merged with fifo_writer:fw|V2[0][1]    ;
+; fifo_writer:fw|V3[0][8]                                                                         ; Merged with fifo_writer:fw|V2[0][0]    ;
+; fifo_writer:fw|V2[1][9]                                                                         ; Merged with fifo_writer:fw|V2[0][0]    ;
+; fifo_writer:fw|V3[1][6]                                                                         ; Merged with fifo_writer:fw|V2[0][0]    ;
+; fifo_writer:fw|V1[0][8]                                                                         ; Merged with fifo_writer:fw|V2[0][0]    ;
+; fifo_writer:fw|V3[0][1]                                                                         ; Merged with fifo_writer:fw|V2[0][0]    ;
+; fifo_writer:fw|V1[1][0]                                                                         ; Merged with fifo_writer:fw|V2[0][0]    ;
+; fifo_writer:fw|V1[1][8]                                                                         ; Merged with fifo_writer:fw|V2[0][0]    ;
+; fifo_writer:fw|V2[0][8]                                                                         ; Merged with fifo_writer:fw|V2[0][0]    ;
+; fifo_writer:fw|V3[1][0]                                                                         ; Merged with fifo_writer:fw|V2[0][0]    ;
+; fifo_writer:fw|V2[1][0]                                                                         ; Merged with fifo_writer:fw|V2[0][0]    ;
+; fifo_writer:fw|V1[1][1]                                                                         ; Merged with fifo_writer:fw|V3[1][1]    ;
+; fifo_writer:fw|V1[0][0]                                                                         ; Merged with fifo_writer:fw|V3[1][1]    ;
+; fifo_writer:fw|V3[0][0]                                                                         ; Merged with fifo_writer:fw|V3[1][1]    ;
+; fifo_writer:fw|V2[1][8]                                                                         ; Merged with fifo_writer:fw|V3[1][1]    ;
+; fifo_writer:fw|V1[0][9]                                                                         ; Merged with fifo_writer:fw|V3[1][1]    ;
+; fifo_writer:fw|V1[1][9]                                                                         ; Merged with fifo_writer:fw|V3[1][1]    ;
+; fifo_writer:fw|V2[0][9]                                                                         ; Merged with fifo_writer:fw|V3[1][1]    ;
+; fifo_writer:fw|V2[0][0]                                                                         ; Merged with fifo_writer:fw|V2[0][1]    ;
+; fifo_writer:fw|V3[1][1]                                                                         ; Merged with fifo_writer:fw|V2[0][1]    ;
+; fifo_writer:fw|V2[1][4]                                                                         ; Merged with fifo_writer:fw|V3[0][4]    ;
+; fifo_writer:fw|V1[1][5]                                                                         ; Merged with fifo_writer:fw|V1[0][3]    ;
+; fifo_writer:fw|V2[0][5]                                                                         ; Merged with fifo_writer:fw|V1[0][3]    ;
+; fifo_writer:fw|V2[1][2]                                                                         ; Merged with fifo_writer:fw|V1[0][3]    ;
+; fifo_writer:fw|V3[0][2]                                                                         ; Merged with fifo_writer:fw|V1[0][3]    ;
+; fifo_writer:fw|V3[1][2]                                                                         ; Merged with fifo_writer:fw|V1[0][3]    ;
+; fifo_writer:fw|V1[1][7]                                                                         ; Merged with fifo_writer:fw|V1[0][6]    ;
+; fifo_writer:fw|V2[0][7]                                                                         ; Merged with fifo_writer:fw|V1[0][6]    ;
+; fifo_writer:fw|V2[1][3]                                                                         ; Merged with fifo_writer:fw|V1[0][6]    ;
+; fifo_writer:fw|V2[1][6]                                                                         ; Merged with fifo_writer:fw|V1[0][6]    ;
+; fifo_writer:fw|V3[0][3]                                                                         ; Merged with fifo_writer:fw|V1[0][6]    ;
+; fifo_writer:fw|V3[0][6]                                                                         ; Merged with fifo_writer:fw|V1[0][6]    ;
+; fifo_writer:fw|V1[1][4]                                                                         ; Merged with fifo_writer:fw|V1[0][7]    ;
+; fifo_writer:fw|V1[1][6]                                                                         ; Merged with fifo_writer:fw|V1[0][7]    ;
+; fifo_writer:fw|V2[0][4]                                                                         ; Merged with fifo_writer:fw|V1[0][7]    ;
+; fifo_writer:fw|V2[0][6]                                                                         ; Merged with fifo_writer:fw|V1[0][7]    ;
+; fifo_writer:fw|V2[1][7]                                                                         ; Merged with fifo_writer:fw|V1[0][7]    ;
+; fifo_writer:fw|V3[0][7]                                                                         ; Merged with fifo_writer:fw|V1[0][7]    ;
+; fifo_writer:fw|V3[1][8]                                                                         ; Merged with fifo_writer:fw|V1[0][7]    ;
+; fifo_writer:fw|V1[1][2]                                                                         ; Merged with fifo_writer:fw|V1[0][5]    ;
+; fifo_writer:fw|V2[0][2]                                                                         ; Merged with fifo_writer:fw|V1[0][5]    ;
+; fifo_writer:fw|V2[1][5]                                                                         ; Merged with fifo_writer:fw|V1[0][5]    ;
+; fifo_writer:fw|V3[0][5]                                                                         ; Merged with fifo_writer:fw|V1[0][5]    ;
+; fifo_writer:fw|V3[1][7]                                                                         ; Merged with fifo_writer:fw|V1[0][5]    ;
+; fifo_writer:fw|V1[0][4]                                                                         ; Merged with fifo_writer:fw|V1[0][1]    ;
+; fifo_writer:fw|V3[1][3]                                                                         ; Merged with fifo_writer:fw|V1[0][1]    ;
+; fifo_writer:fw|V3[1][4]                                                                         ; Merged with fifo_writer:fw|V1[0][1]    ;
+; fifo_writer:fw|V1[1][3]                                                                         ; Merged with fifo_writer:fw|V1[0][2]    ;
+; fifo_writer:fw|V2[0][3]                                                                         ; Merged with fifo_writer:fw|V1[0][2]    ;
+; fifo_writer:fw|V3[1][5]                                                                         ; Merged with fifo_writer:fw|V1[0][2]    ;
+; fifo_writer:fw|V2[0][1]                                                                         ; Stuck at GND due to stuck port data_in ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[0,1,8..11,16,19..21,28..31,38..40,48..51,58,59] ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V1[1][9]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V1[1][6]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V1[1][1]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V1[1][0]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V1[0][9]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V1[0][8]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V1[0][1]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V1[0][0]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V2[1][9]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V2[1][8]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V2[1][1]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V2[1][0]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V2[0][9]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V2[0][8]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V2[0][1]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V2[0][0]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V3[1][9]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V3[1][8]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V3[1][1]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V3[1][0]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V3[0][9]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V3[0][8]                                                                     ; Stuck at GND due to stuck port data_in ;
+; draw:draw_instance|V3[0][0]                                                                     ; Stuck at GND due to stuck port data_in ;
+; fifo_writer:fw|curr_state~2                                                                     ; Lost fanout                            ;
+; fifo_writer:fw|curr_state~3                                                                     ; Lost fanout                            ;
+; draw:draw_instance|curr_state~2                                                                 ; Lost fanout                            ;
+; draw:draw_instance|curr_state~3                                                                 ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|curr_state~2                                                ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|curr_state~3                                                ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|curr_state~4                                                ; Lost fanout                            ;
+; fifo_writer:fw|curr_state.Wait                                                                  ; Lost fanout                            ;
+; triangle_fifo:tf|num[0..99]                                                                     ; Lost fanout                            ;
+; fifo_writer:fw|V1[0][3]                                                                         ; Lost fanout                            ;
+; fifo_writer:fw|V1[0][6]                                                                         ; Lost fanout                            ;
+; fifo_writer:fw|V3[0][4]                                                                         ; Lost fanout                            ;
+; fifo_writer:fw|V1[0][5]                                                                         ; Lost fanout                            ;
+; fifo_writer:fw|V1[0][7]                                                                         ; Lost fanout                            ;
+; fifo_writer:fw|V1[0][1]                                                                         ; Lost fanout                            ;
+; fifo_writer:fw|V1[0][2]                                                                         ; Lost fanout                            ;
+; triangle_fifo:tf|w_addr[0..6]                                                                   ; Lost fanout                            ;
+; Reset                                                                                           ; Lost fanout                            ;
+; triangle_fifo:tf|r_addr[0..6]                                                                   ; Lost fanout                            ;
+; fifo_writer:fw|curr_state.Write3                                                                ; Lost fanout                            ;
+; fifo_writer:fw|curr_state.Write2                                                                ; Lost fanout                            ;
+; fifo_writer:fw|curr_state.Write1                                                                ; Lost fanout                            ;
+; triangle_fifo:tf|r_addr[7..99]                                                                  ; Lost fanout                            ;
+; triangle_fifo:tf|w_addr[7..99]                                                                  ; Lost fanout                            ;
+; draw:draw_instance|curr_state.Take2                                                             ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|draw_line:dl|curr_state.Done                                ; Lost fanout                            ;
+; draw:draw_instance|curr_state.Done                                                              ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|curr_state.Trigger3                                         ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|draw_line:dl|x[0,8,9]                                       ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|draw_line:dl|y[0,1,9]                                       ; Lost fanout                            ;
+; draw:draw_instance|V3[0][1]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|curr_state.Trigger2                                         ; Lost fanout                            ;
+; draw:draw_instance|V2[0][2]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|curr_state.Trigger1                                         ; Lost fanout                            ;
+; draw:draw_instance|V3[0][2]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V1[0][2]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V2[0][3]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V3[0][3]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V1[0][3]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V2[0][4]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V3[0][4]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V1[0][4]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V2[0][5]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V3[0][5]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V1[0][5]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V2[0][6]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V3[0][6]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V1[0][6]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V2[0][7]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V3[0][7]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V1[0][7]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V2[1][2]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V3[1][2]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V1[1][2]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V2[1][3]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V3[1][3]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V1[1][3]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V2[1][4]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V3[1][4]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V1[1][4]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V2[1][5]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V3[1][5]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V1[1][5]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V3[1][6]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V2[1][6]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V2[1][7]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V3[1][7]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V1[1][7]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|V1[1][8]                                                                     ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|draw_line:dl|curr_state.Draw                                ; Lost fanout                            ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[22,41]                                          ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|curr_state.Wait                                             ; Lost fanout                            ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[2..7,12..15,17,18,23..27,32..37,42..47,52..57]  ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|draw_line:dl|curr_state.Wait                                ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|draw_line:dl|err[9]                                         ; Lost fanout                            ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[0..51]                                 ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|draw_line:dl|err[0..8]                                      ; Lost fanout                            ;
+; fifo_writer:fw|curr_state.Done                                                                  ; Lost fanout                            ;
+; draw:draw_instance|curr_state.Take1                                                             ; Lost fanout                            ;
+; draw:draw_instance|curr_state.Draw                                                              ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|curr_state.Done                                             ; Lost fanout                            ;
+; draw:draw_instance|curr_state.Wait                                                              ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|curr_state.Draw3                                            ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|curr_state.Draw2                                            ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|curr_state.Draw1                                            ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|draw_line:dl|x[1..7]                                        ; Lost fanout                            ;
+; draw:draw_instance|draw_triangle:dl|draw_line:dl|y[2..8]                                        ; Lost fanout                            ;
+; Total Number of Removed Registers = 591                                                         ;                                        ;
++-------------------------------------------------------------------------------------------------+----------------------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                                                           ;
++-----------------------------------------------------+---------------------------+-------------------------------------------------------------------------------------+
+; Register name                                       ; Reason for Removal        ; Registers Removed due to This Register                                              ;
++-----------------------------------------------------+---------------------------+-------------------------------------------------------------------------------------+
+; draw:draw_instance|curr_state~3                     ; Lost Fanouts              ; triangle_fifo:tf|num[1], triangle_fifo:tf|num[0], triangle_fifo:tf|num[2],          ;
+;                                                     ;                           ; triangle_fifo:tf|num[3], triangle_fifo:tf|num[4], triangle_fifo:tf|num[5],          ;
+;                                                     ;                           ; triangle_fifo:tf|num[6], triangle_fifo:tf|num[7], triangle_fifo:tf|num[8],          ;
+;                                                     ;                           ; triangle_fifo:tf|num[9], triangle_fifo:tf|num[10], triangle_fifo:tf|num[11],        ;
+;                                                     ;                           ; triangle_fifo:tf|num[12], triangle_fifo:tf|num[13], triangle_fifo:tf|num[14],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[15], triangle_fifo:tf|num[16], triangle_fifo:tf|num[17],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[18], triangle_fifo:tf|num[19], triangle_fifo:tf|num[20],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[21], triangle_fifo:tf|num[22], triangle_fifo:tf|num[23],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[24], triangle_fifo:tf|num[25], triangle_fifo:tf|num[26],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[27], triangle_fifo:tf|num[28], triangle_fifo:tf|num[29],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[30], triangle_fifo:tf|num[31], triangle_fifo:tf|num[32],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[33], triangle_fifo:tf|num[34], triangle_fifo:tf|num[35],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[36], triangle_fifo:tf|num[37], triangle_fifo:tf|num[38],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[39], triangle_fifo:tf|num[40], triangle_fifo:tf|num[41],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[42], triangle_fifo:tf|num[43], triangle_fifo:tf|num[44],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[45], triangle_fifo:tf|num[46], triangle_fifo:tf|num[47],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[48], triangle_fifo:tf|num[49], triangle_fifo:tf|num[50],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[51], triangle_fifo:tf|num[52], triangle_fifo:tf|num[53],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[54], triangle_fifo:tf|num[55], triangle_fifo:tf|num[56],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[57], triangle_fifo:tf|num[58], triangle_fifo:tf|num[59],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[60], triangle_fifo:tf|num[61], triangle_fifo:tf|num[62],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[63], triangle_fifo:tf|num[64], triangle_fifo:tf|num[65],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[66], triangle_fifo:tf|num[67], triangle_fifo:tf|num[68],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[69], triangle_fifo:tf|num[70], triangle_fifo:tf|num[71],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[72], triangle_fifo:tf|num[73], triangle_fifo:tf|num[74],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[75], triangle_fifo:tf|num[76], triangle_fifo:tf|num[77],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[78], triangle_fifo:tf|num[79], triangle_fifo:tf|num[80],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[81], triangle_fifo:tf|num[82], triangle_fifo:tf|num[83],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[84], triangle_fifo:tf|num[85], triangle_fifo:tf|num[86],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[87], triangle_fifo:tf|num[88], triangle_fifo:tf|num[89],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[90], triangle_fifo:tf|num[91],                                 ;
+;                                                     ;                           ; draw:draw_instance|curr_state.Take1                                                 ;
+; draw:draw_instance|draw_triangle:dl|curr_state~2    ; Lost Fanouts              ; draw:draw_instance|draw_triangle:dl|draw_line:dl|curr_state.Done,                   ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|curr_state.Trigger3,                            ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|x[9],                              ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|x[8],                              ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|x[0],                              ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|y[9],                              ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|y[1],                              ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|y[0],                              ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|curr_state.Trigger2,                            ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|curr_state.Trigger1,                            ;
+;                                                     ;                           ; draw:draw_instance|V2[0][6], draw:draw_instance|V3[0][6],                           ;
+;                                                     ;                           ; draw:draw_instance|V1[0][6], draw:draw_instance|V2[0][7],                           ;
+;                                                     ;                           ; draw:draw_instance|V3[0][7], draw:draw_instance|V1[0][7],                           ;
+;                                                     ;                           ; draw:draw_instance|V2[1][7], draw:draw_instance|V3[1][7],                           ;
+;                                                     ;                           ; draw:draw_instance|V1[1][7],                                                        ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|curr_state.Draw,                   ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|curr_state.Wait,                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[26],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[46],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[6],                                 ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[27],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[47],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[7],                                 ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[37],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[57],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[17],                                ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|curr_state.Wait,                   ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|err[9],                            ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[31],                       ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[44],                       ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[19],                       ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[32],                       ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[45],                       ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[20],                       ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[38],                       ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[51],                       ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[25],                       ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|err[8],                            ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|err[7],                            ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|err[6],                            ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|err[5],                            ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|err[4],                            ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|err[3],                            ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|err[2],                            ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|err[1],                            ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|curr_state.Draw3,                               ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|curr_state.Draw2,                               ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|curr_state.Draw1,                               ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|x[7],                              ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|draw_line:dl|y[8]                               ;
+; fifo_writer:fw|V2[0][1]                             ; Stuck at GND              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[0],                                 ;
+;                                                     ; due to stuck port data_in ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[1],                                 ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[8], draw:draw_instance|V1[0][8],    ;
+;                                                     ;                           ; draw:draw_instance|V1[0][1], draw:draw_instance|V1[0][0], triangle_fifo:tf|num[92], ;
+;                                                     ;                           ; triangle_fifo:tf|num[93], triangle_fifo:tf|num[94], triangle_fifo:tf|num[95],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[96], triangle_fifo:tf|num[97], triangle_fifo:tf|num[98],       ;
+;                                                     ;                           ; triangle_fifo:tf|num[99], fifo_writer:fw|V1[0][3], fifo_writer:fw|V1[0][6],         ;
+;                                                     ;                           ; fifo_writer:fw|V3[0][4], fifo_writer:fw|V1[0][5], fifo_writer:fw|V1[0][7], Reset,   ;
+;                                                     ;                           ; fifo_writer:fw|curr_state.Write3, draw:draw_instance|V3[0][1],                      ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[41],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[39],                       ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[0],                        ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[1],                        ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[2],                        ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[3],                        ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[4],                        ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[5],                        ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[6],                        ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[7]                         ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[16] ; Stuck at GND              ; draw:draw_instance|V1[1][6], draw:draw_instance|V3[1][6],                           ;
+;                                                     ; due to stuck port data_in ; draw:draw_instance|V2[1][6], triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[56],   ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[36],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[50],                       ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[37]                        ;
+; triangle_fifo:tf|w_addr[0]                          ; Lost Fanouts              ; triangle_fifo:tf|w_addr[1], triangle_fifo:tf|w_addr[2], triangle_fifo:tf|w_addr[3], ;
+;                                                     ;                           ; triangle_fifo:tf|w_addr[4]                                                          ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[38] ; Stuck at GND              ; draw:draw_instance|V2[1][8], draw:draw_instance|V1[1][8],                           ;
+;                                                     ; due to stuck port data_in ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[18],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[26]                        ;
+; fifo_writer:fw|curr_state~2                         ; Lost Fanouts              ; fifo_writer:fw|curr_state.Wait, fifo_writer:fw|curr_state.Write2,                   ;
+;                                                     ;                           ; fifo_writer:fw|curr_state.Done                                                      ;
+; draw:draw_instance|V1[0][4]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[4],                                 ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[17]                        ;
+; draw:draw_instance|V2[0][5]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[25],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[30]                        ;
+; draw:draw_instance|V3[0][5]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[45],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[43]                        ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[19] ; Stuck at GND              ; draw:draw_instance|V1[1][9], draw:draw_instance|draw_triangle:dl|draw_line:dl|y[5]  ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; draw:draw_instance|V1[0][5]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[5],                                 ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[18]                        ;
+; draw:draw_instance|V2[1][2]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[32],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[33]                        ;
+; draw:draw_instance|V3[1][2]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[52],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[46]                        ;
+; draw:draw_instance|V1[1][2]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[12],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[21]                        ;
+; draw:draw_instance|V2[1][3]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[33],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[34]                        ;
+; draw:draw_instance|V3[1][3]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[53],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[47]                        ;
+; draw:draw_instance|V1[1][3]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[13],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[22]                        ;
+; draw:draw_instance|V2[1][4]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[34],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[35]                        ;
+; draw:draw_instance|V3[1][4]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[54],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[48]                        ;
+; draw:draw_instance|V1[1][4]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[14],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[23]                        ;
+; draw:draw_instance|V2[1][5]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[35],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[36]                        ;
+; draw:draw_instance|V3[1][5]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[55],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[49]                        ;
+; draw:draw_instance|V1[1][5]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[15],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[24]                        ;
+; draw:draw_instance|curr_state~2                     ; Lost Fanouts              ; draw:draw_instance|curr_state.Draw,                                                 ;
+;                                                     ;                           ; draw:draw_instance|draw_triangle:dl|curr_state.Done                                 ;
+; draw:draw_instance|V3[0][3]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[43],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[41]                        ;
+; draw:draw_instance|V2[0][2]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[22],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[27]                        ;
+; draw:draw_instance|V3[0][2]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[42],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[40]                        ;
+; draw:draw_instance|V1[0][2]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[2],                                 ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[15]                        ;
+; draw:draw_instance|V2[0][3]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[23],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[28]                        ;
+; draw:draw_instance|V1[0][3]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[3],                                 ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[16]                        ;
+; draw:draw_instance|V2[0][4]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[24],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[29]                        ;
+; draw:draw_instance|V3[0][4]                         ; Lost Fanouts              ; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[44],                                ;
+;                                                     ;                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[42]                        ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[9]  ; Stuck at GND              ; draw:draw_instance|V1[0][9]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[10] ; Stuck at GND              ; draw:draw_instance|V1[1][0]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[11] ; Stuck at GND              ; draw:draw_instance|V1[1][1]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[21] ; Stuck at GND              ; draw:draw_instance|V2[0][1]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[28] ; Stuck at GND              ; draw:draw_instance|V2[0][8]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[29] ; Stuck at GND              ; draw:draw_instance|V2[0][9]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[30] ; Stuck at GND              ; draw:draw_instance|V2[1][0]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[31] ; Stuck at GND              ; draw:draw_instance|V2[1][1]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[20] ; Stuck at GND              ; draw:draw_instance|V2[0][0]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[39] ; Stuck at GND              ; draw:draw_instance|V2[1][9]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[40] ; Stuck at GND              ; draw:draw_instance|V3[0][0]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[48] ; Stuck at GND              ; draw:draw_instance|V3[0][8]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[49] ; Stuck at GND              ; draw:draw_instance|V3[0][9]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[50] ; Stuck at GND              ; draw:draw_instance|V3[1][0]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[51] ; Stuck at GND              ; draw:draw_instance|V3[1][1]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[59] ; Stuck at GND              ; draw:draw_instance|V3[1][9]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|data_out[58] ; Stuck at GND              ; draw:draw_instance|V3[1][8]                                                         ;
+;                                                     ; due to stuck port data_in ;                                                                                     ;
+; fifo_writer:fw|curr_state~3                         ; Lost Fanouts              ; fifo_writer:fw|curr_state.Write1                                                    ;
++-----------------------------------------------------+---------------------------+-------------------------------------------------------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 0     ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 0     ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++------------------------------------------------------------------------------------------------------------------+
+; Registers Added for RAM Pass-Through Logic                                                                       ;
++--------------------------------------------------------------+---------------------------------------------------+
+; Register Name                                                ; RAM Name                                          ;
++--------------------------------------------------------------+---------------------------------------------------+
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[0]  ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[1]  ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[2]  ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[3]  ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[4]  ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[5]  ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[6]  ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[7]  ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[8]  ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[9]  ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[10] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[11] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[12] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[13] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[14] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[15] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[16] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[17] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[18] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[19] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[20] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[21] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[22] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[23] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[24] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[25] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[26] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[27] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[28] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[29] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[30] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[31] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[32] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[33] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[34] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[35] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[36] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[37] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[38] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[39] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[40] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[41] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[42] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[43] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[44] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[45] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[46] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[47] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[48] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[49] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[50] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
+; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0_bypass[51] ; triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0 ;
++--------------------------------------------------------------+---------------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                 ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------+
+; 3:1                ; 37 bits   ; 74 LEs        ; 37 LEs               ; 37 LEs                 ; Yes        ; |draw_test_top|draw:draw_instance|V3[1][3]                                 ;
+; 4:1                ; 100 bits  ; 200 LEs       ; 100 LEs              ; 100 LEs                ; Yes        ; |draw_test_top|triangle_fifo:tf|w_addr[98]                                 ;
+; 4:1                ; 93 bits   ; 186 LEs       ; 93 LEs               ; 93 LEs                 ; Yes        ; |draw_test_top|triangle_fifo:tf|r_addr[64]                                 ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 14 LEs               ; 7 LEs                  ; Yes        ; |draw_test_top|draw:draw_instance|draw_triangle:dl|draw_line:dl|x[5]       ;
+; 7:1                ; 100 bits  ; 400 LEs       ; 200 LEs              ; 200 LEs                ; Yes        ; |draw_test_top|triangle_fifo:tf|num[32]                                    ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 14 LEs               ; 7 LEs                  ; Yes        ; |draw_test_top|draw:draw_instance|draw_triangle:dl|draw_line:dl|y[2]       ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |draw_test_top|draw:draw_instance|draw_triangle:dl|draw_line:dl|err[8]     ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |draw_test_top|draw:draw_instance|draw_triangle:dl|draw_line:dl|err[2]     ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; No         ; |draw_test_top|triangle_fifo:tf|r_addr                                     ;
+; 4:1                ; 22 bits   ; 44 LEs        ; 44 LEs               ; 0 LEs                  ; No         ; |draw_test_top|draw:draw_instance|draw_triangle:dl|Selector25              ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |draw_test_top|draw:draw_instance|draw_triangle:dl|draw_line:dl|curr_state ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |draw_test_top|draw:draw_instance|curr_state                               ;
+; 8:1                ; 2 bits    ; 10 LEs        ; 8 LEs                ; 2 LEs                  ; No         ; |draw_test_top|draw:draw_instance|draw_triangle:dl|curr_state              ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------+
+; Source assignments for triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated ;
++---------------------------------+--------------------+------+------------------------------------------------------+
+; Assignment                      ; Value              ; From ; To                                                   ;
++---------------------------------+--------------------+------+------------------------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                    ;
++---------------------------------+--------------------+------+------------------------------------------------------+
+
+
++---------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: triangle_fifo:tf ;
++----------------+-------+--------------------------------------+
+; Parameter Name ; Value ; Type                                 ;
++----------------+-------+--------------------------------------+
+; size           ; 100   ; Signed Integer                       ;
++----------------+-------+--------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: triangle_fifo:tf|triangle_fifo_ram:tfr ;
++----------------+-------+------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                       ;
++----------------+-------+------------------------------------------------------------+
+; size           ; 100   ; Signed Integer                                             ;
++----------------+-------+------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0 ;
++------------------------------------+----------------------+---------------------------------------------------+
+; Parameter Name                     ; Value                ; Type                                              ;
++------------------------------------+----------------------+---------------------------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                           ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                                        ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                                      ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                                      ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                                    ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped                                           ;
+; OPERATION_MODE                     ; DUAL_PORT            ; Untyped                                           ;
+; WIDTH_A                            ; 37                   ; Untyped                                           ;
+; WIDTHAD_A                          ; 7                    ; Untyped                                           ;
+; NUMWORDS_A                         ; 100                  ; Untyped                                           ;
+; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                           ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                           ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                           ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                           ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped                                           ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                           ;
+; WIDTH_B                            ; 37                   ; Untyped                                           ;
+; WIDTHAD_B                          ; 7                    ; Untyped                                           ;
+; NUMWORDS_B                         ; 100                  ; Untyped                                           ;
+; INDATA_REG_B                       ; CLOCK1               ; Untyped                                           ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                                           ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                           ;
+; ADDRESS_REG_B                      ; CLOCK0               ; Untyped                                           ;
+; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                           ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                           ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped                                           ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                           ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                           ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                           ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                           ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                           ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Untyped                                           ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                                           ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                           ;
+; BYTE_SIZE                          ; 8                    ; Untyped                                           ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; OLD_DATA             ; Untyped                                           ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                           ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                           ;
+; INIT_FILE                          ; UNUSED               ; Untyped                                           ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                           ;
+; MAXIMUM_DEPTH                      ; 0                    ; Untyped                                           ;
+; CLOCK_ENABLE_INPUT_A               ; NORMAL               ; Untyped                                           ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                                           ;
+; CLOCK_ENABLE_OUTPUT_A              ; NORMAL               ; Untyped                                           ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                                           ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                           ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                           ;
+; ENABLE_ECC                         ; FALSE                ; Untyped                                           ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                           ;
+; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                                           ;
+; DEVICE_FAMILY                      ; Cyclone IV E         ; Untyped                                           ;
+; CBXI_PARAMETER                     ; altsyncram_kvg1      ; Untyped                                           ;
++------------------------------------+----------------------+---------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------------------------------------+
+; altsyncram Parameter Settings by Entity Instance                                                         ;
++-------------------------------------------+--------------------------------------------------------------+
+; Name                                      ; Value                                                        ;
++-------------------------------------------+--------------------------------------------------------------+
+; Number of entity instances                ; 1                                                            ;
+; Entity Instance                           ; triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0 ;
+;     -- OPERATION_MODE                     ; DUAL_PORT                                                    ;
+;     -- WIDTH_A                            ; 37                                                           ;
+;     -- NUMWORDS_A                         ; 100                                                          ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                 ;
+;     -- WIDTH_B                            ; 37                                                           ;
+;     -- NUMWORDS_B                         ; 100                                                          ;
+;     -- ADDRESS_REG_B                      ; CLOCK0                                                       ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                 ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                         ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; OLD_DATA                                                     ;
++-------------------------------------------+--------------------------------------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "triangle_fifo:tf"                                                                      ;
++---------+--------+----------+-------------------------------------------------------------------------------------+
+; Port    ; Type   ; Severity ; Details                                                                             ;
++---------+--------+----------+-------------------------------------------------------------------------------------+
+; is_full ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++---------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "draw:draw_instance"                                                                      ;
++-----------+--------+----------+-------------------------------------------------------------------------------------+
+; Port      ; Type   ; Severity ; Details                                                                             ;
++-----------+--------+----------+-------------------------------------------------------------------------------------+
+; DrawX     ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; DrawY     ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; draw_done ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++-----------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-------------------+---------------------------------+
+; Type              ; Count                           ;
++-------------------+---------------------------------+
+; boundary_port     ; 7                               ;
+;                   ;                                 ;
+; Max LUT depth     ; 0.00                            ;
+; Average LUT depth ; 0.00                            ;
++-------------------+---------------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:01     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+    Info: Processing started: Sun Dec 20 11:35:36 2020
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off draw -c draw
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (12021): Found 1 design units, including 1 entities, in source file triangle_fifo_ram.sv
+    Info (12023): Found entity 1: triangle_fifo_ram File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/triangle_fifo_ram.sv Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file triangle_fifo.sv
+    Info (12023): Found entity 1: triangle_fifo File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/triangle_fifo.sv Line: 3
+Info (12021): Found 1 design units, including 1 entities, in source file fifo_writer.sv
+    Info (12023): Found entity 1: fifo_writer File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/fifo_writer.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file draw_triangle.sv
+    Info (12023): Found entity 1: draw_triangle File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_triangle.sv Line: 6
+Info (12021): Found 1 design units, including 1 entities, in source file draw_test_top_testbench.sv
+    Info (12023): Found entity 1: draw_test_top_testbench File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top_testbench.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file draw_test_top.sv
+    Info (12023): Found entity 1: draw_test_top File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file draw_line.sv
+    Info (12023): Found entity 1: draw_line File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_line.sv Line: 6
+Info (12021): Found 1 design units, including 1 entities, in source file draw.sv
+    Info (12023): Found entity 1: draw File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw.sv Line: 1
+Warning (10222): Verilog HDL Parameter Declaration warning at triangle_fifo.sv(18): Parameter Declaration in module "triangle_fifo" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/triangle_fifo.sv Line: 18
+Info (12127): Elaborating entity "draw_test_top" for the top level hierarchy
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "proj_triangle_out" into its bus
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "proj_triangle_in" into its bus
+Info (12128): Elaborating entity "draw" for hierarchy "draw:draw_instance" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv Line: 30
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "triangle_data" into its bus
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "triangle_data" into its bus
+Info (12128): Elaborating entity "draw_triangle" for hierarchy "draw:draw_instance|draw_triangle:dl" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw.sv Line: 25
+Info (12128): Elaborating entity "draw_line" for hierarchy "draw:draw_instance|draw_triangle:dl|draw_line:dl" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_triangle.sv Line: 23
+Info (12128): Elaborating entity "triangle_fifo" for hierarchy "triangle_fifo:tf" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv Line: 41
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "triangle_in" into its bus
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "triangle_out" into its bus
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "triangle_in" into its bus
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "triangle_out" into its bus
+Info (12128): Elaborating entity "triangle_fifo_ram" for hierarchy "triangle_fifo:tf|triangle_fifo_ram:tfr" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/triangle_fifo.sv Line: 29
+Info (12128): Elaborating entity "fifo_writer" for hierarchy "fifo_writer:fw" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv Line: 49
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "proj_triangle_in" into its bus
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "proj_triangle_in" into its bus
+Warning (276020): Inferred RAM node "triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
+Info (19000): Inferred 1 megafunctions from design logic
+    Info (276029): Inferred altsyncram megafunction from the following design logic: "triangle_fifo:tf|triangle_fifo_ram:tfr|fifo_rtl_0" 
+        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
+        Info (286033): Parameter WIDTH_A set to 37
+        Info (286033): Parameter WIDTHAD_A set to 7
+        Info (286033): Parameter NUMWORDS_A set to 100
+        Info (286033): Parameter WIDTH_B set to 37
+        Info (286033): Parameter WIDTHAD_B set to 7
+        Info (286033): Parameter NUMWORDS_B set to 100
+        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
+        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
+        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
+        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
+        Info (286033): Parameter ADDRESS_REG_B set to CLOCK0
+        Info (286033): Parameter INDATA_ACLR_A set to NONE
+        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
+        Info (286033): Parameter READ_DURING_WRITE_MODE_MIXED_PORTS set to OLD_DATA
+Info (12130): Elaborated megafunction instantiation "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0"
+Info (12133): Instantiated megafunction "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0" with the following parameter:
+    Info (12134): Parameter "OPERATION_MODE" = "DUAL_PORT"
+    Info (12134): Parameter "WIDTH_A" = "37"
+    Info (12134): Parameter "WIDTHAD_A" = "7"
+    Info (12134): Parameter "NUMWORDS_A" = "100"
+    Info (12134): Parameter "WIDTH_B" = "37"
+    Info (12134): Parameter "WIDTHAD_B" = "7"
+    Info (12134): Parameter "NUMWORDS_B" = "100"
+    Info (12134): Parameter "ADDRESS_ACLR_A" = "NONE"
+    Info (12134): Parameter "OUTDATA_REG_B" = "UNREGISTERED"
+    Info (12134): Parameter "ADDRESS_ACLR_B" = "NONE"
+    Info (12134): Parameter "OUTDATA_ACLR_B" = "NONE"
+    Info (12134): Parameter "ADDRESS_REG_B" = "CLOCK0"
+    Info (12134): Parameter "INDATA_ACLR_A" = "NONE"
+    Info (12134): Parameter "WRCONTROL_ACLR_A" = "NONE"
+    Info (12134): Parameter "READ_DURING_WRITE_MODE_MIXED_PORTS" = "OLD_DATA"
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_kvg1.tdf
+    Info (12023): Found entity 1: altsyncram_kvg1 File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 27
+Warning (14284): Synthesized away the following node(s):
+    Warning (14285): Synthesized away the following RAM node(s):
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a0" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 37
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a1" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 65
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a2" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 93
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a3" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 121
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a4" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 149
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a5" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 177
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a6" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 205
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a7" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 233
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a8" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 261
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a9" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 289
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a10" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 317
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a11" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 345
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a12" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 373
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a13" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 401
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a14" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 429
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a15" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 457
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a16" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 485
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a17" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 513
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a18" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 541
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a19" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 569
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a20" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 597
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a21" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 625
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a22" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 653
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a23" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 681
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a24" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 709
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a25" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 737
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a26" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 765
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a27" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 793
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a28" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 821
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a29" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 849
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a30" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 877
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a31" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 905
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a32" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 933
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a33" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 961
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a34" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 989
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a35" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 1017
+        Warning (14320): Synthesized away node "triangle_fifo:tf|triangle_fifo_ram:tfr|altsyncram:fifo_rtl_0|altsyncram_kvg1:auto_generated|ram_block1a36" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/db/altsyncram_kvg1.tdf Line: 1045
+Info (17049): 492 registers lost all their fanouts during netlist optimizations.
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Warning (21074): Design contains 7 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "KEY[1]" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv Line: 3
+    Warning (15610): No output dependent on input pin "KEY[2]" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv Line: 3
+    Warning (15610): No output dependent on input pin "KEY[3]" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv Line: 3
+    Warning (15610): No output dependent on input pin "CLOCK_50" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv Line: 2
+    Warning (15610): No output dependent on input pin "clear_start" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv Line: 6
+    Warning (15610): No output dependent on input pin "KEY[0]" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv Line: 3
+    Warning (15610): No output dependent on input pin "draw_start" File: D:/GZM/study/ELSE/ECE385_Project/Final/Test/draw/draw_test_top.sv Line: 4
+Info (21057): Implemented 7 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 7 input pins
+    Info (21059): Implemented 0 output pins
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 50 warnings
+    Info: Peak virtual memory: 4756 megabytes
+    Info: Processing ended: Sun Dec 20 11:35:48 2020
+    Info: Elapsed time: 00:00:12
+    Info: Total CPU time (on all processors): 00:00:23
+
+
