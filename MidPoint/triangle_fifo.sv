@@ -1,6 +1,9 @@
 // custemed Triangle fifo
 // Using On-chip memory
+// Waddr: width of addr
+// size: size of fifo
 module triangle_fifo # (
+    parameter Waddr = 7,
     parameter size = 100
 )
 (
@@ -12,13 +15,13 @@ module triangle_fifo # (
     output logic                 is_empty, is_full
 );
 
-logic [size-1:0] r_addr,w_addr;
-logic [size-1:0] num;
+logic [Waddr-1:0] r_addr,w_addr;
+logic [Waddr-1:0] num;
 
 parameter max = size;
 
 // On-chip memory
-triangle_fifo_ram #(.size(size)) tfr (
+triangle_fifo_ram #(.Waddr(Waddr), .size(size)) tfr (
     .Clk(Clk),
     .r_en(r_en), .w_en(w_en),
     .r_addr(r_addr),.w_addr(w_addr),

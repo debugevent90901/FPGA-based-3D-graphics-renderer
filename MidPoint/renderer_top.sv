@@ -94,7 +94,7 @@ module renderer_top(
                         .draw_done(draw_done)
     );
 
-    triangle_fifo #(.size(100)) tf(
+    triangle_fifo #(.Waddr(7), .size(100)) tf(
                                     .Clk(Clk),
                                     .Reset(Reset),
                                     .r_en(fifo_r),
