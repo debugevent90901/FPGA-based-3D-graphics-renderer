@@ -21,25 +21,25 @@ fxp_mul #(
     .WIIA(WII), .WIFA(WIF),
     .WIIB(WII), .WIFB(WIF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
-) mul0 (.ina(a0), .inb(b0), .out(mul_res0), .overflow(overflow0));
+) mul0 (.ina(a0), .inb(b0), .out(mul_res0), .overflow(mul_overflow0));
 
 fxp_mul #(   
     .WIIA(WII), .WIFA(WIF),
     .WIIB(WII), .WIFB(WIF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
-) mul1 (.ina(a1), .inb(b1), .out(mul_res1), .overflow(overflow1));
+) mul1 (.ina(a1), .inb(b1), .out(mul_res1), .overflow(mul_overflow1));
 
 fxp_mul #(   
     .WIIA(WII), .WIFA(WIF),
     .WIIB(WII), .WIFB(WIF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
-) mul2 (.ina(a2), .inb(b2), .out(mul_res2), .overflow(overflow2));
+) mul2 (.ina(a2), .inb(b2), .out(mul_res2), .overflow(mul_overflow2));
 
 fxp_mul #(   
     .WIIA(WII), .WIFA(WIF),
     .WIIB(WII), .WIFB(WIF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
-) mul3 (.ina(a3), .inb(b3), .out(mul_res3), .overflow(overflow3));
+) mul3 (.ina(a3), .inb(b3), .out(mul_res3), .overflow(mul_overflow3));
 
 
 
