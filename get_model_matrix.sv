@@ -18,8 +18,7 @@ module get_model_matrix # (
     parameter WOFA = 12,
     // output matrix
     parameter WOIB = 8,
-    parameter WOFB = 8,
-
+    parameter WOFB = 8
 )
 (   input [WIIA+WIFA-1:0] angle,
     input [WIIB+WIFB-1:0] scale, x_translate, y_translate, z_translate,

@@ -13,13 +13,13 @@ module get_projection_matrix #(
     parameter WOF = 8
 ) 
 (   input [WII+WIF-1:0] inv_tan, aspect_ratio, z_near, z_far,
-    output [15:0][WOI+WOF-1:0] projection_matrix
+    output logic [15:0][WOI+WOF-1:0] projection_matrix
 );
 
 logic [WOI+WOF-1:0] neg_z_near, neg_z_far, distance, k, n_a_f, n_a_f_mul_k, tmp, f_m_n_m_k, f_m_n_m_k_2, t_d_a;
 
 logic overflow, overflow0, overflow1, overflow2, overflow3, overflow4;
-logic  overflow5, overflow6, overflow7, overflow8, overflow9;
+logic overflow5, overflow6, overflow7, overflow8, overflow9;
 
 fxp_addsub #(   
     .WIIA(8), .WIFA(8),
@@ -114,7 +114,7 @@ fxp_mul #(
 
 fxp_mul #(   
     .WIIA(WOI), .WIFA(WOF),
-    .WIIB(WOI), .WIFB(WOF),
+    .WIIB(8), .WIFB(8),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) mul3 ( 
     .ina(f_m_n_m_k), 

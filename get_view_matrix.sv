@@ -66,7 +66,7 @@ fxp_zoom # (
     .overflow(overflow4)
 );
 
-assign view_matrix[0] = one
+assign view_matrix[0] = one;
 assign view_matrix[1] = zero;
 assign view_matrix[2] = zero;
 assign view_matrix[3] = neg_x_pos;
