@@ -8,6 +8,9 @@ module project_triangle #(
     // width, height
     parameter WIIB = 10,
     parameter WIFB = 0,
+    // intermediate v1, v2, v3
+    parameter WI = 10,
+    parameter WO = 8,
     // output V1, V2, V3
     parameter WOI = 10,
     parameter WOF = 0
@@ -22,7 +25,7 @@ logic [WIIA+WIFA-1:0] x1, y1, w1, x2, y2, w2, x3, y3, w3;
 logic [WIIA+WIFA-1:0] x1_normalized, y1_normalized, x2_normalized, y2_normalized, x3_normalized, y3_normalized;
 
 logic [WIIA+WIFA-1:0] x1_add_1, x2_add_1, x3_add_1, y1_add_1, y2_add_1, y3_add_1;
-logic [WOI+WOF-1:0] w_mul_x1_add_1, w_mul_x2_add_1, w_mul_x3_add_1, h_mul_y1_add_1, h_mul_y2_add_1, h_mul_y3_add_1;
+logic [WI+WF-1:0] w_mul_x1_add_1, w_mul_x2_add_1, w_mul_x3_add_1, h_mul_y1_add_1, h_mul_y2_add_1, h_mul_y3_add_1;
 
 logic [WIIA+WIFA-1:0] trash0, trash1, trash2;
 logic overflow0, overflow1, overflow2, overflow3, overflow4, overflow5, overflow6, overflow7;
@@ -86,10 +89,10 @@ fxp_add #(
 fxp_mul #(   
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WIIA), .WIFB(WIFA),
-    .WOI(WOI), .WOF(WOF), .ROUND(1)
+    .WOI(WI), .WOF(WF), .ROUND(1)
 ) mul0 (.ina(width), .inb(x1_add_1), .out(w_mul_x1_add_1), .overflow(overflow7));
 fxp_div #(   
-    .WIIA(WOI), .WIFA(WOF),
+    .WIIA(WI), .WIFA(WF),
     .WIIB(8), .WIFB(8),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) div6 (.dividend(w_mul_x1_add_1), .divisor(16'h0200), .out(V1[0]), .overflow(overflow8));
@@ -103,10 +106,10 @@ fxp_add #(
 fxp_mul #(   
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WIIA), .WIFB(WIFA),
-    .WOI(WOI), .WOF(WOF), .ROUND(1)
+    .WOI(WI), .WOF(WF), .ROUND(1)
 ) mul2 (.ina(height), .inb(y1_add_1), .out(h_mul_y1_add_1), .overflow(overflow10));
 fxp_div #(   
-    .WIIA(WOI), .WIFA(WOF),
+    .WIIA(WI), .WIFA(WF),
     .WIIB(8), .WIFB(8),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) div7 (.dividend(h_mul_y1_add_1), .divisor(16'h0200), .out(V1[1]), .overflow(overflow11));
@@ -120,10 +123,10 @@ fxp_add #(
 fxp_mul #(   
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WIIA), .WIFB(WIFA),
-    .WOI(WOI), .WOF(WOF), .ROUND(1)
+    .WOI(WI), .WOF(WF), .ROUND(1)
 ) mul4 (.ina(width), .inb(x2_add_1), .out(w_mul_x2_add_1), .overflow(overflow13));
 fxp_div #(   
-    .WIIA(WOI), .WIFA(WOF),
+    .WIIA(WI), .WIFA(WF),
     .WIIB(8), .WIFB(8),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) div8 (.dividend(w_mul_x2_add_1), .divisor(16'h0200), .out(V2[0]), .overflow(overflow14));
@@ -137,10 +140,10 @@ fxp_add #(
 fxp_mul #(   
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WIIA), .WIFB(WIFA),
-    .WOI(WOI), .WOF(WOF), .ROUND(1)
+    .WOI(WI), .WOF(WF), .ROUND(1)
 ) mul6 (.ina(height), .inb(y2_add_1), .out(h_mul_y2_add_1), .overflow(overflow16));
 fxp_div #(   
-    .WIIA(WOI), .WIFA(WOF),
+    .WIIA(WI), .WIFA(WF),
     .WIIB(8), .WIFB(8),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) div9 (.dividend(h_mul_y2_add_1), .divisor(16'h0200), .out(V2[1]), .overflow(overflow17));
@@ -154,10 +157,10 @@ fxp_add #(
 fxp_mul #(   
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WIIA), .WIFB(WIFA),
-    .WOI(WOI), .WOF(WOF), .ROUND(1)
+    .WOI(WI), .WOF(WF), .ROUND(1)
 ) mul8 (.ina(width), .inb(x3_add_1), .out(w_mul_x3_add_1), .overflow(overflow19));
 fxp_div #(   
-    .WIIA(WOI), .WIFA(WOF),
+    .WIIA(WI), .WIFA(WF),
     .WIIB(8), .WIFB(8),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) div10 (.dividend(w_mul_x3_add_1), .divisor(16'h0200), .out(V3[0]), .overflow(overflow20));
@@ -171,10 +174,10 @@ fxp_add #(
 fxp_mul #(   
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WIIA), .WIFB(WIFA),
-    .WOI(WOI), .WOF(WOF), .ROUND(1)
+    .WOI(WI), .WOF(WF), .ROUND(1)
 ) mul10 (.ina(height), .inb(y3_add_1), .out(h_mul_y3_add_1), .overflow(overflow22));
 fxp_div #(   
-    .WIIA(WOI), .WIFA(WOF),
+    .WIIA(WI), .WIFA(WF),
     .WIIB(8), .WIFB(8),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) div11 (.dividend(h_mul_y3_add_1),.divisor(16'h0200), .out(V3[1]), .overflow(overflow23));
