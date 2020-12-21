@@ -44,7 +44,7 @@ fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WII), .WIFB(WIF), .WOI(WII), .WOF(WIF), .
     .overflow(overflow2)
 );
 
-fxp_sin #(.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sin ( 
+fix_sin sin ( 
     .in(angle_in), 
     .out(angle_out), 
     .i_overflow(overflow3)
@@ -143,7 +143,7 @@ fxp_addsub #(.WIIA(WII), .WIFA(WIF), .WIIB(4), .WIFB(8), .WOI(WII), .WOF(WIF), .
     .overflow(overflow3)
 );
 
-fxp_sin #(.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sin ( 
+fix_sin sin ( 
     .in(angle_in), 
     .out(angle_out), 
     .i_overflow(overflow4)
@@ -183,3 +183,28 @@ end
 
 endmodule
 
+module fix_sin(
+    input  logic [11:0] in,
+    output logic [13:0] out,
+    output logic i_overflow
+);
+
+logic [WOI+WOF-1:0] orig_out;
+
+fxp_sin #(.WII(4), .WIF(8), .WOI(2), .WOF(12), .ROUND(1)) sin ( 
+    .in(in), 
+    .out(orig_out), 
+    .i_overflow(i_overflow)
+);
+
+always_comb
+begin
+    if(in < 12'h014)
+        out = 0;
+    else if(in > 12'h17e)
+        out = 14'b01000000000000;
+    else
+        out = orig_out;
+end
+
+endmodule
