@@ -25,46 +25,55 @@ module get_model_matrix # (
     output logic [15:0][WOIB+WOFB-1:0] model_matrix
 );
 
-logic [WIIA+WIFA-1:0] pi_div_2_sub_angle;
+// logic [WIIA+WIFA-1:0] pi_div_2_sub_angle;
 logic [WOIA+WOFA-1:0] sin_angle, cos_angle; 
 logic [WOIB+WOFB-1:0] s_m_c, s_m_s, neg_s_m_s;
-logic overflow0, overflow1, overflow2, overflow3, overflow4, overflow5, overflow6, overflow7;
+logic overflow3, overflow4, overflow5, overflow6, overflow7;
 logic [WOIB+WOFB-1:0] zero, one;
 
-fxp_addsub #(   
-    .WIIA(4), .WIFA(8),
-    .WIIB(WIIA), .WIFB(WIFA),
-    .WOI(WIIA), .WOF(WIFA), .ROUND(1)
-) cos_to_sin (
-    .ina(12'h192), 
-    .inb(angle), 
-    .sub(1'b1), 
-    .out(pi_div_2_sub_angle), 
-    .overflow(overflow0)
+cal_sin # (.WII(4), .WIF(8), .WOI(2), .WOF(12), .ROUND(1)) sin (
+    .in(angle),
+    .out(sin_angle)
 );
 
-fxp_sin #(
-    .WII(WIIA),
-    .WIF(WIFA),
-    .WOI(WOIA),
-    .WOF(WOFA),
-    .ROUND(1)
-) sin ( 
-    .in(angle), 
-    .out(sin_angle), 
-    .i_overflow(overflow1)
+cal_cos # (.WII(4), .WIF(8), .WOI(2), .WOF(12), .ROUND(1)) cos (
+    .in(angle),
+    .out(cos_angle)
 );
-fxp_sin # (
-    .WII(WIIA),
-    .WIF(WIFA),
-    .WOI(WOIA),
-    .WOF(WOFA),
-    .ROUND(1)
-) cos (
-    .in(pi_div_2_sub_angle), 
-    .out(cos_angle), 
-    .i_overflow(overflow2)
-);
+//  fxp_addsub #(   
+//      .WIIA(4), .WIFA(8),
+//      .WIIB(WIIA), .WIFB(WIFA),
+//      .WOI(WIIA), .WOF(WIFA), .ROUND(1)
+//  ) cos_to_sin (
+//      .ina(12'h192), 
+//      .inb(angle), 
+//      .sub(1'b1), 
+//      .out(pi_div_2_sub_angle), 
+//      .overflow(overflow0)
+//  );
+
+//  fxp_sin #(
+//      .WII(WIIA),
+//      .WIF(WIFA),
+//      .WOI(WOIA),
+//      .WOF(WOFA),
+//      .ROUND(1)
+//  ) sin ( 
+//      .in(angle), 
+//      .out(sin_angle), 
+//      .i_overflow(overflow1)
+//  );
+//  fxp_sin # (
+//      .WII(WIIA),
+//      .WIF(WIFA),
+//      .WOI(WOIA),
+//      .WOF(WOFA),
+//      .ROUND(1)
+//  ) cos (
+//      .in(pi_div_2_sub_angle), 
+//      .out(cos_angle), 
+//      .i_overflow(overflow2)
+//  );
 
 fxp_mul #(  
     .WIIA(WIIB),   .WIFA(WIFB),
