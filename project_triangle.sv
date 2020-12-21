@@ -10,7 +10,7 @@ module project_triangle #(
     parameter WIFB = 0,
     // intermediate v1, v2, v3
     parameter WI = 10,
-    parameter WO = 8,
+    parameter WF = 8,
     // output V1, V2, V3
     parameter WOI = 10,
     parameter WOF = 0

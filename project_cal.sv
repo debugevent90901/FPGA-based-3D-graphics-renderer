@@ -40,13 +40,13 @@ assign y_pos =  16'h0000;
 assign z_pos =  16'h0a00;
 assign inv_tan = 16'h026a;
 assign aspect_ratio = 16'h0100;
-assign z_near = 16'h0019;
+assign z_near = 16'h001a;
 assign z_far = 16'h3200;
 
 get_model_matrix #(
                     .WIIA(WIIA), .WIFA(WIFA),
                     .WIIB(WI), .WIFB(WF),
-                    .WOIA(WI), .WOFA(WF),
+                    .WOIA(2), .WOFA(12),
                     .WOIB(WI), .WOFB(WF)
 ) get_model (
             .angle(angle),

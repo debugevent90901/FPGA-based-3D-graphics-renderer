@@ -16,7 +16,7 @@ module get_projection_matrix #(
     output logic [15:0][WOI+WOF-1:0] projection_matrix
 );
 
-logic [WOI+WOF-1:0] neg_z_near, neg_z_far, distance, k, n_a_f, n_a_f_mul_k, tmp, f_m_n_m_k, f_m_n_m_k_2, t_d_a;
+logic [WOI+WOF-1:0] neg_z_near, neg_z_far, distance, k, n_a_f, n_a_f_mul_k, tmp, f_m_n_m_k, f_m_n_m_k_2, t_d_a, one, zero;
 
 logic overflow, overflow0, overflow1, overflow2, overflow3, overflow4;
 logic overflow5, overflow6, overflow7, overflow8, overflow9, overflow10, overflow11;
