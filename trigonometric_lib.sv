@@ -161,12 +161,12 @@ always_comb
 begin
     if ( in >= 12'h4b6 )
         begin
-            angle_in = three_pi_div_2_sub_in;
+            angle_in = in_sub_3pi_div_2;
             out = angle_out;
         end
     else if ( in >= 12'h324 )
         begin
-            angle_in = in_sub_3pi_div_2;
+            angle_in = three_pi_div_2_sub_in;
             out = neg_angle_out;
         end
     else if ( in >= 12'h192 )
