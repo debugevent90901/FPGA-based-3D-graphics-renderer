@@ -16,8 +16,9 @@ module cal_sin # (
 // 2pi=  6.487ed344b6128
 
 logic overflow0, overflow1, overflow2, overflow3, overflow4;
-logic [WII+WIF-1:0] angle_in, angle_out, neg_angle_out;
-logic [WII+WIF-1:0] pi_sub_in, in_sub_pi, 2pi_sub_in;
+logic [WII+WIF-1:0] angle_in;
+logic [WII+WIF-1:0] pi_sub_in, in_sub_pi, two_pi_sub_in;
+logic [WOI+WOF-1:0] angle_out, neg_angle_out;
 
 fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WII), .WIFB(WIF), .WOI(WII), .WOF(WIF), .ROUND(1)) sub0 (
     .ina(12'h324), 
@@ -39,7 +40,7 @@ fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WII), .WIFB(WIF), .WOI(WII), .WOF(WIF), .
     .ina(12'h648), 
     .inb(in), 
     .sub(1'b1), 
-    .out(2pi_sub_in), 
+    .out(two_pi_sub_in), 
     .overflow(overflow2)
 );
 
@@ -49,8 +50,8 @@ fxp_sin #(.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sin (
     .i_overflow(overflow3)
 );
 
-fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WII), .WIFB(WIF), .WOI(WII), .WOF(WIF), .ROUND(1)) sub3 (
-    .ina(12'h000), 
+fxp_addsub #(.WIIA(2), .WIFA(12), .WIIB(WOI), .WIFB(WOF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sub3 (
+    .ina(14'b00000000000000), 
     .inb(angle_out), 
     .sub(1'b1), 
     .out(neg_angle_out), 
@@ -61,15 +62,15 @@ always_comb
 begin
     if ( in >= 12'h4b6 )
         begin
-            angle_in = 2pi_sub_in;
+            angle_in = two_pi_sub_in;
             out = neg_angle_out;
         end
-    elif ( in >= 12'h324 )
+    else if ( in >= 12'h324 )
         begin
             angle_in = in_sub_pi;
             out = neg_angle_out;
         end
-    elif ( in >= 12'h192 )
+    else if ( in >= 12'h192 )
         begin
             angle_in = pi_sub_in;
             out = angle_out;
@@ -105,8 +106,10 @@ module cal_cos # (
 // 2pi=  6.487ed344b6128
 
 logic overflow0, overflow1, overflow2, overflow3, overflow4, overflow5;
-logic [WII+WIF-1:0] angle_in, angle_out, neg_angle_out;
-logic [WII+WIF-1:0] pi_div_2_sub_in, in_sub_pi_div_2, 3pi_div_2_sub_in, in_sub_3pi_div_2;
+logic [WII+WIF-1:0] angle_in;
+logic [WII+WIF-1:0] pi_div_2_sub_in, in_sub_pi_div_2, three_pi_div_2_sub_in, in_sub_3pi_div_2;
+logic [WOI+WOF-1:0] angle_out, neg_angle_out;
+
 
 fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WII), .WIFB(WIF), .WOI(WII), .WOF(WIF), .ROUND(1)) sub0 (
     .ina(12'h192), 
@@ -128,11 +131,11 @@ fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WII), .WIFB(WIF), .WOI(WII), .WOF(WIF), .
     .ina(12'h4b6), 
     .inb(in), 
     .sub(1'b1), 
-    .out(3pi_div_2_sub_in), 
+    .out(three_pi_div_2_sub_in), 
     .overflow(overflow2)
 );
 
-fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WII), .WIFB(WIF), .WOI(WII), .WOF(WIF), .ROUND(1)) sub3 (
+fxp_addsub #(.WIIA(WII), .WIFA(WIF), .WIIB(4), .WIFB(8), .WOI(WII), .WOF(WIF), .ROUND(1)) sub3 (
     .ina(in), 
     .inb(12'h4b6), 
     .sub(1'b1), 
@@ -146,8 +149,8 @@ fxp_sin #(.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sin (
     .i_overflow(overflow4)
 );
 
-fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WII), .WIFB(WIF), .WOI(WII), .WOF(WIF), .ROUND(1)) sub3 (
-    .ina(12'h000), 
+fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WOI), .WIFB(WOF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sub4 (
+    .ina(14'b00000000000000), 
     .inb(angle_out), 
     .sub(1'b1), 
     .out(neg_angle_out), 
@@ -158,15 +161,15 @@ always_comb
 begin
     if ( in >= 12'h4b6 )
         begin
-            angle_in = 3pi_div_2_sub_in;
+            angle_in = three_pi_div_2_sub_in;
             out = angle_out;
         end
-    elif ( in >= 12'h324 )
+    else if ( in >= 12'h324 )
         begin
             angle_in = in_sub_3pi_div_2;
             out = neg_angle_out;
         end
-    elif ( in >= 12'h192 )
+    else if ( in >= 12'h192 )
         begin
             angle_in = in_sub_pi_div_2;
             out = neg_angle_out;
