@@ -18,7 +18,11 @@ module project #(
 
     logic [2:0][2:0][WI+WF-1:0] orig_triangle_data, new_orig_triangle_data;
 
-    enum logic [2:0] {Wait, Take1, Take2, Proj1, Proj2, Proj3, Write, Done} curr_state, next_state;
+    enum logic [2:0] {Wait, Take1, Take2, Proj, Write, Done} curr_state, next_state;
+
+    logic [3:0] cal_time, count, new_count;
+
+    assign cal_time = 3'd4;
 
     project_cal #(.WIIA(WIIA), .WIFA(WIFA), .WI(WI), .WF(WF)) pc (
                                                             .orig_triangle(orig_triangle_data),
@@ -32,11 +36,13 @@ module project #(
         begin
             curr_state <= Wait;
             orig_triangle_data <= 0;
+            count <= 0;
         end
         else
         begin
             curr_state <= next_state;
             orig_triangle_data <= new_orig_triangle_data;
+            count <= new_count;
         end
     end
 
@@ -47,6 +53,7 @@ module project #(
         list_r = 1'b0;
         fifo_w = 1'b0;
         new_orig_triangle_data = orig_triangle_data;
+        new_count = 0;
         
         unique case (curr_state)
         Wait:
@@ -66,19 +73,28 @@ module project #(
             if(list_read_done)
                 next_state = Done;
             else
-                next_state = Proj1;
+                next_state = Proj;
         end
-        Proj1:
+        // Proj1:
+        // begin
+        //     next_state = Proj2;
+        // end
+        // Proj2:
+        // begin
+        //     next_state = Proj3;
+        // end
+        // Proj3:
+        // begin
+        //     next_state = Write;
+        Proj:
         begin
-            next_state = Proj2;
-        end
-        Proj2:
-        begin
-            next_state = Proj3;
-        end
-        Proj3:
-        begin
-            next_state = Write;
+            if(count == cal_time)
+                next_state = Write;
+            else
+            begin
+                next_state = Proj;
+                new_count = count + 3'b1;
+            end
         end
         Write:
         begin
@@ -104,13 +120,16 @@ module project #(
         begin
             new_orig_triangle_data = orig_triangle;
         end
-        Proj1:
-        begin
-        end
-        Proj2:
-        begin
-        end
-        Proj3:
+        // Proj1:
+        // begin
+        // end
+        // Proj2:
+        // begin
+        // end
+        // Proj3:
+        // begin
+        // end
+        Proj:
         begin
         end
         Write:

@@ -6,13 +6,13 @@ module project_triangle #(
     parameter WIIA = 8,
     parameter WIFA = 8,
     // width, height
-    parameter WIIB = 10,
+    parameter WIIB = 12,
     parameter WIFB = 0,
     // intermediate v1, v2, v3
-    parameter WI = 10,
+    parameter WI = 12,
     parameter WF = 8,
     // output V1, V2, V3
-    parameter WOI = 10,
+    parameter WOI = 12,
     parameter WOF = 0
 )
 (       input           [3:0][WIIA+WIFA-1:0]    vertex_a, vertex_b, vertex_c,

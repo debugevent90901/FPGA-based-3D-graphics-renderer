@@ -9,7 +9,7 @@ module  display (   input                   Clk, Reset, frame_clk_rising_edge,
     always_ff @ (posedge Clk)
     begin
         if (Reset)
-            angle <= 12'h001;
+            angle <= 12'h00a;
         else
             angle <= angle_in;
     end
@@ -23,8 +23,9 @@ module  display (   input                   Clk, Reset, frame_clk_rising_edge,
         // Update angle only at rising edge of frame clock
         if (frame_clk_rising_edge)
         begin
-            if ( angle > 12'h192 )
-                angle_in = 12'h001;
+            //if ( angle+12'h00a > 12'h192 )
+            if ( angle+12'h00a > 12'h648 )
+                angle_in = 12'h00a;
             else
                 // angle += 0.1 = 01a
                 angle_in = angle + 12'h00a;

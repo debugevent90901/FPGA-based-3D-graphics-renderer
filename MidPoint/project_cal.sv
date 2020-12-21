@@ -16,9 +16,9 @@ logic [15:0][WI+WF-1:0] projection_matrix;
 logic [15:0][WI+WF-1:0] mvp_matrix;
 
 logic [3:0][WI+WF-1:0]  vertex_a, vertex_b, vertex_c;
-logic [1:0][9:0]        V1, V2, V3;
+logic [1:0][11:0]        V1, V2, V3;
 
-logic [9:0]             width, height;
+logic [11:0]             width, height;
 logic [WI+WF-1:0]       scale, x_translate, y_translate, z_translate;
 logic [WI+WF-1:0]       x_pos, y_pos, z_pos;
 logic [WI+WF-1:0]       inv_tan, aspect_ratio, z_near, z_far;
@@ -27,13 +27,14 @@ assign vertex_a = {{{(WI-1){1'b0}},1'b1,{WF{1'b0}}}, orig_triangle[0]};
 assign vertex_b = {{{(WI-1){1'b0}},1'b1,{WF{1'b0}}}, orig_triangle[1]};
 assign vertex_c = {{{(WI-1){1'b0}},1'b1,{WF{1'b0}}}, orig_triangle[2]};
 
-assign proj_triangle = {V1, V2, V3};
+assign proj_triangle = {{V1[1][9:0],V1[0][9:0]}, {V2[1][9:0],V2[0][9:0]}, {V3[1][9:0],V3[0][9:0]}};
 
-assign width = 10'd128;
-assign height = 10'd128;
-assign scale = 16'h0280;
+assign width = 12'd640;
+assign height = 12'd480;
+// assign scale = 16'h0280;
+assign scale = 16'h0180;
 assign x_translate = 0;
-assign y_translate = 0;
+assign y_translate = 16'hff80;
 assign z_translate = 0;
 assign x_pos =  16'h0000;
 assign y_pos =  16'h0000;
@@ -43,19 +44,34 @@ assign aspect_ratio = 16'h0100;
 assign z_near = 16'h001a;
 assign z_far = 16'h3200;
 
-// assign width = 10'd128;
-// assign height = 10'd128;
-// assign scale = 20'h00280;
-// assign x_translate = 0;
-// assign y_translate = 0;
+// assign width = 10'd640;
+// assign height = 10'd480;
+// //assign scale = 20'h00280;
+// assign scale = 24'h000100;
+// assign x_translate = 24'h00000;
+// assign y_translate = 24'h00020;
 // assign z_translate = 0;
-// assign x_pos =  20'h00000;
-// assign y_pos =  20'h00000;
-// assign z_pos =  20'h00a00;
-// assign inv_tan = 20'h0026a;
-// assign aspect_ratio = 20'h00100;
-// assign z_near = 20'h0001a;
-// assign z_far = 20'h03200;
+// assign x_pos =  24'h000000;
+// assign y_pos =  24'h000000;
+// assign z_pos =  24'h000a00;
+// assign inv_tan = 24'h00026a;
+// assign aspect_ratio = 24'h000100;
+// assign z_near = 24'h00001a;
+// assign z_far = 24'h003200;
+
+// assign width = 10'd640;
+// assign height = 10'd480;
+// assign scale = 28'h0000200;
+// assign x_translate = 28'h000100;
+// assign y_translate = 28'h000000;
+// assign z_translate = 0;
+// assign x_pos =  28'h0000000;
+// assign y_pos =  28'h0000000;
+// assign z_pos =  28'h0000a00;
+// assign inv_tan = 28'h000026a;
+// assign aspect_ratio = 28'h0000100;
+// assign z_near = 28'h000001a;
+// assign z_far = 28'h0003200;
 
 get_model_matrix #(
                     .WIIA(WIIA), .WIFA(WIFA),
@@ -111,9 +127,9 @@ get_mvp_matrix #(
 project_triangle #(
             .WIIA(WI),
             .WIFA(WF),
-            .WIIB(10),
+            .WIIB(12),
             .WIFB(0),
-            .WOI(10),
+            .WOI(12),
             .WOF(0)
 ) proj (
         .vertex_a(vertex_a),
