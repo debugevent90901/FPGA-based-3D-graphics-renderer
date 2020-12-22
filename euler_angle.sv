@@ -10,7 +10,6 @@ module get_euler_angle_matrix # (
 );
 
 logic [WOI+WOF-1:0] zero, one;
-logic [WOI+WOF-1:0] pi_div_2_sub_alpha, pi_div_2_sub_beta, pi_div_2_sub_gamma;
 logic [WOI+WOF-1:0] sin_alpha, cos_alpha, sin_beta, cos_beta, sin_gamma, cos_gamma;
 logic [WOI+WOF-1:0] cos_alpha_cos_gamma, sin_alpha_cos_gamma, sin_beta_sin_gamma,
                     cos_alpha_sin_gamma, sin_alpha_sin_gamma, sin_beta_cos_gamma,
@@ -21,70 +20,41 @@ logic [WOI+WOF-1:0] cos_alpha_cos_gamma, sin_alpha_cos_gamma, sin_beta_sin_gamma
 logic [WOI+WOF-1:0] index0, index1, index4, index5;
 logic [WOI+WOF-1:0] neg_cos_alpha_sin_gamma, neg_sin_beta_cos_alpha;
 
-logic overflow0, overflow1,overflow2, overflow3, overflow4, overflow5, overflow6, overflow7, overflow8,
-        overflow9, overflow10, overflow11, overflow12, overflow13, overflow14, overflow15, overflow16, 
+logic   overflow9, overflow10, overflow11, overflow12, overflow13, overflow14, overflow15, overflow16, 
         overflow17, overflow18, overflow19, overflow20, overflow21, overflow22, overflow23, overflow24,
         overflow25, overflow26, overflow27, overflow28;
 
 
-fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WII), .WIFB(WIF), .WOI(WII), .WOF(WIF), .ROUND(1)) sin_to_cos0 (
-    .ina(12'h192), 
-    .inb(alpha), 
-    .sub(1'b1), 
-    .out(pi_div_2_sub_alpha), 
-    .overflow(overflow0)
+cal_sin # (.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sin0 (
+    .in(alpha),
+    .out(sin_alpha)
 );
-fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WII), .WIFB(WIF), .WOI(WII), .WOF(WIF), .ROUND(1)) sin_to_cos1 (
-    .ina(12'h192), 
-    .inb(alpha), 
-    .sub(1'b1), 
-    .out(pi_div_2_sub_beta), 
-    .overflow(overflow1)
+cal_cos # (.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) cos0 (
+    .in(alpha),
+    .out(cos_alpha)
 );
-fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WII), .WIFB(WIF), .WOI(WII), .WOF(WIF), .ROUND(1)) sin_to_cos2 (
-    .ina(12'h192), 
-    .inb(alpha), 
-    .sub(1'b1), 
-    .out(pi_div_2_sub_gamma), 
-    .overflow(overflow2)
+
+cal_sin # (.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sin1 (
+    .in(beta),
+    .out(sin_beta)
+);
+cal_cos # (.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) cos1 (
+    .in(beta),
+    .out(cos_beta)
+);
+
+cal_sin # (.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sin2 (
+    .in(gamma),
+    .out(sin_gamma)
+);
+cal_cos # (.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) cos2 (
+    .in(gamma),
+    .out(cos_gamma)
 );
 
 
-fxp_sin #(.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sin0 ( 
-    .in(alpha), 
-    .out(sin_alpha), 
-    .i_overflow(overflow3)
-);
-fxp_sin #(.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) cos0 ( 
-    .in(pi_div_2_sub_alpha), 
-    .out(cos_alpha), 
-    .i_overflow(overflow4)
-);
 
-fxp_sin #(.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sin1 ( 
-    .in(beta), 
-    .out(sin_beta), 
-    .i_overflow(overflow5)
-);
-fxp_sin #(.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) cos1 ( 
-    .in(pi_div_2_sub_beta), 
-    .out(cos_beta), 
-    .i_overflow(overflow6)
-);
-
-fxp_sin #(.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sin2 ( 
-    .in(gamma), 
-    .out(sin_gamma), 
-    .i_overflow(overflow7)
-);
-fxp_sin #(.WII(WII), .WIF(WIF), .WOI(WOI), .WOF(WOF), .ROUND(1)) cos2 ( 
-    .in(pi_div_2_sub_gamma), 
-    .out(cos_gamma), 
-    .i_overflow(overflow8)
-);
-
-
-fxp_mul #(.WIIA(WOI), .WIFA(WOF), .WIIB(WOI), .WIFB(WOF), .WOI(WOI), .WOF(WOF)) mul0
+fxp_mul #(.WIIA(WOI), .WIFA(WOF), .WIIB(WOI), .WIFB(WOF), .WOI(WOI), .WOF(WOF)) mul0 (
     .ina(cos_alpha), 
     .inb(cos_gamma), 
     .out(cos_alpha_cos_gamma), 
@@ -201,7 +171,7 @@ fxp_addsub #(.WIIA(2), .WIFA(12), .WIIB(WOI), .WIFB(WOF), .WOI(WOI), .WOF(WOF), 
 
 fxp_addsub #(.WIIA(WOI), .WIFA(WOF), .WIIB(WOI), .WIFB(WOF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sub2 (
     .ina(neg_cos_alpha_sin_gamma), 
-    .inb(cos_beta_sin_alpha_sin_gamma), 
+    .inb(cos_beta_sin_alpha_cos_gamma), 
     .sub(1'b1), 
     .out(index4), 
     .overflow(overflow25)
@@ -228,7 +198,7 @@ fxp_add #(.WIIA(WOI), .WIFA(WOF), .WIIB(WOI), .WIFB(WOF), .WOI(WOI), .WOF(WOF), 
     .inb(cos_beta_cos_alpha_sin_gamma),
     .out(index1),
     .overflow(overflow28)
-)
+);
 
 
 fxp_zoom # (.WII(8), .WIF(8), .WOI(WOI), .WOF(WOF), .ROUND(1)) zoom0 (
@@ -264,3 +234,6 @@ assign euler_angle_matrix[14] = zero;
 assign euler_angle_matrix[15] = one;
 
 endmodule
+
+
+// index 0 5 error

@@ -31,12 +31,12 @@ logic [WOIB+WOFB-1:0] s_m_c, s_m_s, neg_s_m_s;
 logic overflow3, overflow4, overflow5, overflow6, overflow7;
 logic [WOIB+WOFB-1:0] zero, one;
 
-cal_sin # (.WII(4), .WIF(8), .WOI(2), .WOF(12), .ROUND(1)) sin (
+cal_sin # (.WII(WIIA), .WIF(WIFA), .WOI(WOIA), .WOF(WOFA), .ROUND(1)) sin (
     .in(angle),
     .out(sin_angle)
 );
 
-cal_cos # (.WII(4), .WIF(8), .WOI(2), .WOF(12), .ROUND(1)) cos (
+cal_cos # (.WII(WIIA), .WIF(WIFA), .WOI(WOIA), .WOF(WOFA), .ROUND(1)) cos (
     .in(angle),
     .out(cos_angle)
 );
