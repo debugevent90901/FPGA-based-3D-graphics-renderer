@@ -6,7 +6,7 @@
 // 3.1415926 = 00000011.00100100 = 0324
 // 1.5707963 = 1.921fb4d12d84a
 
-module get_model_matrix # (
+/* module get_model_matrix # (
     // angle
     parameter WIIA = 4,
     parameter WIFA = 8,
@@ -139,9 +139,7 @@ assign model_matrix[14] = zero;
 assign model_matrix[15] = one;
 
 endmodule
-
-
-
+ */
 
 
 // Eigen::Matrix4f get_model_matrix(float angle)
@@ -167,3 +165,96 @@ endmodule
 
 //     return translate * rotation * scale;
 // }
+
+
+module get_model_matrix # (
+    // angle
+    parameter WIIA = 4,
+    parameter WIFA = 8,
+    // scale, x_translate, y_translate, z_translate
+    parameter WIIB = 8,
+    parameter WIFB = 8,
+    // output of sin, cos
+    // parameter WOIA = 2,
+    // parameter WOFA = 12,
+    // output matrix
+    parameter WOI = 8,
+    parameter WOF = 8
+)
+(   input [WIIA+WIFA-1:0] alpha, beta, gamma,
+    input [WIIB+WIFB-1:0] scale, x_translate, y_translate, z_translate,
+    output logic [15:0][WOI+WOF-1:0] model_matrix
+);
+
+logic [15:0][WIIB+WIFB-1:0] S, T, R, TxR;
+logic overflow0, overflow1;
+
+
+fxp_zoom # (
+    .WII(8), .WIF(8),
+    .WOI(WOI), .WOF(WOF), .ROUND(1)
+) zoom0 (
+    .in(16'h0000),
+    .out(zero),
+    .overflow(overflow0)
+);
+
+fxp_zoom # (
+    .WII(8), .WIF(8),
+    .WOI(WOI), .WOF(WOF), .ROUND(1)
+) zoom1 (
+    .in(16'h0100),
+    .out(one),
+    .overflow(overflow1)
+);
+
+assign S[0] = scale;
+assign S[1] = zero;
+assign S[2] = zero; 
+assign S[3] = zero;
+assign S[4] = zero;
+assign S[5] = scale;
+assign S[6] = zero;
+assign S[7] = zero;
+assign S[8] = zero;
+assign S[9] = zero;
+assign S[10] = scale;
+assign S[11] = zero;
+assign S[12] = zero;
+assign S[13] = zero;
+assign S[14] = zero;
+assign S[15] = one;
+
+assign T[0] = one;
+assign T[1] = zero;
+assign T[2] = zero; 
+assign T[3] = x_translate;
+assign T[4] = zero;
+assign T[5] = one;
+assign T[6] = zero;
+assign T[7] = y_translate;
+assign T[8] = zero;
+assign T[9] = zero;
+assign T[10] = one;
+assign T[11] = z_translate;
+assign T[12] = zero;
+assign T[13] = zero;
+assign T[14] = zero;
+assign T[15] = one;
+
+get_euler_angle_matrix #(.WII(WIIA), .WIF(WIFA), .WOI(WIIB), .WOF(WIFB)) euler (
+    .alpha(alpha), 
+    .beta(beta),
+    .gamma(gamma),
+    .euler_angle_matrix(R)
+);
+
+matrix_multiplier #(.WII(WIIB), .WIF(WIFB), .WOI(WIIB), .WOF(WIFB)) mm0 (
+    .matA(T), ,matB(R), .res_mat(TxR)
+);
+
+matrix_multiplier #(.WII(WIIB), .WIF(WIFB), .WOI(WOI), .WOF(WOF)) mm0 (
+    .matA(TxR), ,matB(S), .res_mat(model_matrix)
+);
+
+endmodule
