@@ -26,5 +26,16 @@ if __name__ == "__main__":
     alpha = 1.50390625
     beta = 2.5234375
     gamma = 3.26953125
-    em = get_euler(alpha, beta, gamma)
-    print(em)
+
+    R = get_euler(alpha, beta, gamma)
+    S = np.array([[1.4609375, 0, 0, 0], [0, 1.4609375, 0, 0], [0, 0, 1.4609375, 0], [0, 0, 0, 1]])
+    T = np.array([[1, 0, 0, 2.203125], [0, 1, 0, 4.0859375], [0, 0, 1, 3.5859375], [0, 0, 0, 1]])
+
+    TxR = np.dot(T, R)
+    TxRxS = np.dot(TxR, S)
+    # print("T is: ")
+    # print(T)
+    # print("\nS is: ")
+    # print(S)
+    # print(TxR)
+    print(TxRxS)
