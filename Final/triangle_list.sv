@@ -51,6 +51,7 @@ begin
     // generate write addr
     if(Reset)
         w_addr <= 1;
+        // w_addr <= 7'd12;
     else if(w_en && !is_full)
         w_addr <= (w_addr == size) ? 1 : w_addr + 1;
 end

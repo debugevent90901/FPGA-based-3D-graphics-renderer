@@ -14,13 +14,22 @@ module list_writer #(
     logic [2:0][2:0][WI+WF-1:0] orig_triangle, new_orig_triangle;
     logic [2:0][WI+WF-1:0]      P1, P2, P3, P4, P5, P6, P7, P8;
 
-    assign P1 = 48'h000000000000;
-    assign P2 = 48'h000000000100;
-    assign P3 = 48'h000001000000;
-    assign P4 = 48'h000001000100;
-    assign P5 = 48'h010000000000;
-    assign P6 = 48'h010000000100;
-    assign P7 = 48'h010001000000;
+    // assign P1 = 48'h000000000000;
+    // assign P2 = 48'h000000000100;
+    // assign P3 = 48'h000001000000;
+    // assign P4 = 48'h000001000100;
+    // assign P5 = 48'h010000000000;
+    // assign P6 = 48'h010000000100;
+    // assign P7 = 48'h010001000000;
+    // assign P8 = 48'h010001000100;
+
+    assign P1 = 48'hfc00fc00fc00;
+    assign P2 = 48'hfc00fc000100;
+    assign P3 = 48'hfc000100fc00;
+    assign P4 = 48'hfc0001000100;
+    assign P5 = 48'h0100fc00fc00;
+    assign P6 = 48'h0100fc000100;
+    assign P7 = 48'h01000100fc00;
     assign P8 = 48'h010001000100;
 
     // assign P1 = 72'h000000000000000000;

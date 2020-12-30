@@ -16,6 +16,11 @@ module triangle_list_ram # (
 
     reg [(WI+WF)*9-1:0] list [size:0];
     
+    // initial
+    // begin
+    //     $readmemh("./cube.txt", list);
+    // end
+
     always @(posedge Clk)
     begin
         if(r_en && !is_empty)

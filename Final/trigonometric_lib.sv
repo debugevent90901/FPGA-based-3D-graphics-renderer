@@ -149,7 +149,7 @@ fix_sin sin (
     .i_overflow(overflow4)
 );
 
-fxp_addsub #(.WIIA(4), .WIFA(8), .WIIB(WOI), .WIFB(WOF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sub4 (
+fxp_addsub #(.WIIA(2), .WIFA(12), .WIIB(WOI), .WIFB(WOF), .WOI(WOI), .WOF(WOF), .ROUND(1)) sub4 (
     .ina(14'b00000000000000), 
     .inb(angle_out), 
     .sub(1'b1), 
@@ -189,7 +189,8 @@ module fix_sin(
     output logic i_overflow
 );
 
-logic [13:0] orig_out;
+logic [13:0] orig_out, taylor_out;
+logic overflow;
 
 fxp_sin #(.WII(4), .WIF(8), .WOI(2), .WOF(12), .ROUND(1)) sin ( 
     .in(in), 
@@ -197,10 +198,16 @@ fxp_sin #(.WII(4), .WIF(8), .WOI(2), .WOF(12), .ROUND(1)) sin (
     .i_overflow(i_overflow)
 );
 
+fxp_zoom #(.WII(4), .WIF(8), .WOI(2), .WOF(12), .ROUND(1)) taylor (
+    .in(in),
+    .out(taylor_out),
+    .overflow(overflow)
+);
+
 always_comb
 begin
     if(in < 12'h014)
-        out = 0;
+        out = taylor_out;
     else if(in > 12'h17e)
         out = 14'b01000000000000;
     else

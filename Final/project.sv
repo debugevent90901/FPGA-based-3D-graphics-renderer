@@ -8,7 +8,7 @@ module project #(
                 input                        Clk, Reset,
                 input                        proj_start,
                 input [2:0][2:0][WI+WF-1:0]  orig_triangle,
-                input [WIIA+WIFA-1:0]        angle,
+                input [WIIA+WIFA-1:0]        alpha, beta, gamma,
                 input [WI+WF-1:0]            x_translate, y_translate, z_translate,
                 input                        list_read_done,
                 output logic [2:0][1:0][9:0] proj_triangle,
@@ -27,7 +27,9 @@ module project #(
 
     project_cal #(.WIIA(WIIA), .WIFA(WIFA), .WI(WI), .WF(WF)) pc (
                                                             .orig_triangle(orig_triangle_data),
-                                                            .angle(angle),
+                                                            .alpha(alpha),
+                                                            .beta(beta),
+                                                            .gamma(gamma),
                                                             .x_translate(x_translate),
                                                             .y_translate(y_translate),
                                                             .z_translate(z_translate),

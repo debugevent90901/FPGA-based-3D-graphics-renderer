@@ -6,7 +6,7 @@ module project_cal#(
 )
 (
                     input [2:0][2:0][WI+WF-1:0]  orig_triangle,
-                    input [WIIA+WIFA-1:0]        angle,
+                    input [WIIA+WIFA-1:0]        alpha, beta, gamma,
                     input [WI+WF-1:0]            x_translate, y_translate, z_translate,
                     output logic [2:0][1:0][9:0] proj_triangle,
                     output logic                 clip
@@ -42,7 +42,7 @@ assign x_pos =  16'h0000;
 assign y_pos =  16'h0000;
 assign z_pos =  16'h0a00;
 assign inv_tan = 16'h026a;
-assign aspect_ratio = 16'h0100;
+assign aspect_ratio = 16'h0155;
 assign z_near = 16'h001a;
 assign z_far = 16'h3200;
 
@@ -79,10 +79,12 @@ get_model_matrix #(
                     .WIIA(WIIA), .WIFA(WIFA),
                     .WIIB(WI), .WIFB(WF),
                     .WOIA(2), .WOFA(12),
-                    .WOIB(WI), .WOFB(WF)
+                    .WOI(WI), .WOF(WF)
 ) get_model (
-            .angle(angle),
-            .scale(scale), 
+            .alpha(alpha),
+            .beta(beta),
+            .gamma(gamma),
+            .scale(scale),
             .x_translate(x_translate),
             .y_translate(y_translate),
             .z_translate(z_translate),
