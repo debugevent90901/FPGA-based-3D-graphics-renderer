@@ -22,6 +22,7 @@ logic [Waddr-1:0] r_addr,w_addr;
 logic [Waddr-1:0] num;
 
 parameter max = size;
+// parameter triangle_num = 7'd36;
 
 // On-chip memory
 triangle_list_ram #(.WI(WI), .WF(WF), .Waddr(Waddr), .size(size)) tlr (
@@ -51,7 +52,7 @@ begin
     // generate write addr
     if(Reset)
         w_addr <= 1;
-        // w_addr <= 7'd12;
+        // w_addr <= triangle_num;
     else if(w_en && !is_full)
         w_addr <= (w_addr == size) ? 1 : w_addr + 1;
 end

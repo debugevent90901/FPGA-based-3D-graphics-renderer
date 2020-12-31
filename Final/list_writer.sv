@@ -23,13 +23,13 @@ module list_writer #(
     // assign P7 = 48'h010001000000;
     // assign P8 = 48'h010001000100;
 
-    assign P1 = 48'hfc00fc00fc00;
-    assign P2 = 48'hfc00fc000100;
-    assign P3 = 48'hfc000100fc00;
-    assign P4 = 48'hfc0001000100;
-    assign P5 = 48'h0100fc00fc00;
-    assign P6 = 48'h0100fc000100;
-    assign P7 = 48'h01000100fc00;
+    assign P1 = 48'hff00ff00ff00;
+    assign P2 = 48'hff00ff000100;
+    assign P3 = 48'hff000100ff00;
+    assign P4 = 48'hff0001000100;
+    assign P5 = 48'h0100ff00ff00;
+    assign P6 = 48'h0100ff000100;
+    assign P7 = 48'h01000100ff00;
     assign P8 = 48'h010001000100;
 
     // assign P1 = 72'h000000000000000000;

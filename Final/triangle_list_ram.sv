@@ -18,7 +18,7 @@ module triangle_list_ram # (
     
     // initial
     // begin
-    //     $readmemh("./cube.txt", list);
+    //     $readmemh("./dodecahedron.txt", list);
     // end
 
     always @(posedge Clk)

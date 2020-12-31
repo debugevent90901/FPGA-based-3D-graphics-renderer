@@ -171,7 +171,7 @@ module renderer_top(
                                                                     .proj_done(proj_done)
     );
 
-    triangle_fifo #(.Waddr(7), .size(100)) tf(
+    triangle_fifo #(.Waddr(6), .size(60)) tf(
                                     .Clk(Clk),
                                     .Reset(Reset),
                                     .r_en(fifo_r),
@@ -190,7 +190,7 @@ module renderer_top(
     //                 .proj_triangle_in(proj_triangle_in)
     // );
 
-    triangle_list #(.WI(WI), .WF(WF), .Waddr(7), .size(100)) tl(
+    triangle_list #(.WI(WI), .WF(WF), .Waddr(6), .size(60)) tl(
                                                                 .Clk(Clk),
                                                                 .Reset(Reset),
                                                                 .r_en(list_r),
