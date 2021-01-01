@@ -1,3 +1,10 @@
+// [test module] for triangle fifo which stores projected triangles in screen space
+// write projected triangles into fifo (x, y coordinates of vertexes in screen space)
+// fifo_w:           write enable signal of the fifo
+// proj_triangle_in: packed triangle data (projected vertexes on the screen space)
+//                   [2:0] --- 3 vertexes
+//                   [1:0] --- x, y coordinates in screen space
+//                   [9:0] --- 10 bits for each coordinates
 module fifo_writer(
                     input Clk, Reset,
                     input clear_start,
@@ -5,6 +12,10 @@ module fifo_writer(
                     output logic [2:0][1:0][9:0] proj_triangle_in
 );
 
+    // Five states
+    // Wait: Wait to write
+    // Write1, Write2, Write3: Write 3 vertex into fifo
+    // Done: Done
     enum logic [2:0] {Wait, Write1, Write2, Write3, Done} curr_state, next_state;
 
     logic [1:0][9:0] V1, V2, V3, new_V1, new_V2, new_V3;
@@ -39,6 +50,7 @@ module fifo_writer(
         unique case (curr_state)
         Wait:
         begin
+            // wait until clearing screen is done
             if(clear_start)
                 next_state = Write1;
         end

@@ -18,7 +18,7 @@ logic [15:0][WI+WF-1:0] projection_matrix;
 logic [15:0][WI+WF-1:0] mvp_matrix;
 
 logic [3:0][WI+WF-1:0]  vertex_a, vertex_b, vertex_c;
-logic [1:0][11:0]        V1, V2, V3;
+logic [1:0][11:0]       V1, V2, V3;
 
 logic [11:0]            width, height;
 logic [WI+WF-1:0]       scale;
@@ -31,45 +31,38 @@ assign vertex_c = {{{(WI-1){1'b0}},1'b1,{WF{1'b0}}}, orig_triangle[2]};
 
 assign proj_triangle = {{V1[1][9:0],V1[0][9:0]}, {V2[1][9:0],V2[0][9:0]}, {V3[1][9:0],V3[0][9:0]}};
 
-assign width = 12'd640;
-assign height = 12'd480;
-// assign scale = 16'h0280;
-assign scale = 16'h0180;
-//assign x_translate = 0;
-//assign y_translate = 16'hff80;
-//assign z_translate = 0;
-assign x_pos =  16'h0000;
-assign y_pos =  16'h0000;
-assign z_pos =  16'h0a00;
-assign inv_tan = 16'h026a;
-assign aspect_ratio = 16'h0155;
-assign z_near = 16'h001a;
-assign z_far = 16'h3200;
+// parameter setted for 16 bits data (8 integer/8 decimal)
+assign width = 12'd640;         // width of screen
+assign height = 12'd480;        // height of screen
+assign scale = 16'h0180;        // scale of object (in model matrix)
+assign x_pos = 16'h0000;        // x position of camera
+assign y_pos = 16'h0000;        // y position of camera
+assign z_pos = 16'h0a00;        // z position of camera
+assign inv_tan = 16'h026a;      // 1 / tan(eye_fov / 180 * pi * 0.5), eye_fov is field of view
+assign aspect_ratio = 16'h0155; // aspect ratio, screen width/height
+assign z_near = 16'h001a;       // near z of the frustum
+assign z_far = 16'h3200;        // far z of the frustum
 
-// assign width = 10'd640;
-// assign height = 10'd480;
-// //assign scale = 20'h00280;
+// parameter setted for 24 bits data (16 integer/8 decimal)
+// assign width = 12'd640;
+// assign height = 12'd480;
+// //assign scale = 20'h00180;
 // assign scale = 24'h000100;
-// assign x_translate = 24'h00000;
-// assign y_translate = 24'h00020;
-// assign z_translate = 0;
-// assign x_pos =  24'h000000;
-// assign y_pos =  24'h000000;
-// assign z_pos =  24'h000a00;
+// assign x_pos = 24'h000000;
+// assign y_pos = 24'h000000;
+// assign z_pos = 24'h000a00;
 // assign inv_tan = 24'h00026a;
 // assign aspect_ratio = 24'h000100;
 // assign z_near = 24'h00001a;
 // assign z_far = 24'h003200;
 
-// assign width = 10'd640;
-// assign height = 10'd480;
-// assign scale = 28'h0000200;
-// assign x_translate = 28'h000100;
-// assign y_translate = 28'h000000;
-// assign z_translate = 0;
-// assign x_pos =  28'h0000000;
-// assign y_pos =  28'h0000000;
-// assign z_pos =  28'h0000a00;
+// parameter setted for 28 bits data (20 integer/8 decimal)
+// assign width = 12'd640;
+// assign height = 12'd480;
+// assign scale = 28'h0000180;
+// assign x_pos = 28'h0000000;
+// assign y_pos = 28'h0000000;
+// assign z_pos = 28'h0000a00;
 // assign inv_tan = 28'h000026a;
 // assign aspect_ratio = 28'h0000100;
 // assign z_near = 28'h000001a;

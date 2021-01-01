@@ -21,116 +21,116 @@ logic [WOI+WOF-1:0] neg_z_near, neg_z_far, distance, k, n_a_f, n_a_f_mul_k, tmp,
 logic overflow, overflow0, overflow1, overflow2, overflow3, overflow4;
 logic overflow5, overflow6, overflow7, overflow8, overflow9, overflow10, overflow11;
 
-fxp_addsub #(   
+fxp_addsub #(
     .WIIA(8), .WIFA(8),
     .WIIB(WII), .WIFB(WIF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) ads0 (
-    .ina(16'h0000), 
-    .inb(z_near), 
-    .sub(1'b1), 
-    .out(neg_z_near), 
+    .ina(16'h0000),
+    .inb(z_near),
+    .sub(1'b1),
+    .out(neg_z_near),
     .overflow(overflow0)
 );
 
-fxp_addsub #(   
+fxp_addsub #(
     .WIIA(8), .WIFA(8),
     .WIIB(WII), .WIFB(WIF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) ads1 (
-    .ina(16'h0000), 
-    .inb(z_far), 
-    .sub(1'b1), 
-    .out(neg_z_far), 
+    .ina(16'h0000),
+    .inb(z_far),
+    .sub(1'b1),
+    .out(neg_z_far),
     .overflow(overflow1)
 );
 
-fxp_addsub #(   
+fxp_addsub #(
     .WIIA(WOI), .WIFA(WOF),
     .WIIB(WOI), .WIFB(WOF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) ads2 (
-    .ina(neg_z_near), 
-    .inb(neg_z_far), 
-    .sub(1'b1), 
-    .out(distance), 
+    .ina(neg_z_near),
+    .inb(neg_z_far),
+    .sub(1'b1),
+    .out(distance),
     .overflow(overflow2)
 );
 
-fxp_div #(   
+fxp_div #(
     .WIIA(8), .WIFA(8),
     .WIIB(WOI), .WIFB(WOF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) div0 (
-    .dividend(16'h0100), 
-    .divisor(distance), 
-    .out(k), 
+    .dividend(16'h0100),
+    .divisor(distance),
+    .out(k),
     .overflow(overflow3)
 );
 
-fxp_add #(   
+fxp_add #(
     .WIIA(WOI), .WIFA(WOF),
     .WIIB(WOI), .WIFB(WOF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) add0 (
-    .ina(neg_z_near), 
-    .inb(neg_z_far), 
-    .out(n_a_f), 
+    .ina(neg_z_near),
+    .inb(neg_z_far),
+    .out(n_a_f),
     .overflow(overflow4)
 );
 
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WOI), .WIFA(WOF),
     .WIIB(WOI), .WIFB(WOF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) mul0 (
-    .ina(n_a_f), 
+    .ina(n_a_f),
     .inb(k), 
-    .out(n_a_f_mul_k), 
+    .out(n_a_f_mul_k),
     .overflow(overflow5)
 );
 
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WOI), .WIFA(WOF),
     .WIIB(WOI), .WIFB(WOF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) mul1 (
-    .ina(neg_z_far), 
-    .inb(neg_z_near), 
-    .out(tmp), 
+    .ina(neg_z_far),
+    .inb(neg_z_near),
+    .out(tmp),
     .overflow(overflow6)
 );
 
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WOI), .WIFA(WOF),
     .WIIB(WOI), .WIFB(WOF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) mul2 (
-    .ina(tmp), 
+    .ina(tmp),
     .inb(k), 
-    .out(f_m_n_m_k), 
+    .out(f_m_n_m_k),
     .overflow(overflow7)
 );
 
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WOI), .WIFA(WOF),
     .WIIB(8), .WIFB(8),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
-) mul3 ( 
-    .ina(f_m_n_m_k), 
-    .inb(16'h0200), 
-    .out(f_m_n_m_k_2), 
+) mul3 (
+    .ina(f_m_n_m_k),
+    .inb(16'h0200),
+    .out(f_m_n_m_k_2),
     .overflow(overflow8)
 );
 
-fxp_div #(   
+fxp_div #(
     .WIIA(WII), .WIFA(WIF),
     .WIIB(WII), .WIFB(WIF),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) div4 (
-    .dividend(inv_tan), 
-    .divisor(aspect_ratio), 
-    .out(t_d_a), 
+    .dividend(inv_tan),
+    .divisor(aspect_ratio),
+    .out(t_d_a),
     .overflow(overflow9)
 );
 

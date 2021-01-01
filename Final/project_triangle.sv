@@ -1,5 +1,5 @@
 // vertex_a, vertex_b, vertex_c: original x, y, z coordinates of a triangle
-// V1, v2, V3: coordinates of the triangle after transformation, only x, y matters
+// V1, V2, V3: coordinates of the triangle after transformation, only x, y matters
 
 module project_triangle #(
     // vertex_a, vertex_b, vertex_c, mvp_matrix
@@ -33,6 +33,7 @@ logic overflow0, overflow1, overflow2, overflow3, overflow4, overflow5, overflow
 logic overflow8, overflow9, overflow10, overflow11, overflow12, overflow13, overflow14, overflow15;
 logic overflow16, overflow17, overflow18, overflow19, overflow20, overflow21, overflow22, overflow23;
 
+// when a point is out of the screen, clip the triangle containing this point
 assign clip =   (V1[0] > width) || (V1[0] < 0) || (V1[1] > height) || (V1[1] < 0) ||
                 (V2[0] > width) || (V2[0] < 0) || (V2[1] > height) || (V2[1] < 0) ||
                 (V3[0] > width) || (V3[0] < 0) || (V3[1] > height) || (V3[1] < 0);

@@ -1,4 +1,5 @@
 // Interface between NIOS II and EZ-OTG chip
+// From ece 385 lab 8
 module hpi_io_intf( input        Clk, Reset,
                     input [1:0]  from_sw_address,
                     output[15:0] from_sw_data_in,
@@ -9,11 +10,10 @@ module hpi_io_intf( input        Clk, Reset,
                     output       OTG_RD_N, OTG_WR_N, OTG_CS_N, OTG_RST_N // Active low
                     );
 
-// Buffer (register) for from_sw_data_out because inout bus should be driven 
-//   by a register, not combinational logic.
+// Buffer (register) for from_sw_data_out because inout bus should be driven
+// by a register, not combinational logic.
 logic [15:0] from_sw_data_out_buffer;
 
-// TODO: Fill in the blanks below. 
 always_ff @ (posedge Clk)
 begin
     if(Reset)
@@ -39,7 +39,6 @@ begin
 end
 
 // OTG_DATA should be high Z (tristated) when NIOS is not writing to OTG_DATA inout bus.
-// Look at tristate.sv in lab 6 for an example.
 assign OTG_DATA = from_sw_w ? 16'bzzzzzzzzzzzzzzzz : from_sw_data_out_buffer;
 
 endmodule 

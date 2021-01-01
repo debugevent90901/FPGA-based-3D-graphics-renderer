@@ -22,6 +22,8 @@
 //      ECE Department @ UIUC                                            --
 //-------------------------------------------------------------------------
 
+// VGA_controller.sv
+// Modified by Guan Zimu for ece385 final project - 12-19-2020
 
 module  VGA_controller (input              Clk,         // 50 MHz clock
                                            Reset,       // Active-high reset signal

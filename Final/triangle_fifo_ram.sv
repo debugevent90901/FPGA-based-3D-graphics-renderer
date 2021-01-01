@@ -7,7 +7,7 @@ module triangle_fifo_ram # (
 (
     input                   Clk,
     input                   r_en, w_en,
-    input [Waddr-1:0]        r_addr,w_addr,
+    input [Waddr-1:0]       r_addr,w_addr,
     input                   is_empty, is_full,
     input [6*10-1:0]        data_in,
     output logic [6*10-1:0] data_out

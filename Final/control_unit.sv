@@ -1,4 +1,8 @@
 // control unit for the renderer
+// ATTENTION: this module has 2 ways to use
+//            way1: write triangles into list then read
+//            way2: initial on-chip memory by txt file while being compiled then read
+//            different ways need you to comment/uncomment some lines
 module control_unit(input Clk,
                     input Reset,
                     input frame_clk,
@@ -18,7 +22,9 @@ module control_unit(input Clk,
 );
 
     // Three States
+    // Init: load the object (write triangles into triangle lists)
     // Clear: first clear the frame
+    //        meanwhile, start project original triangles and write them into triangle fifo
     // Draw: then draw triangles
     // Done: wait until next frame is begin
     enum logic [1:0] {Init, Clear, Draw, Done} curr_state, next_state;
@@ -52,7 +58,7 @@ module control_unit(input Clk,
         unique case (curr_state)
         Init:
         begin
-            if(load_done)
+            if(load_done) // way 1, comment this line when using txt to load model
                 next_state = Done;
         end
         Clear:

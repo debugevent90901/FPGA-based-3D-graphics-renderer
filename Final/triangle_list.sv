@@ -1,8 +1,23 @@
 // custemed Triangle list
 // Using On-chip memory
 // read traverse the list
-// WI: width of integer of coordinate data
-// WF: width of float of coordinate data
+//
+// ATTENTION: this module has 2 ways to use
+//            way1: write triangles into list then read
+//            way2: initial on-chip memory by txt file while being compiled then read
+//            different ways need you to comment/uncomment some lines
+//
+// WI:              width of integer of coordinate data
+// WF:              width of float of coordinate data
+// Waddr:           width of addr
+// size:            size of list
+// triangle_in/out: packed orignal triangle data (vertexes in 3D space)
+//                  [2:0]       --- 3 vertexes
+//                  [2:0]       --- x,y,z coordinates of vertex in 3D space
+//                  [WI+WF-1:0] --- WI+WF bits one coordinate
+// is_empty:        high when list is empty
+// is_full:         high when list is full
+// read_done:       high when one read is done (all triangle has been read)
 module triangle_list # (
     parameter WI = 8,
     parameter WF = 8,
@@ -22,7 +37,8 @@ logic [Waddr-1:0] r_addr,w_addr;
 logic [Waddr-1:0] num;
 
 parameter max = size;
-// parameter triangle_num = 7'd36;
+// way2: initialized triangle number
+// parameter triangle_num = 7'd36; // way2
 
 // On-chip memory
 triangle_list_ram #(.WI(WI), .WF(WF), .Waddr(Waddr), .size(size)) tlr (
@@ -51,8 +67,8 @@ begin
         r_addr <= 1;
     // generate write addr
     if(Reset)
-        w_addr <= 1;
-        // w_addr <= triangle_num;
+        w_addr <= 1;             // way1
+        // w_addr <= triangle_num;  // way2
     else if(w_en && !is_full)
         w_addr <= (w_addr == size) ? 1 : w_addr + 1;
 end
@@ -61,7 +77,8 @@ end
 always @(posedge Clk)
 begin
     if(Reset)
-        num <= 0;
+        num <= 0;            // way1
+        // num <= triangle_num; // way2
     else if(w_en)
     begin
         if(num != max)

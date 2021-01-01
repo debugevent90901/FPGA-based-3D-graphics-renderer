@@ -1,3 +1,17 @@
+// Top Level Module For FPGA-based 3D Graphics Renderer
+// Render arbitary simple 3D module (approximately less than 100 triangles)
+// and control the rotation, translation of the module smoothly using keyboard
+// For ECE 385 FINAL PROJECT FA2020
+// Team Member: GUAN ZIMU, XIE TIAN
+// Date: 2020-12
+
+// ATTENTION: there are 2 ways to load model
+//            way1: Write triangles into list then read
+//            way2: Initial on-chip memory by txt file while being compiled then read
+//                  we have a simple python script to convert .obj files into txt file
+//                  which is compatable with this renderer
+//            different ways need you to comment/uncomment some lines
+
 module renderer_top(
                 input               CLOCK_50,
                 input        [3:0]  KEY,
@@ -34,10 +48,10 @@ module renderer_top(
                                     DRAM_CLK      //SDRAM Clock
 );
 
-    parameter WIIA = 4;
-    parameter WIFA = 8;
-    parameter WI = 8;
-    parameter WF = 8;
+    parameter WIIA = 4; // integer bits for angle
+    parameter WIFA = 8; // decimal bits for angle
+    parameter WI = 8;   // integer bits for triangle data
+    parameter WF = 8;   // decimal bits for triangle data
 
     logic [1:0] hpi_addr;
     logic [15:0] hpi_data_in, hpi_data_out;
@@ -70,12 +84,13 @@ module renderer_top(
     assign frame_clk = VGA_VS;
     assign LEDR = SW;
 
+    // test for keycode
     // assign keycode = SW;
 
-    //assign angle = 12'h086;
-
+    // generate VGA clk 25MHz
     vga_clk vga_clk_instance(.inclk0(Clk), .c0(VGA_CLK));
 
+    // VGA controller
     VGA_controller vga_controller_instance(
                                             .Clk(Clk),
                                             .Reset(Reset),
@@ -88,6 +103,7 @@ module renderer_top(
                                             .ReadY(ReadY)
     );
 
+    // map color
     color_mapper color_instance(
                                 .is_pixel(read_data),
                                 .ReadX(ReadX),
@@ -96,7 +112,8 @@ module renderer_top(
                                 .VGA_G(VGA_G),
                                 .VGA_B(VGA_B)
     );
-    
+
+    // control the motion of the object and camera
     display #(.WI(WI), .WF(WF)) play(
                     .Clk(Clk),
                     .Reset(Reset),
@@ -110,6 +127,7 @@ module renderer_top(
                     .z(z_pos)
     );
 
+    // control unit for every module
     control_unit cu(
                     .Clk(Clk),
                     .Reset(Reset),
@@ -132,6 +150,7 @@ module renderer_top(
                     .frame_done(frame_done)
     );
 
+    // module to clear frame
     clear_frame cf(
                     .Clk(Clk),
                     .Reset(Reset),
@@ -141,6 +160,7 @@ module renderer_top(
                     .clear_frame_done(clear_done)
     );
 
+    // module to draw projected triangles in screen space
     draw draw_instance(
                         .Clk(Clk),
                         .Reset(Reset),
@@ -153,6 +173,7 @@ module renderer_top(
                         .draw_done(draw_done)
     );
 
+    // module to project original triangle in 3D space into 2D screen space
     project #(.WIIA(WIIA), .WIFA(WIFA), .WI(WI), .WF(WF)) project_instance(
                                                                     .Clk(Clk),
                                                                     .Reset(Reset),
@@ -171,6 +192,8 @@ module renderer_top(
                                                                     .proj_done(proj_done)
     );
 
+    // triangle fifo
+    // store projected triangles (in 2D screen space) for every frame
     triangle_fifo #(.Waddr(6), .size(60)) tf(
                                     .Clk(Clk),
                                     .Reset(Reset),
@@ -182,6 +205,8 @@ module renderer_top(
                                     .is_full(fifo_full)
     );
 
+    // test module for triangle fifo
+    // write projected triangle (in 2D screen space) into triangle fifo
     // fifo_writer fw(
     //                 .Clk(Clk),
     //                 .Reset(Reset),
@@ -202,6 +227,9 @@ module renderer_top(
                                                                 .read_done(list_read_done)
     );
 
+    // way1 to load model
+    // should be commented when use txt file to load model
+    // write original triangle data into triangle list
     list_writer #(.WI(WI), .WF(WF)) lw(
                                         .Clk(Clk),
                                         .Reset(Reset),
@@ -211,6 +239,8 @@ module renderer_top(
                                         .orig_triangle_in(orig_triangle_in)
     );
 
+    // On-chip memory frame buffer
+    // 2-buffer, ping-pong switch
     frame_buffer fb(
                     .Clk(Clk),
                     .Reset(Reset),
@@ -245,6 +275,7 @@ module renderer_top(
                             .OTG_RST_N(OTG_RST_N)
     );
     
+    // nios II system for USB keyboard control
     nios_system nios_system(
                             .clk_clk(Clk),
                             .reset_reset_n(1'b1),

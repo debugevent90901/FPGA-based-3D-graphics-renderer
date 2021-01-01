@@ -1,7 +1,11 @@
 // custemed Triangle fifo
 // Using On-chip memory
-// Waddr: width of addr
-// size: size of fifo
+// Waddr:           width of addr
+// size:            size of fifo
+// triangle_in/out: packed triangle data (projected vertexes on the screen space)
+//                  [2:0] --- 3 vertexes
+//                  [1:0] --- x, y coordinates in screen space
+//                  [9:0] --- 10 bits for each coordinates
 module triangle_fifo # (
     parameter Waddr = 7,
     parameter size = 100
@@ -31,6 +35,7 @@ triangle_fifo_ram #(.Waddr(Waddr), .size(size)) tfr (
     .data_out(triangle_out)
 );
 
+// use num instead of addr to indicate whether fifo is full/empty
 assign is_full = (num == max) ? 1'b1 : 1'b0;
 assign is_empty = (num == 0) ? 1'b1 : 1'b0;
 

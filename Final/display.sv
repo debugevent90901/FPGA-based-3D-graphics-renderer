@@ -1,3 +1,7 @@
+// control the motion of the object and camera
+// keycode:             keycode input by the use
+// alpha, beta, gamma:  angles in euler angle matrix
+// x, y, z:             translate of the object in model matrix
 module  display #(
                     parameter WI = 8,
                     parameter WF = 8
@@ -16,6 +20,7 @@ module  display #(
     parameter [11:0]      angle_friction = 12'h001;
     parameter [11:0]      angle_a = 12'h002;
 
+    // angle along x/y/z-axis (in local coordinate of the object)
     logic [WI+WF-1:0] x_pos, y_pos, z_pos, x_pos_in, y_pos_in, z_pos_in;
     logic [11:0] x_angle, x_angle_in, x_angle_v, x_angle_v_in;
     logic [11:0] y_angle, y_angle_in, y_angle_v, y_angle_v_in;
@@ -58,7 +63,6 @@ module  display #(
         end
     end
 
-    // 2*pi = 6.2831852 = 6.487ed344b6128
     always_comb
     begin
         // By default, keep motion and position unchanged
@@ -75,25 +79,7 @@ module  display #(
         // Update angle only at rising edge of frame clock
         if (frame_clk_rising_edge)
         begin
-            // //if ( angle+12'h00a > 12'h192 )
-            // if ( angle+12'h00a > 12'h648 )
-            //     angle_in = 12'h00a;
-            // else
-            //     // angle += 0.1 = 01a
-            //     angle_in = angle + 12'h00a;
-            // if (keycode[0])
-            //     x_pos_in = x_pos + x_step;
-            // else if (keycode[1])
-            //     x_pos_in = x_pos - x_step;
-            // if (keycode[2])
-            //     y_pos_in = y_pos + y_step;
-            // else if (keycode[3])
-            //     y_pos_in = y_pos - y_step;
-            // if (keycode[4])
-            //     z_pos_in = z_pos + z_step;
-            // else if (keycode[5])
-            //     z_pos_in = z_pos - z_step;
-
+            // 2*pi = 6.2831852 = 6.487ed344b6128
             // x-axis angle logic
             if ( $signed(x_angle + x_angle_v) >= $signed(12'h648) )
                 x_angle_in = x_angle + x_angle_v - 12'h648;
@@ -119,6 +105,7 @@ module  display #(
                 z_angle_in = z_angle + z_angle_v;
 
             unique case(keycode)
+            // rotate the object
             // w
             8'h1A:
             begin
@@ -167,32 +154,39 @@ module  display #(
                 else
                     x_angle_v_in = x_angle_v - angle_a;
             end
+            // move the camera
             // up
+            // go ahead
             8'h52:
             begin
                 z_pos_in = z_pos + z_step;
             end
             // down
+            // go back
             8'h51:
             begin
                 z_pos_in = z_pos - z_step;
             end
             // left
+            // go left
             8'h50:
             begin
                 x_pos_in = x_pos - x_step;
             end
             // right
+            // go right
             8'h4f:
             begin
                 x_pos_in = x_pos + x_step;
             end
             // z
+            // descend
             8'h1d:
             begin
                 y_pos_in = y_pos + y_step;
             end
             // x
+            // rise up
             8'h1b:
             begin
                 y_pos_in = y_pos - y_step;

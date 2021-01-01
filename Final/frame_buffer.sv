@@ -73,10 +73,8 @@ module frame_buffer
         
         if(rw)
             w_en1 = 1'b1;
-            //read_data = read_data2;
         else
             w_en2 = 1'b1;
-            //read_data = read_data1;
 
         // keep the same frame if drawing does not finish
         if(frame_clk_rising_edge && frame_done)
