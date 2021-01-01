@@ -1,17 +1,43 @@
+// calculate the view matrix in mvp transformation
+
+// pseudocode in cpp:
+// Eigen::Matrix4f get_view_matrix(Eigen::Vector3f eye_pos)
+// {
+//     Eigen::Matrix4f view = Eigen::Matrix4f::Identity();
+
+//     Eigen::Matrix4f translate;
+//     translate << 1, 0, 0, -eye_pos[0],
+//         0, 1, 0, -eye_pos[1],
+//         0, 0, 1, -eye_pos[2],
+//         0, 0, 0, 1;
+
+//     view = translate * view;
+
+//     return view;
+// }
+
 module get_view_matrix # (
+    // parameter of the input fixed-point number
     parameter WII = 8,
     parameter WIF = 8,
+    // parameter of the output fixed-point number
     parameter WOI = 8,
     parameter WOF = 8
 )
-(   input           [WII+WIF-1:0]       x_pos, y_pos, z_pos,
+(   // the offset position in x, y, z -axises
+    input           [WII+WIF-1:0]       x_pos, y_pos, z_pos,
+    // view matrix
     output logic    [15:0][WOI+WOF-1:0] view_matrix
 );
 
+// overflow indicator, just ignore them
 logic overflow0, overflow1, overflow2, overflow3, overflow4;
+// intermediate variables, will be introduced in the following
 logic [WOI+WOF-1:0] neg_x_pos, neg_y_pos, neg_z_pos;
+// 0 and 1 with digits of the parametered fixed-point numbers
 logic [WOI+WOF-1:0] zero, one;
 
+// neg_x_pos = 0 - x_pos = -x_pos
 fxp_addsub #(   
     .WIIA(8), .WIFA(8),
     .WIIB(WII), .WIFB(WIF),
@@ -24,6 +50,7 @@ fxp_addsub #(
     .overflow(overflow0)
 );
 
+// neg_y_pos = 0 - y_pos = -y_pos
 fxp_addsub #(   
     .WIIA(8), .WIFA(8),
     .WIIB(WII), .WIFB(WIF),
@@ -36,6 +63,7 @@ fxp_addsub #(
     .overflow(overflow1)
 );
 
+// neg_z_pos = 0 - z_pos = -z_pos
 fxp_addsub #(   
     .WIIA(8), .WIFA(8),
     .WIIB(WII), .WIFB(WIF),
@@ -48,6 +76,7 @@ fxp_addsub #(
     .overflow(overflow2)
 );
 
+// convert 0 to 1 to parametered digits
 fxp_zoom # (
     .WII(8), .WIF(8),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
@@ -56,7 +85,6 @@ fxp_zoom # (
     .out(zero),
     .overflow(overflow3)
 );
-
 fxp_zoom # (
     .WII(8), .WIF(8),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
@@ -66,6 +94,7 @@ fxp_zoom # (
     .overflow(overflow4)
 );
 
+// assign values to output matrix
 assign view_matrix[0] = one;
 assign view_matrix[1] = zero;
 assign view_matrix[2] = zero;
@@ -87,21 +116,3 @@ assign view_matrix[14] = zero;
 assign view_matrix[15] = one;
 
 endmodule
-
-
-
-
-// Eigen::Matrix4f get_view_matrix(Eigen::Vector3f eye_pos)
-// {
-//     Eigen::Matrix4f view = Eigen::Matrix4f::Identity();
-
-//     Eigen::Matrix4f translate;
-//     translate << 1, 0, 0, -eye_pos[0],
-//         0, 1, 0, -eye_pos[1],
-//         0, 0, 1, -eye_pos[2],
-//         0, 0, 0, 1;
-
-//     view = translate * view;
-
-//     return view;
-// }

@@ -1,18 +1,22 @@
 module get_mvp_matrix # (
-    // input matrix 
+    // parameter of input matrix 
     parameter WII= 8,
     parameter WIF = 8,
-    // output matrix
+    // parameter of output matrix
     parameter WOI = 8,
     parameter WOF = 8
 )
 (
+    // three models needed: model matrix, view matrix and projection matrix
     input           [15:0][WII+WIF-1:0] model_matrix, view_matrix, projection_matrix,
+    // mvp transformation finished, mvp matrix
     output logic    [15:0][WOI+WOF-1:0] mvp_matrix
 );
 
+// intermediate matrix, which equals projection_matrix * view_matrix
 logic [15:0][WOI+WOF-1:0]   tmp_mvp;
 
+// calculate projection_matrix * view_matrix
 matrix_multiplier # (
     .WII(WII), 
     .WIF(WIF),
@@ -24,6 +28,7 @@ matrix_multiplier # (
     .res_mat(tmp_mvp)
 );
 
+// then calculate projection_matrix * view_matrix * model_matrix
 matrix_multiplier # (
     .WII(WII), 
     .WIF(WIF),

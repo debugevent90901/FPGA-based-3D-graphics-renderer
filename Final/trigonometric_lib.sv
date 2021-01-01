@@ -1,3 +1,4 @@
+// since the sin function
 module cal_sin # ( 
     parameter WII  = 4,
     parameter WIF  = 8,
