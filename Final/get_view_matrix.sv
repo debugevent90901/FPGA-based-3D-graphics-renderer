@@ -7,9 +7,9 @@
 
 //     Eigen::Matrix4f translate;
 //     translate << 1, 0, 0, -eye_pos[0],
-//         0, 1, 0, -eye_pos[1],
-//         0, 0, 1, -eye_pos[2],
-//         0, 0, 0, 1;
+//                  0, 1, 0, -eye_pos[1],
+//                  0, 0, 1, -eye_pos[2],
+//                  0, 0, 0, 1          ;
 
 //     view = translate * view;
 
@@ -18,9 +18,13 @@
 
 module get_view_matrix # (
     // parameter of the input fixed-point number
+    // WII: integer bits
+    // WIF: decimal bits
     parameter WII = 8,
     parameter WIF = 8,
     // parameter of the output fixed-point number
+    // WOI: integer bits
+    // WOF: decimal bits
     parameter WOI = 8,
     parameter WOF = 8
 )

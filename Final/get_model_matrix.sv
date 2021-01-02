@@ -1,31 +1,26 @@
 // calculate the model matrix in mvp transformation
 
-// pseudocode in cpp:
-// Eigen::Matrix4f get_model_matrix(float angle)
+// pseudocode:
+// get_model_matrix(alpha, beta, gamma, scale, x_translate, y_translate, z_translate)
 // {
-//     Eigen::Matrix4f rotation;
-//     angle = angle * MY_PI / 180.f;
-//     rotation << cos(angle), 0, sin(angle), 0,
-//         0, 1, 0, 0,
-//         -sin(angle), 0, cos(angle), 0,
-//         0, 0, 0, 1;
-
-//     Eigen::Matrix4f scale;
-//     scale << 2.5, 0, 0, 0,
-//         0, 2.5, 0, 0,
-//         0, 0, 2.5, 0,
-//         0, 0, 0, 1;
-
-//     Eigen::Matrix4f translate;
-//     translate << 1, 0, 0, 0,
-//         0, 1, 0, 0,
-//         0, 0, 1, 0,
-//         0, 0, 0, 1;
-
-//     return translate * rotation * scale;
+//     rotation_m << euler_angle(alpha, beta, gamma);
+//
+//     scale_m << scale, 0    , 0    , 0,
+//                0    , scale, 0    , 0,
+//                0    , 0    , scale, 0,
+//                0    , 0    , 0    , 1;
+//
+//     translate_m << 1, 0, 0, x_translate,
+//                    0, 1, 0, y_translate,
+//                    0, 0, 1, z_translate,
+//                    0, 0, 0, 1          ;
+//
+//     return translate_m * rotation_m * scale_m;
 // }
 
 module get_model_matrix # (
+    // I: integer bits
+    // F: decimal bits
     // angle
     parameter WIIA = 4,
     parameter WIFA = 8,
@@ -90,47 +85,47 @@ get_euler_angle_matrix #(.WII(WIIA), .WIF(WIFA), .WOI(WOIA), .WOF(WOFA)) euler (
 // [a7*scale, a8*scale, a9*scale, z]
 // [       0,        0,        0, 1] 
 
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WOIA), .WIFB(WOFA),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) mul0 (.ina(scale), .inb(R[0]), .out(index0), .overflow(o2));
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WOIA), .WIFB(WOFA),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) mul1 (.ina(scale), .inb(R[1]), .out(index1), .overflow(o3));
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WOIA), .WIFB(WOFA),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) mul2 (.ina(scale), .inb(R[2]), .out(index2), .overflow(o4));
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WOIA), .WIFB(WOFA),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) mul3 (.ina(scale), .inb(R[4]), .out(index4), .overflow(o5));
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WOIA), .WIFB(WOFA),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) mul4 (.ina(scale), .inb(R[5]), .out(index5), .overflow(o6));
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WOIA), .WIFB(WOFA),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) mul5 (.ina(scale), .inb(R[6]), .out(index6), .overflow(o7));
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WOIA), .WIFB(WOFA),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) mul6 (.ina(scale), .inb(R[8]), .out(index8), .overflow(o8));
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WOIA), .WIFB(WOFA),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) mul7 (.ina(scale), .inb(R[9]), .out(index9), .overflow(o9));
-fxp_mul #(   
+fxp_mul #(
     .WIIA(WIIB), .WIFA(WIFB),
     .WIIB(WOIA), .WIFB(WOFA),
     .WOI(WOI), .WOF(WOF), .ROUND(1)

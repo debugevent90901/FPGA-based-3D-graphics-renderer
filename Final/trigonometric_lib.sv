@@ -1,7 +1,7 @@
 // since the sin function of fixedpoint_lib.sv performs poor
 // i.e. the angle shall be in range of [0, pi/2], and around angle=0 or pi/2 it cannot work properly
 // we make some additional features 
-// now the input angle can be in range of [0, 2pi], the module will automatically transform the angle to corresponding angle in [0, pi/2]
+// now the input angle can be in range of [0, 2pi], the module will automatically transform the angle to corresponding angle in [0, pi/2] (using Induction Formula)
 // and we use Taylor expansion around angle=0 to evaluate, we assign sin(alpha)=1 directly around angle=pi/2
 
 module cal_sin # ( 
@@ -79,6 +79,7 @@ fxp_addsub #(.WIIA(2), .WIFA(12), .WIIB(WOI), .WIFB(WOF), .WOI(WOI), .WOF(WOF), 
 
 always_comb
 begin
+    // using Induction Formula to extend angle range
     // [3pi/2, 2pi]
     if ( in >= 12'h4b6 )
         begin
@@ -190,6 +191,7 @@ fxp_addsub #(.WIIA(2), .WIFA(12), .WIIB(WOI), .WIFB(WOF), .WOI(WOI), .WOF(WOF), 
 
 always_comb
 begin
+    // using Induction Formula to extend angle range
     // [3pi/2, 2pi]
     if ( in >= 12'h4b6 )
         begin

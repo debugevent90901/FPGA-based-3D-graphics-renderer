@@ -1,13 +1,13 @@
-// return a 4x4 Euler-angle matrix
+// return a 4x4 Euler-angle matrix in homogeneous coordinates
 // used in get_model_matrix.sv
 
 /* 
 The standard euler angle matrix:
 
 [\mathbf{R}] = \begin{bmatrix}
-\cos\alpha\cos\gamma-\cos\beta\sin\alpha\sin\gamma & \sin\alpha\cos\gamma+\cos\beta\cos\alpha\sin\gamma   & \sin\beta\sin\gamma
-\\-\cos\alpha\sin\gamma-\cos\beta\sin\alpha\cos\gamma & -\sin\alpha\sin\gamma+\cos\beta\cos\alpha\cos\gamma & \sin\beta\cos\gamma 
-\\ \sin\beta\sin\alpha & -\sin\beta\cos\alpha & \cos\beta 
+ \cos\alpha\cos\gamma-\cos\beta\sin\alpha\sin\gamma & \sin\alpha\cos\gamma+\cos\beta\cos\alpha\sin\gamma  & \sin\beta\sin\gamma\\
+-\cos\alpha\sin\gamma-\cos\beta\sin\alpha\cos\gamma & -\sin\alpha\sin\gamma+\cos\beta\cos\alpha\cos\gamma & \sin\beta\cos\gamma\\
+ \sin\beta\sin\alpha                                & -\sin\beta\cos\alpha                                & \cos\beta 
 \end{bmatrix}
 {\displaystyle [\mathbf {R} ]}
 */

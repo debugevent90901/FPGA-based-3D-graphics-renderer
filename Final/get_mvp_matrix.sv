@@ -1,8 +1,13 @@
+// get the MVP matrix by matrix multiplications
 module get_mvp_matrix # (
-    // parameter of input matrix 
-    parameter WII= 8,
+    // parameter of input matrix
+    // WII: integer bits
+    // WIF: decimal bits
+    parameter WII = 8,
     parameter WIF = 8,
     // parameter of output matrix
+    // WOI: integer bits
+    // WOF: decimal bits
     parameter WOI = 8,
     parameter WOF = 8
 )

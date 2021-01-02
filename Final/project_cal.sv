@@ -1,3 +1,20 @@
+// projecting calculation
+// calculate mvp matrix, then project triangles
+// WIIA:               angle's integer bits
+// WIFA:               angle's decimal bits
+// WI:                 integer bits
+// WF:                 decimal bits
+// orig_triangle:      packed orignal triangle data (vertexes in 3D space)
+//                     [2:0]       --- 3 vertexes
+//                     [2:0]       --- x,y,z coordinates of vertex in 3D space
+//                     [WI+WF-1:0] --- WI+WF bits one coordinate
+// alpha, beta, gamma: angles in euler angle matrix
+// x/y/z_translate:    translate of the object in model matrix
+// proj_triangle:      packed projected triangle data (projected vertexes in screen space)
+//                     [2:0] --- 3 vertexes
+//                     [1:0] --- x, y coordinates in screen space
+//                     [9:0] --- 10 bits for each coordinates
+// clip:               indicator of whether a point is out of the boundary of the screen
 module project_cal#(
                     parameter WIIA = 4,
                     parameter WIFA = 8,
@@ -35,7 +52,8 @@ logic [WI+WF-1:0]       x_pos, y_pos, z_pos;
 // other parameters used in get_projection_matrix
 logic [WI+WF-1:0]       inv_tan, aspect_ratio, z_near, z_far;
 
-// convert original vertexes to vertexes with digits of the parametered fixed-point numbers
+// convert original vertexes in 3D coordinates to homogeneous coordinates 
+// with digits of the parametered fixed-point numbers
 assign vertex_a = {{{(WI-1){1'b0}},1'b1,{WF{1'b0}}}, orig_triangle[0]};
 assign vertex_b = {{{(WI-1){1'b0}},1'b1,{WF{1'b0}}}, orig_triangle[1]};
 assign vertex_c = {{{(WI-1){1'b0}},1'b1,{WF{1'b0}}}, orig_triangle[2]};

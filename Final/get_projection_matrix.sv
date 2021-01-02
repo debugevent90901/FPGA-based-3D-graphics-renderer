@@ -1,25 +1,34 @@
 // calculate the projection matrix in mvp transformation
 
-// pseudocode in cpp:
-// Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float zNear, float zFar)
+// eye_fov:      field of view
+// aspect_ratio: aspect ratio, screen width/height
+// zNear:        near z of the frustum
+// zFar:         far z of the frustum
+
+// pseudocode: (has been precomputed)
+// get_projection_matrix(eye_fov, aspect_ratio, zNear, zFar)
 // {
-//     Eigen::Matrix4f projection;
 //     zNear = -zNear;
-//     zFar = -zFar;
-//     float inv_tan = 1 / tan(eye_fov / 180 * MY_PI * 0.5);
-//     float k = 1 / (zNear - zFar);
-//     projection << inv_tan / aspect_ratio, 0, 0, 0,
-//         0, inv_tan, 0, 0,
-//         0, 0, (zNear + zFar) * k, 2 * zFar * zNear * k,
-//         0, 0, 1, 0;
+//     zFar  = -zFar;
+//      // this variable has been precomputed as a parameter of the function
+//     inv_tan = 1 / tan(eye_fov / 180 * MY_PI * 0.5);
+//     k = 1 / (zNear - zFar);
+//     projection << inv_tan / aspect_ratio, 0      , 0                 , 0                   ,
+//                   0                     , inv_tan, 0                 , 0                   ,
+//                   0                     , 0      , (zNear + zFar) * k, 2 * zFar * zNear * k,
+//                   0                     , 0      , 1                 , 0                   ;
 //     return projection;
 // }
 
 module get_projection_matrix #(
     // parameter of inv_tan, aspect_ratio, z_near, z_far in the form of fixed-point numbers
+    // WII: integer bits
+    // WIF: decimal bits
     parameter WII = 8,
     parameter WIF = 8,
     // parameter of output matrix
+    // WOI: integer bits
+    // WOF: decimal bits
     parameter WOI = 8,
     parameter WOF = 8
 ) 
