@@ -1,6 +1,8 @@
 # FPGA-based graphic renderer
 This is the Final Project of ECE385 in UIUC 
+
 implemented on DE-2 board
+
 Teammate: [TaKeTube](https://github.com/TaKeTube)
 
 **This is only a project that is for learning and fun, not industrial productive.**
