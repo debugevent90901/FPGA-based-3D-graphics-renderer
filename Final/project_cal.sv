@@ -12,19 +12,30 @@ module project_cal#(
                     output logic                 clip
 );
 
+// model matrix
 logic [15:0][WI+WF-1:0] model_matrix;
+// view matrix
 logic [15:0][WI+WF-1:0] view_matrix;
+// projection matrix
 logic [15:0][WI+WF-1:0] projection_matrix;
+// mvp matrix
 logic [15:0][WI+WF-1:0] mvp_matrix;
 
+// vertexes with digits of the parametered fixed-point numbers
 logic [3:0][WI+WF-1:0]  vertex_a, vertex_b, vertex_c;
+// output projected vertexes
 logic [1:0][11:0]       V1, V2, V3;
 
+// height, width of the screen
 logic [11:0]            width, height;
+// other parameters used in get_model_matrix
 logic [WI+WF-1:0]       scale;
+// other parameters used in get_view_matrix.sv
 logic [WI+WF-1:0]       x_pos, y_pos, z_pos;
+// other parameters used in get_projection_matrix
 logic [WI+WF-1:0]       inv_tan, aspect_ratio, z_near, z_far;
 
+// convert original vertexes to vertexes with digits of the parametered fixed-point numbers
 assign vertex_a = {{{(WI-1){1'b0}},1'b1,{WF{1'b0}}}, orig_triangle[0]};
 assign vertex_b = {{{(WI-1){1'b0}},1'b1,{WF{1'b0}}}, orig_triangle[1]};
 assign vertex_c = {{{(WI-1){1'b0}},1'b1,{WF{1'b0}}}, orig_triangle[2]};
@@ -68,6 +79,7 @@ assign z_far = 16'h3200;        // far z of the frustum
 // assign z_near = 28'h000001a;
 // assign z_far = 28'h0003200;
 
+// calculate model matrix
 get_model_matrix #(
                     .WIIA(WIIA), .WIFA(WIFA),
                     .WIIB(WI), .WIFB(WF),
@@ -84,6 +96,7 @@ get_model_matrix #(
             .model_matrix(model_matrix)
 );
 
+// calculate view matrix
 get_view_matrix #(
                     .WII(WI),
                     .WIF(WF),
@@ -96,6 +109,7 @@ get_view_matrix #(
             .view_matrix(view_matrix)
 );
 
+// calculate projection matrix
 get_projection_matrix #(
                         .WII(WI),
                         .WIF(WF),
@@ -109,6 +123,7 @@ get_projection_matrix #(
             .projection_matrix(projection_matrix)
 );
 
+// then multiply them all to obtain mvp matrix
 get_mvp_matrix #(
                     .WII(WI),
                     .WIF(WF),
@@ -121,6 +136,7 @@ get_mvp_matrix #(
         .mvp_matrix(mvp_matrix)
 );
 
+// start projecting !
 project_triangle #(
             .WIIA(WI),
             .WIFA(WF),

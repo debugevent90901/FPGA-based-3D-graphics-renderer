@@ -15,20 +15,30 @@ module project_triangle #(
     parameter WOI = 12,
     parameter WOF = 0
 )
-(       input           [3:0][WIIA+WIFA-1:0]    vertex_a, vertex_b, vertex_c,
+(       // original 3 vertexes
+        input           [3:0][WIIA+WIFA-1:0]    vertex_a, vertex_b, vertex_c,
+        // mvp matrix
         input           [15:0][WIIA+WIFA-1:0]   mvp,
+        // width, height of the screen
         input           [WIIB+WIFB-1:0]         width, height,
+        // vertexes of the projected triangle
         output logic    [1:0][WOI+WOF-1:0]      V1, V2, V3,
+        // indicator of whether a point is out of the boundary of the screen
         output logic                            clip
 );
 
+// projected vertexes
 logic [WIIA+WIFA-1:0] x1, y1, w1, x2, y2, w2, x3, y3, w3;
+// normalized projected vertexes
 logic [WIIA+WIFA-1:0] x1_normalized, y1_normalized, x2_normalized, y2_normalized, x3_normalized, y3_normalized;
 
+// intermediate variables, which will be introduced later
 logic [WIIA+WIFA-1:0] x1_add_1, x2_add_1, x3_add_1, y1_add_1, y2_add_1, y3_add_1;
 logic [WI+WF-1:0] w_mul_x1_add_1, w_mul_x2_add_1, w_mul_x3_add_1, h_mul_y1_add_1, h_mul_y2_add_1, h_mul_y3_add_1;
 
+// useless wire since this project contains no shading and thus z-coordinates ain't important
 logic [WIIA+WIFA-1:0] trash0, trash1, trash2;
+// overflow indicator, just ignore them
 logic overflow0, overflow1, overflow2, overflow3, overflow4, overflow5, overflow6, overflow7;
 logic overflow8, overflow9, overflow10, overflow11, overflow12, overflow13, overflow14, overflow15;
 logic overflow16, overflow17, overflow18, overflow19, overflow20, overflow21, overflow22, overflow23;
@@ -38,6 +48,7 @@ assign clip =   (V1[0] > width) || (V1[0] < 0) || (V1[1] > height) || (V1[1] < 0
                 (V2[0] > width) || (V2[0] < 0) || (V2[1] > height) || (V2[1] < 0) ||
                 (V3[0] > width) || (V3[0] < 0) || (V3[1] > height) || (V3[1] < 0);
 
+// 3 matrix multiplication 4x4 matrix * 4x1 vector
 dot_product #(.WII(WIIA), .WIF(WIFA), .WOI(WIIA), .WOF(WIIA)) dp00(.a0(mvp[0]), .a1(mvp[1]), .a2(mvp[2]), .a3(mvp[3]), .b0(vertex_a[0]), .b1(vertex_a[1]), .b2(vertex_a[2]), .b3(vertex_a[3]), .res(x1));
 dot_product #(.WII(WIIA), .WIF(WIFA), .WOI(WIIA), .WOF(WIIA)) dp01(.a0(mvp[4]), .a1(mvp[5]), .a2(mvp[6]), .a3(mvp[7]), .b0(vertex_a[0]), .b1(vertex_a[1]), .b2(vertex_a[2]), .b3(vertex_a[3]), .res(y1));
 dot_product #(.WII(WIIA), .WIF(WIFA), .WOI(WIIA), .WOF(WIIA)) dp02(.a0(mvp[8]), .a1(mvp[9]), .a2(mvp[10]), .a3(mvp[11]), .b0(vertex_a[0]), .b1(vertex_a[1]), .b2(vertex_a[2]), .b3(vertex_a[3]), .res(trash0));
@@ -53,6 +64,7 @@ dot_product #(.WII(WIIA), .WIF(WIFA), .WOI(WIIA), .WOF(WIIA)) dp21(.a0(mvp[4]), 
 dot_product #(.WII(WIIA), .WIF(WIFA), .WOI(WIIA), .WOF(WIIA)) dp22(.a0(mvp[8]), .a1(mvp[9]), .a2(mvp[10]), .a3(mvp[11]), .b0(vertex_c[0]), .b1(vertex_c[1]), .b2(vertex_c[2]), .b3(vertex_c[3]), .res(trash2));
 dot_product #(.WII(WIIA), .WIF(WIFA), .WOI(WIIA), .WOF(WIIA)) dp23(.a0(mvp[12]), .a1(mvp[13]), .a2(mvp[14]), .a3(mvp[15]), .b0(vertex_c[0]), .b1(vertex_c[1]), .b2(vertex_c[2]), .b3(vertex_c[3]), .res(w3));
 
+// normalization, set w=1
 fxp_div #(   
     .WIIA(WIIA), .WIFA(WIFA),
     .WIIB(WIIA), .WIFB(WIFA),
@@ -63,7 +75,6 @@ fxp_div #(
     .WIIB(WIIA), .WIFB(WIFA),
     .WOI(WIIA), .WOF(WIFA), .ROUND(1)
 ) div1 (.dividend(y1), .divisor(w1), .out(y1_normalized), .overflow(overflow1));
-
 fxp_div #(   
     .WIIA(WIIA), .WIFA(WIFA),
     .WIIB(WIIA), .WIFB(WIFA),
@@ -74,7 +85,6 @@ fxp_div #(
     .WIIB(WIIA), .WIFB(WIFA),
     .WOI(WIIA), .WOF(WIFA), .ROUND(1)
 ) div3 (.dividend(y2), .divisor(w2), .out(y2_normalized), .overflow(overflow3));
-
 fxp_div #(   
     .WIIA(WIIA), .WIFA(WIFA),
     .WIIB(WIIA), .WIFB(WIFA),
@@ -86,7 +96,10 @@ fxp_div #(
     .WOI(WIIA), .WOF(WIFA), .ROUND(1)
 ) div5 (.dividend(y3), .divisor(w3), .out(y3_normalized), .overflow(overflow5));
 
-
+// for each x, y-coordinates of each vertex
+// pseudocode in cpp:
+// vert.x() = 0.5*width*(vert.x()+1.0);
+// vert.y() = 0.5*height*(vert.y()+1.0);
 fxp_add #(   
     .WIIA(WIIA), .WIFA(WIFA),
     .WIIB(8), .WIFB(8),
@@ -119,7 +132,6 @@ fxp_div #(
     .WIIB(8), .WIFB(8),
     .WOI(WOI), .WOF(WOF), .ROUND(1)
 ) div7 (.dividend(h_mul_y1_add_1), .divisor(16'h0200), .out(V1[1]), .overflow(overflow11));
-
 
 fxp_add #(   
     .WIIA(WIIA), .WIFA(WIFA),
