@@ -42,4 +42,16 @@ When the screen is locked, you should push key 0 to reset.
 
 ## 5. Final Result :computer:
 
-![Result.gif](https://github.com/debugevent90901/FPGA-based-3D-graphics-renderer/blob/main/Result.gif?raw=true)
+#### Cube
+
+<img src="https://github.com/debugevent90901/FPGA-based-3D-graphics-renderer/blob/main/Result1.gif?raw=true" alt="Result1.gif" style="zoom:80%;" />
+
+#### Dodecahedron
+
+<img src="https://github.com/debugevent90901/FPGA-based-3D-graphics-renderer/blob/main/Result2.gif?raw=true" alt="Result2.gif" style="zoom:80%;" />
+
+#### Stanford Bunny :rabbit2:
+
+Unfortunately, this model failed to rotate smoothly because of the unconverging timing
+
+<img src="https://github.com/debugevent90901/FPGA-based-3D-graphics-renderer/blob/main/Result3.gif?raw=true" alt="Result3.gif" style="zoom: 67%;" />
