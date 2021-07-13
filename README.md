@@ -25,6 +25,10 @@ Instead of floating point, we choose to use fixed point number. This is the only
 
 ## 3. Design & Implementation Details :page_with_curl:
 
+**Top Block Diagram**
+
+<img src="https://github.com/debugevent90901/FPGA-based-3D-graphics-renderer/blob/main/topBD.png?raw=true" style="zoom: 15%;" />
+
 See the **Final Report** and **Final Proposal** for detailed description.
 
 ## 4. Operations​ :video_game:
