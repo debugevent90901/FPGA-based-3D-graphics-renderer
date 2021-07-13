@@ -27,7 +27,7 @@ Instead of floating point, we choose to use fixed point number. This is the only
 
 **Top Block Diagram**
 
-<img src="https://github.com/debugevent90901/FPGA-based-3D-graphics-renderer/blob/main/topBD.png?raw=true" style="zoom: 15%;" />
+<img src="https://github.com/debugevent90901/FPGA-based-3D-graphics-renderer/blob/main/topBD.png?raw=true" style="zoom: 10%;" />
 
 See the **Final Report** and **Final Proposal** for detailed description.
 
